@@ -1,3 +1,12 @@
 .field {
-	outline: 1px solid;
+	transition-property: opacity;
+	transition-duration: calc(5 * var(--transition-duration-base));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.field.isVisited {
+	opacity: 0;
+	transition-duration: var(--transition-duration-base);
 }

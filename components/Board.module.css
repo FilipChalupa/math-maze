@@ -1,5 +1,23 @@
 .board {
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	/* Debug zoom and offset */
+	width: 100%;
+	height: 700px;
+	outline: 3px solid red;
+	box-shadow: 0 0 10px inset red;
+}
+
+.inner {
 	position: relative;
+	border: 8px solid;
+	transform: scale(var(--scale))
+		translate(calc(1px * var(--offset-x)), calc(1px * var(--offset-y)));
+	transition-property: transform;
+	transition-duration: var(--transition-duration-base);
 }
 
 .fields,
@@ -8,7 +26,6 @@
 	grid-template:
 		repeat(var(--height), var(--field-size))
 		/ repeat(var(--width), var(--field-size));
-	gap: 3px;
 }
 
 .meta {
