@@ -1,0 +1,6 @@
+.metaObject {
+	position: relative;
+	width: var(--field-size);
+	height: var(--field-size);
+	grid-area: var(--y) / var(--x);
+}

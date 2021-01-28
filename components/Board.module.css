@@ -1,0 +1,17 @@
+.board {
+	position: relative;
+}
+
+.fields,
+.meta {
+	display: grid;
+	grid-template:
+		repeat(var(--height), var(--field-size))
+		/ repeat(var(--width), var(--field-size));
+}
+
+.meta {
+	position: absolute;
+	top: 0;
+	left: 0;
+}

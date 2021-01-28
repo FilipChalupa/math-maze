@@ -2,6 +2,7 @@
 	--background-color: #eeeeee;
 	--text-color: #000000;
 	--spacing: 16px;
+	--field-size: 64px;
 }
 
 @media (min-width: 600px) {
