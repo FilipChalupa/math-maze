@@ -43,19 +43,38 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	const [scale, setScale] = React.useState(1)
 	const [offset, setOffset] = React.useState({ x: 0, y: 0 })
 
+	const [allowTransitions, setAllowTransitions] = React.useState(false)
+	const [forceShowAll, setForceShowAll] = React.useState(true)
+
+	React.useEffect(() => {
+		const timer = window.setTimeout(() => {
+			setAllowTransitions(true)
+			requestAnimationFrame(() => {
+				setForceShowAll(false)
+			})
+		}, 1000)
+		return () => window.clearTimeout(timer)
+	}, [])
+
 	React.useEffect(() => {
 		setScale(
-			player ? 1 : Math.min(outerWidth / innerWidth, outerHeight / innerHeight),
+			player && !forceShowAll
+				? 1
+				: Math.min(
+						outerWidth / innerWidth,
+						outerHeight / innerHeight,
+						player ? 1 : Number.MAX_SAFE_INTEGER,
+				  ),
 		)
 		setOffset(
-			player
+			player && !forceShowAll
 				? {
 						x: calculateOffset(outerWidth, innerWidth, width, player.x),
 						y: calculateOffset(outerHeight, innerHeight, height, player.y),
 				  }
 				: { x: 0, y: 0 },
 		)
-	}, [outerWidth, outerHeight, innerWidth, innerHeight, player])
+	}, [forceShowAll, outerWidth, outerHeight, innerWidth, innerHeight, player])
 
 	const fields = React.useMemo(() => {
 		return Array(width * height).fill(null)
@@ -69,6 +88,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				['--scale' as any]: scale,
 				['--offset-x' as any]: offset.x,
 				['--offset-y' as any]: offset.y,
+				['--allowTransitions' as any]: allowTransitions ? 1 : 0,
 			}}
 			className={s.board}
 		>

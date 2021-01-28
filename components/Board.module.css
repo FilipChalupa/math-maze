@@ -23,7 +23,9 @@
 	transform: scale(var(--scale))
 		translate(calc(1px * var(--offset-x)), calc(1px * var(--offset-y)));
 	transition-property: transform;
-	transition-duration: var(--transition-duration-base);
+	transition-duration: calc(
+		var(--allowTransitions) * 5 * var(--transition-duration-base)
+	);
 }
 
 .fields,
