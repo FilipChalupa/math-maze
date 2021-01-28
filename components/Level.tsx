@@ -49,10 +49,5 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		return () => document.removeEventListener('keydown', move)
 	}, [playerPosition])
 
-	return (
-		<div>
-			Level
-			<Board width={width} height={height} player={playerPosition} />
-		</div>
-	)
+	return <Board width={width} height={height} player={playerPosition} />
 }

@@ -18,7 +18,16 @@ const calculateOffset = (
 	innerPixelSize: number,
 	fieldCount: number,
 	player: number,
-) => (innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5)
+) => {
+	const limit = (innerPixelSize - boardPixelSize) / 2
+	return Math.max(
+		-limit,
+		Math.min(
+			limit,
+			(innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5),
+		),
+	)
+}
 
 export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
@@ -26,9 +35,9 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	player,
 }) => {
 	const {
-		ref: boardRef,
-		width: boardWidth = 1,
-		height: boardHeight = 1,
+		ref: outerRef,
+		width: outerWidth = 1,
+		height: outerHeight = 1,
 	} = useResizeObserver<HTMLDivElement>()
 	const {
 		ref: innerRef,
@@ -41,17 +50,17 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 
 	React.useEffect(() => {
 		setScale(
-			player ? 1 : Math.min(boardWidth / innerWidth, boardHeight / innerHeight),
+			player ? 1 : Math.min(outerWidth / innerWidth, outerHeight / innerHeight),
 		)
 		setOffset(
 			player
 				? {
-						x: calculateOffset(boardWidth, innerWidth, width, player.x),
-						y: calculateOffset(boardHeight, innerHeight, height, player.y),
+						x: calculateOffset(outerWidth, innerWidth, width, player.x),
+						y: calculateOffset(outerHeight, innerHeight, height, player.y),
 				  }
 				: { x: 0, y: 0 },
 		)
-	}, [boardWidth, boardHeight, innerWidth, innerHeight, player])
+	}, [outerWidth, outerHeight, innerWidth, innerHeight, player])
 
 	const fields = React.useMemo(() => {
 		return Array(width * height).fill(null)
@@ -67,30 +76,31 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				['--offset-y' as any]: offset.y,
 			}}
 			className={s.board}
-			ref={boardRef}
 		>
-			<div className={s.inner} ref={innerRef}>
-				<div className={s.fields}>
-					{fields.map((field, i) => {
-						const x = 1 + (i % width)
-						const y = 1 + Math.floor(i / width)
+			<div className={s.outer} ref={outerRef}>
+				<div className={s.inner} ref={innerRef}>
+					<div className={s.fields}>
+						{fields.map((field, i) => {
+							const x = 1 + (i % width)
+							const y = 1 + Math.floor(i / width)
 
-						return (
-							<Field
-								key={i}
-								isVisited={player && player.x === x && player.y === y}
-							>
-								{x}:{y}
-							</Field>
-						)
-					})}
-				</div>
-				<div className={s.meta}>
-					{player && (
-						<MetaObject position={player}>
-							<Player />
-						</MetaObject>
-					)}
+							return (
+								<Field
+									key={i}
+									isVisited={player && player.x === x && player.y === y}
+								>
+									{x}:{y}
+								</Field>
+							)
+						})}
+					</div>
+					<div className={s.meta}>
+						{player && (
+							<MetaObject position={player}>
+								<Player />
+							</MetaObject>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

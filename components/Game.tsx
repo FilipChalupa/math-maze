@@ -1,5 +1,6 @@
 import React from 'react'
 import { Seed } from '../pages/map'
+import s from './Game.module.css'
 import { Level } from './Level'
 
 interface GameProps {
@@ -15,9 +16,11 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 	}, [seed])
 
 	return (
-		<div>
+		<div className={s.game}>
 			game
-			<Level {...boardParameters} />
+			<div className={s.level}>
+				<Level {...boardParameters} />
+			</div>
 		</div>
 	)
 }

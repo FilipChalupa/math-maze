@@ -31,7 +31,7 @@ export default function Map() {
 
 	return (
 		<div className={styles.container}>
-			Map {s}
+			Název
 			<Game seed={mapSeed} />
 		</div>
 	)
