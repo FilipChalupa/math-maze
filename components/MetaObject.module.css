@@ -3,4 +3,12 @@
 	width: var(--field-size);
 	height: var(--field-size);
 	grid-area: var(--y) / var(--x);
+	transform: translate(
+		calc(1px * var(--pixelOffset-x)),
+		calc(1px * var(--pixelOffset-y))
+	);
+	transition-property: transform;
+	transition-duration: calc(
+		var(--isAnimating) * var(--transition-duration-base)
+	);
 }

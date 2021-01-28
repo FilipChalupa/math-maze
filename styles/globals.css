@@ -3,6 +3,13 @@
 	--text-color: #000000;
 	--spacing: 16px;
 	--field-size: 64px;
+	--transition-duration-base: 0.2s;
+}
+
+@media (prefers-reduced-motion) {
+	:root {
+		--transition-duration-base: 1ms;
+	}
 }
 
 @media (min-width: 600px) {

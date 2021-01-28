@@ -8,6 +8,7 @@
 	grid-template:
 		repeat(var(--height), var(--field-size))
 		/ repeat(var(--width), var(--field-size));
+	gap: 3px;
 }
 
 .meta {

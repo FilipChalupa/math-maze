@@ -36,7 +36,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 			</div>
 			<div className={s.meta}>
 				{player && (
-					<MetaObject x={player.x} y={player.y}>
+					<MetaObject position={player}>
 						<Player />
 					</MetaObject>
 				)}
