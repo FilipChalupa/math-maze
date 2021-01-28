@@ -1,15 +1,36 @@
 {
-  "name": "odevzdavani-ukolu",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "10.0.5",
-    "react": "17.0.1",
-    "react-dom": "17.0.1"
-  }
+	"name": "math-maze",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"prettier:check": "prettier --check \"**/*.{ts,tsx}\"",
+		"prettier:fix": "prettier --write \"**/*.{ts,tsx}\"",
+		"postinstall": "echo '{\"main\":\"./browser/index\"}' > node_modules/typesaurus/adaptor/package.json # https://github.com/kossnocorp/typesaurus/issues/50"
+	},
+	"dependencies": {
+		"@material-ui/core": "^4.11.2",
+		"@material-ui/icons": "^4.11.2",
+		"firebase": "^8.2.4",
+		"hiding-header-react": "^0.1.3",
+		"next": "10.0.5",
+		"react": "17.0.1",
+		"react-dom": "17.0.1",
+		"typesaurus": "^7.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^14.14.22",
+		"@types/react": "^17.0.0",
+		"prettier": "^2.2.1",
+		"typescript": "^4.1.3"
+	},
+	"prettier": {
+		"semi": false,
+		"singleQuote": true,
+		"trailingComma": "all",
+		"useTabs": true,
+		"arrowParens": "always"
+	}
 }

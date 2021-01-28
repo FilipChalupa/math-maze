@@ -1,0 +1,7 @@
+.container {
+	min-height: 100vh;
+}
+
+.main {
+	padding: calc(var(--spacing) + 8px) 0;
+}
