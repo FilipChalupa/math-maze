@@ -19,14 +19,9 @@ const calculateOffset = (
 	fieldCount: number,
 	player: number,
 ) => {
-	const limit = (innerPixelSize - boardPixelSize) / 2
-	return Math.max(
-		-limit,
-		Math.min(
-			limit,
-			(innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5),
-		),
-	)
+	const limit = (innerPixelSize - Math.min(innerPixelSize, boardPixelSize)) / 2
+	const offset = (innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5)
+	return Math.max(-limit, Math.min(limit, offset))
 }
 
 export const Board: React.FunctionComponent<BoardProps> = ({

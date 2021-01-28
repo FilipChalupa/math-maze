@@ -1,5 +1,5 @@
 .board {
-	--border-size: 40px;
+	--border-size: 20px;
 	overflow: hidden;
 	position: relative;
 	width: 100%;
