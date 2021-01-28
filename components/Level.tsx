@@ -10,7 +10,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
 	height,
 }) => {
-	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
+	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 5 })
 
 	React.useEffect(() => {
 		const move = (event: KeyboardEvent) => {
