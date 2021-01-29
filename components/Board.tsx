@@ -6,9 +6,11 @@ import { LevelProps, Position } from './Level'
 import { MetaObject } from './MetaObject'
 import { Player } from './Player'
 
-export type Fields = Array<null | {
-	isWall: true
-}>
+export type FieldWall = { isWall: true }
+
+export type FieldTask = { isTask: true; label: string; solution: string }
+
+export type Fields = Array<FieldWall | FieldTask>
 
 interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	player?: {
@@ -125,9 +127,10 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 										player.position.x === position.x &&
 										player.position.y === position.y
 									}
-									{...field}
+									isWall={'isWall' in field}
+									isTask={'isTask' in field}
 								>
-									{position.x} + {position.y}
+									{'isTask' in field && field['label']}
 								</Field>
 							)
 						})}

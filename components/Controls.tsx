@@ -1,22 +1,32 @@
 import { Button } from '@material-ui/core'
 import React from 'react'
+import { FieldTask } from './Board'
 import s from './Controls.module.css'
 
-interface ControlsProps {}
+interface ControlsProps {
+	tasks: FieldTask[]
+	onSolution: (solution: FieldTask['solution']) => void
+}
 
-const Action: React.FunctionComponent = ({ children }) => (
-	<Button variant="contained" color="primary">
+const Action: React.FunctionComponent<{
+	onClick?: () => void
+}> = ({ children, onClick }) => (
+	<Button variant="contained" color="primary" onClick={onClick}>
 		{children}
 	</Button>
 )
 
-export const Controls: React.FunctionComponent<ControlsProps> = ({}) => {
+export const Controls: React.FunctionComponent<ControlsProps> = ({
+	tasks,
+	onSolution,
+}) => {
 	return (
 		<div className={s.controls}>
-			<Action>15</Action>
-			<Action>17</Action>
-			<Action>19</Action>
-			<Action>5</Action>
+			{tasks.map((task) => (
+				<Action onClick={() => onSolution(task.solution)}>
+					{task.solution}
+				</Action>
+			))}
 		</div>
 	)
 }
