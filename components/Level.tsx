@@ -70,6 +70,22 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 					}
 				}
 
+				if (a <= 10 && b <= 10 && a !== 0 && random() < 0.9) {
+					if (b == 0 || random() > 0.5) {
+						return {
+							isTask: true,
+							label: `${a} * ${b}`,
+							solution: `${a * b}`,
+						}
+					}
+
+					return {
+						isTask: true,
+						label: `${a * b} / ${b}`,
+						solution: `${a}`,
+					}
+				}
+
 				return {
 					isTask: true,
 					label: `${a} + ${b}`,
