@@ -6,6 +6,8 @@ export interface LevelProps {
 	width: number
 	height: number
 	setTasksAroundPlayer: (tasks: FieldTask[]) => void
+	clearSolutionFromPlayer: () => void
+	solutionFromPlayer?: FieldTask['solution']
 }
 
 export type Position = {
@@ -28,6 +30,8 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
 	height,
 	setTasksAroundPlayer,
+	clearSolutionFromPlayer,
+	solutionFromPlayer,
 }) => {
 	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 9 })
@@ -137,7 +141,6 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	}, [playerPosition])
 
 	React.useEffect(() => {
-		console.log('new player position', playerPosition)
 		const tasks = [
 			[0, 1],
 			[1, 0],
@@ -153,6 +156,33 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			.filter((field): field is FieldTask => 'isTask' in field)
 		setTasksAroundPlayer(shuffle(tasks))
 	}, [playerPosition])
+
+	React.useEffect(() => {
+		if (solutionFromPlayer === undefined) {
+			return
+		}
+		const tasks = [
+			[0, 1],
+			[1, 0],
+			[0, -1],
+			[-1, 0],
+		]
+		for (const [x, y] of tasks) {
+			const field = fieldAtPosition({
+				x: playerPosition.x + x,
+				y: playerPosition.y + y,
+			})
+			if ('isTask' in field && field.solution === solutionFromPlayer) {
+				clearSolutionFromPlayer()
+				setPlayerPosition({
+					x: playerPosition.x + x,
+					y: playerPosition.y + y,
+				})
+				return
+			}
+		}
+		// @TODO: handle no match
+	}, [solutionFromPlayer, playerPosition])
 
 	return (
 		<Board

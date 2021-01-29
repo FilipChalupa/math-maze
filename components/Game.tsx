@@ -4,7 +4,7 @@ import { Seed } from '../pages/map'
 import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
-import { Level } from './Level'
+import { Level, LevelProps } from './Level'
 
 export interface GameProps {
 	seed: Seed
@@ -22,6 +22,10 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 		[],
 	)
 
+	const [solutionFromPlayer, setSolutionFromPlayer] = React.useState<
+		LevelProps['solutionFromPlayer']
+	>(undefined)
+
 	return (
 		<div className={s.game}>
 			game WSAD
@@ -29,12 +33,14 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 				<Level
 					{...boardParameters}
 					setTasksAroundPlayer={setTasksAroundPlayer}
+					solutionFromPlayer={solutionFromPlayer}
+					clearSolutionFromPlayer={() => setSolutionFromPlayer(undefined)}
 				/>
 				{tasksAroundPlayer.length > 0 && (
 					<Container>
 						<Controls
 							tasks={tasksAroundPlayer}
-							onSolution={(solution) => console.log('send solution', solution)}
+							onSolution={(solution) => setSolutionFromPlayer(solution)}
 						/>
 					</Container>
 				)}

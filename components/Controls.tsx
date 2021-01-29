@@ -22,8 +22,8 @@ export const Controls: React.FunctionComponent<ControlsProps> = ({
 }) => {
 	return (
 		<div className={s.controls}>
-			{tasks.map((task) => (
-				<Action onClick={() => onSolution(task.solution)}>
+			{tasks.map((task, i) => (
+				<Action key={i} onClick={() => onSolution(task.solution)}>
 					{task.solution}
 				</Action>
 			))}

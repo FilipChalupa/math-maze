@@ -12,7 +12,7 @@ export type FieldTask = { isTask: true; label: string; solution: string }
 
 export type Fields = Array<FieldWall | FieldTask>
 
-interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
+export interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	player?: {
 		position: Position
 	}
