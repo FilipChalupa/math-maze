@@ -7,10 +7,12 @@ import styles from '../styles/Home.module.css'
 const parseSeedFromQueryParameter = (raw: string) => {
 	const data = {
 		x: 'yyy',
+		raw,
 	}
+
 	return {
 		...data,
-		id: '@TODO',
+		id: JSON.stringify(data),
 	}
 }
 
