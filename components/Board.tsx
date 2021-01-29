@@ -6,11 +6,16 @@ import { LevelProps } from './Level'
 import { MetaObject } from './MetaObject'
 import { Player } from './Player'
 
+type Position = {
+	x: number
+	y: number
+}
+
 interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	player?: {
-		x: number
-		y: number
+		position: Position
 	}
+	walls?: Position[]
 }
 
 const calculateOffset = (
@@ -28,6 +33,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
 	height,
 	player,
+	walls = [],
 }) => {
 	const {
 		ref: outerRef,
@@ -45,6 +51,19 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 
 	const [allowTransitions, setAllowTransitions] = React.useState(false)
 	const [forceShowAll, setForceShowAll] = React.useState(true)
+
+	const positionToIndex = React.useCallback(
+		(position: Position) => position.x - 1 + (position.y - 1) * width,
+		[width],
+	)
+
+	const indexToPosition = React.useCallback(
+		(index: number) => ({
+			x: 1 + (index % width),
+			y: 1 + Math.floor(index / width),
+		}),
+		[width],
+	)
 
 	React.useEffect(() => {
 		const timer = window.setTimeout(() => {
@@ -69,16 +88,34 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		setOffset(
 			player && !forceShowAll
 				? {
-						x: calculateOffset(outerWidth, innerWidth, width, player.x),
-						y: calculateOffset(outerHeight, innerHeight, height, player.y),
+						x: calculateOffset(
+							outerWidth,
+							innerWidth,
+							width,
+							player.position.x,
+						),
+						y: calculateOffset(
+							outerHeight,
+							innerHeight,
+							height,
+							player.position.y,
+						),
 				  }
 				: { x: 0, y: 0 },
 		)
 	}, [forceShowAll, outerWidth, outerHeight, innerWidth, innerHeight, player])
 
 	const fields = React.useMemo(() => {
-		return Array(width * height).fill(null)
-	}, [width, height])
+		const fields: Array<null | {
+			isWall: true
+		}> = Array(width * height).fill(null)
+		walls.forEach((position) => {
+			fields[positionToIndex(position)] = {
+				isWall: true,
+			}
+		})
+		return fields
+	}, [width, height, walls])
 
 	return (
 		<div
@@ -96,22 +133,26 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				<div className={s.inner} ref={innerRef}>
 					<div className={s.fields}>
 						{fields.map((field, i) => {
-							const x = 1 + (i % width)
-							const y = 1 + Math.floor(i / width)
+							const position = indexToPosition(i)
 
 							return (
 								<Field
 									key={i}
-									isVisited={player && player.x === x && player.y === y}
+									isVisited={
+										player &&
+										player.position.x === position.x &&
+										player.position.y === position.y
+									}
+									{...field}
 								>
-									{x}:{y}
+									{position.x}:{position.y}
 								</Field>
 							)
 						})}
 					</div>
 					<div className={s.meta}>
 						{player && (
-							<MetaObject position={player}>
+							<MetaObject position={player.position}>
 								<Player />
 							</MetaObject>
 						)}

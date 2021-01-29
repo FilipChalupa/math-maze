@@ -10,3 +10,7 @@
 	opacity: 0;
 	transition-duration: var(--transition-duration-base);
 }
+
+.field.isWall {
+	background-color: currentColor;
+}
