@@ -11,7 +11,7 @@ interface ControlsProps {
 const Action: React.FunctionComponent<{
 	onClick?: () => void
 }> = ({ children, onClick }) => (
-	<Button variant="contained" color="primary" onClick={onClick}>
+	<Button variant="contained" color="primary" onClick={onClick} size="large">
 		{children}
 	</Button>
 )
