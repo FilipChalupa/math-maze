@@ -1,6 +1,7 @@
 import React from 'react'
 import seedrandom from 'seedrandom'
 import { shuffle } from '../utils/shuffle'
+import { usePlayerPositions } from '../utils/usePlayerPositions'
 import { Board, Fields, FieldTask } from './Board'
 
 export interface LevelProps {
@@ -60,6 +61,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 }) => {
 	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
+	const otherPlayers = usePlayerPositions(id, playerPosition)
 
 	const positionToIndex = React.useCallback(
 		(position: Position) => {
@@ -269,6 +271,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			width={width}
 			height={height}
 			player={hasPlayer ? { position: playerPosition } : undefined}
+			otherPlayers={otherPlayers}
 			fields={fields}
 		/>
 	)

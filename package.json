@@ -20,6 +20,7 @@
 		"next": "10.0.5",
 		"react": "17.0.1",
 		"react-dom": "17.0.1",
+		"react-use-websocket": "^2.4.0",
 		"seedrandom": "^3.0.5",
 		"typesaurus": "^7.1.0",
 		"use-resize-observer": "^7.0.0"
