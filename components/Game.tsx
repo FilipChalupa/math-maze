@@ -28,7 +28,7 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 
 	return (
 		<div className={s.game}>
-			game WSAD
+			{/*game WSAD*/}
 			<div className={s.level}>
 				<Level
 					{...boardParameters}

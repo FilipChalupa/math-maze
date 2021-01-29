@@ -37,7 +37,7 @@ export default function Map() {
 
 	return (
 		<div className={styles.container}>
-			Název
+			{/*Název*/}
 			<GameComponentWithNoSSR seed={mapSeed} />
 		</div>
 	)
