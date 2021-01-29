@@ -38,12 +38,14 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 					id={seed.id}
 				/>
 				{tasksAroundPlayer.length > 0 && (
-					<Container>
-						<Controls
-							tasks={tasksAroundPlayer}
-							onSolution={(solution) => setSolutionFromPlayer(solution)}
-						/>
-					</Container>
+					<div className={s.controls}>
+						<Container>
+							<Controls
+								tasks={tasksAroundPlayer}
+								onSolution={(solution) => setSolutionFromPlayer(solution)}
+							/>
+						</Container>
+					</div>
 				)}
 			</div>
 		</div>
