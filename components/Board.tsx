@@ -5,6 +5,7 @@ import s from './Board.module.css'
 import { Field } from './Field'
 import { LevelProps, Position } from './Level'
 import { MetaObject } from './MetaObject'
+import { OtherPlayer } from './OtherPlayer'
 import { Player } from './Player'
 
 export type FieldWall = { isWall: true }
@@ -144,7 +145,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 					<div className={s.meta}>
 						{Object.entries(otherPlayers).map(([id, position]) => (
 							<MetaObject key={id} position={position}>
-								<Player />
+								<OtherPlayer />
 							</MetaObject>
 						))}
 						{player && (
