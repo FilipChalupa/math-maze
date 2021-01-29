@@ -1,0 +1,13 @@
+.controls {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-content: center;
+	gap: 8px;
+	padding: 8px 0;
+}
+
+@media (min-width: 500px) {
+	.controls {
+		grid-template-columns: repeat(4, 70px);
+	}
+}
