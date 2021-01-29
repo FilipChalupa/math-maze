@@ -11,9 +11,17 @@ interface ControlsProps {
 const Action: React.FunctionComponent<{
 	onClick?: () => void
 }> = ({ children, onClick }) => (
-	<Button variant="contained" color="primary" onClick={onClick} size="large">
-		{children}
-	</Button>
+	<div className={s.action}>
+		<Button
+			variant="contained"
+			color="primary"
+			onClick={onClick}
+			size="large"
+			fullWidth
+		>
+			{children}
+		</Button>
+	</div>
 )
 
 export const Controls: React.FunctionComponent<ControlsProps> = ({
