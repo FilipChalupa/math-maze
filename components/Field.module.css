@@ -1,4 +1,5 @@
 .field {
+	position: relative;
 	transition-property: opacity;
 	transition-duration: calc(5 * var(--transition-duration-base));
 	display: flex;
@@ -11,6 +12,13 @@
 	transition-duration: var(--transition-duration-base);
 }
 
-.field.isWall {
+.field.isWall::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: 10%;
 	background-color: currentColor;
 }
