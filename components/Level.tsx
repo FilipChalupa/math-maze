@@ -213,6 +213,31 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	}, [playerPosition])
 
 	React.useEffect(() => {
+		const offset = [
+			[0, 1],
+			[1, 0],
+			[0, -1],
+			[-1, 0],
+		]
+		for (const [x, y] of offset) {
+			const position = { x: playerPosition.x + x, y: playerPosition.y + y }
+			if ('isFinish' in fieldAtPosition(position)) {
+				setPlayerPosition(position)
+
+				return
+			}
+		}
+	}, [playerPosition])
+
+	React.useEffect(() => {
+		if ('isFinish' in fieldAtPosition(playerPosition)) {
+			window.setTimeout(() => {
+				alert('🎉 Jsi v cíli.')
+			}, 1000)
+		}
+	}, [playerPosition])
+
+	React.useEffect(() => {
 		if (solutionFromPlayer === undefined) {
 			return
 		}
