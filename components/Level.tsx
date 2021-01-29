@@ -55,12 +55,20 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	)
 
 	const fields = React.useMemo(() => {
-		const random = seedrandom(id);
+		const random = seedrandom(id)
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
-				const a = Math.floor(random() * 11)
-				const b = Math.floor(random() * 11)
+				const a = Math.floor(random() * 15)
+				const b = Math.floor(random() * 15)
+
+				if (a >= b && random() > 0.5) {
+					return {
+						isTask: true,
+						label: `${a} - ${b}`,
+						solution: `${a - b}`,
+					}
+				}
 
 				return {
 					isTask: true,
