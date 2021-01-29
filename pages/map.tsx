@@ -10,7 +10,7 @@ const parseSeedFromQueryParameter = (raw: string) => {
 	}
 	return {
 		...data,
-		hash: '@TODO hash(data)',
+		id: '@TODO',
 	}
 }
 

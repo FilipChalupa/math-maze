@@ -1,4 +1,5 @@
 import React from 'react'
+import seedrandom from 'seedrandom'
 import { shuffle } from '../utils/shuffle'
 import { Board, Fields, FieldTask } from './Board'
 
@@ -8,6 +9,7 @@ export interface LevelProps {
 	setTasksAroundPlayer: (tasks: FieldTask[]) => void
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
+	id: string
 }
 
 export type Position = {
@@ -32,6 +34,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	setTasksAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
+	id,
 }) => {
 	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 9 })
@@ -52,11 +55,12 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	)
 
 	const fields = React.useMemo(() => {
+		const random = seedrandom(id);
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
-				const a = Math.floor(Math.random() * 11)
-				const b = Math.floor(Math.random() * 11)
+				const a = Math.floor(random() * 11)
+				const b = Math.floor(random() * 11)
 
 				return {
 					isTask: true,
@@ -70,7 +74,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			}
 		})
 		return fields
-	}, [width, height, dummyWalls])
+	}, [width, height, dummyWalls, id])
 
 	const fieldAtPosition = React.useCallback(
 		(position: Position) =>

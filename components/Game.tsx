@@ -35,6 +35,7 @@ export const Game: React.FunctionComponent<GameProps> = ({ seed }) => {
 					setTasksAroundPlayer={setTasksAroundPlayer}
 					solutionFromPlayer={solutionFromPlayer}
 					clearSolutionFromPlayer={() => setSolutionFromPlayer(undefined)}
+					id={seed.id}
 				/>
 				{tasksAroundPlayer.length > 0 && (
 					<Container>
