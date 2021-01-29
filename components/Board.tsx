@@ -2,20 +2,19 @@ import React from 'react'
 import useResizeObserver from 'use-resize-observer'
 import s from './Board.module.css'
 import { Field } from './Field'
-import { LevelProps } from './Level'
+import { LevelProps, Position } from './Level'
 import { MetaObject } from './MetaObject'
 import { Player } from './Player'
 
-type Position = {
-	x: number
-	y: number
-}
+export type Fields = Array<null | {
+	isWall: true
+}>
 
 interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	player?: {
 		position: Position
 	}
-	walls?: Position[]
+	fields: Fields
 }
 
 const calculateOffset = (
@@ -33,7 +32,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
 	height,
 	player,
-	walls = [],
+	fields,
 }) => {
 	const {
 		ref: outerRef,
@@ -51,11 +50,6 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 
 	const [allowTransitions, setAllowTransitions] = React.useState(false)
 	const [forceShowAll, setForceShowAll] = React.useState(true)
-
-	const positionToIndex = React.useCallback(
-		(position: Position) => position.x - 1 + (position.y - 1) * width,
-		[width],
-	)
 
 	const indexToPosition = React.useCallback(
 		(index: number) => ({
@@ -105,18 +99,6 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		)
 	}, [forceShowAll, outerWidth, outerHeight, innerWidth, innerHeight, player])
 
-	const fields = React.useMemo(() => {
-		const fields: Array<null | {
-			isWall: true
-		}> = Array(width * height).fill(null)
-		walls.forEach((position) => {
-			fields[positionToIndex(position)] = {
-				isWall: true,
-			}
-		})
-		return fields
-	}, [width, height, walls])
-
 	return (
 		<div
 			style={{
@@ -145,7 +127,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									}
 									{...field}
 								>
-									{position.x}:{position.y}
+									{position.x} + {position.y}
 								</Field>
 							)
 						})}

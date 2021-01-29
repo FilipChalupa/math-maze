@@ -4,5 +4,5 @@ import s from './Player.module.css'
 interface PlayerProps {}
 
 export const Player: React.FunctionComponent<PlayerProps> = ({}) => {
-	return <div className={s.player}>😁</div>
+	return <div className={s.player}>🦄</div>
 }
