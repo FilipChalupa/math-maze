@@ -6,12 +6,14 @@ interface FieldProps {
 	isVisited?: boolean
 	isWall?: boolean
 	isTask?: boolean
+	isFinish?: boolean
 }
 
 export const Field: React.FunctionComponent<FieldProps> = ({
 	isVisited,
 	isWall,
 	isTask,
+	isFinish,
 	children,
 }) => {
 	return (
@@ -21,6 +23,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 				isVisited && s.isVisited,
 				isWall && s.isWall,
 				isTask && s.isTask,
+				isFinish && s.isFinish,
 			)}
 		>
 			{children}

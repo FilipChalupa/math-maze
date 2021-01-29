@@ -10,7 +10,9 @@ export type FieldWall = { isWall: true }
 
 export type FieldTask = { isTask: true; label: string; solution: string }
 
-export type Fields = Array<FieldWall | FieldTask>
+export type FieldFinish = { isFinish: true }
+
+export type Fields = Array<FieldWall | FieldTask | FieldFinish>
 
 export interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	player?: {
@@ -129,6 +131,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									}
 									isWall={'isWall' in field}
 									isTask={'isTask' in field}
+									isFinish={'isFinish' in field}
 								>
 									{'isTask' in field && field['label']}
 								</Field>

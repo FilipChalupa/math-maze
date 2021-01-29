@@ -48,6 +48,8 @@ const dummyWalls = [
 	{ x: 15, y: 7 },
 ]
 
+const dummyFinishes = [{ x: 16, y: 5 }]
+
 export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
 	height,
@@ -115,6 +117,11 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		dummyWalls.forEach((position) => {
 			fields[positionToIndex(position)] = {
 				isWall: true,
+			}
+		})
+		dummyFinishes.forEach((position) => {
+			fields[positionToIndex(position)] = {
+				isFinish: true,
 			}
 		})
 		return fields

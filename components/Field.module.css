@@ -22,3 +22,8 @@
 	margin: 10%;
 	background-color: currentColor;
 }
+
+.field.isFinish::before {
+	content: '🏁';
+	font-size: 3em;
+}
