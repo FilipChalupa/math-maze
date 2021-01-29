@@ -18,6 +18,7 @@ export type Position = {
 }
 
 const dummyWalls = [
+	{ x: 1, y: 3 },
 	{ x: 3, y: 1 },
 	{ x: 3, y: 2 },
 	{ x: 3, y: 3 },
@@ -37,7 +38,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	id,
 }) => {
 	const hasPlayer = true // @TODO
-	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 9 })
+	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
 
 	const positionToIndex = React.useCallback(
 		(position: Position) => {
