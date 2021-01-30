@@ -2,10 +2,11 @@ import {
 	AppBar,
 	Button,
 	Container,
+	Link,
 	Toolbar,
 	Typography,
 } from '@material-ui/core'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import React from 'react'
 import { usePWAInstall } from 'react-use-pwa-install'
 import s from './Header.module.css'
@@ -19,8 +20,8 @@ export const Header: React.FunctionComponent = () => {
 				<Toolbar>
 					<div className={s.main}>
 						<div>
-							<Link href="/">
-								<a className={s.title}>
+							<NextLink href="/" passHref>
+								<Link color="inherit" underline="none">
 									<Typography variant="h5" className={s.titleContent}>
 										<svg
 											className={s.logo}
@@ -36,8 +37,8 @@ export const Header: React.FunctionComponent = () => {
 										<span className={s.titleShort}>Bludiště</span>
 										<span className={s.titleLong}>Matematické bludiště</span>
 									</Typography>
-								</a>
-							</Link>
+								</Link>
+							</NextLink>
 						</div>
 						<div className={s.action}>
 							{install && (
