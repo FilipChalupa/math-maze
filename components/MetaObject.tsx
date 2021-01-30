@@ -29,15 +29,15 @@ export const MetaObject: React.FunctionComponent<MetaObjectProps> = ({
 		return { x: 0, y: 0 }
 	}, [ref])
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		const previousPixelPosition = getPixelPosition()
 		setPreviousPixelPosition(previousPixelPosition)
+		setIsAnimating(false)
 		setTargetPosition({ ...position })
 	}, [position])
 
-	React.useEffect(() => {
+	React.useLayoutEffect(() => {
 		const newPixelPosition = getPixelPosition()
-		setIsAnimating(false)
 		setPixelOffset({
 			x: previousPixelPosition.x - newPixelPosition.x,
 			y: previousPixelPosition.y - newPixelPosition.y,
