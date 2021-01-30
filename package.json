@@ -19,6 +19,7 @@
 		"hiding-header-react": "^0.1.3",
 		"next": "10.0.5",
 		"next-pwa": "^5.0.4",
+		"pwa-install-handler": "^2.1.4",
 		"react": "17.0.1",
 		"react-dom": "17.0.1",
 		"react-use-websocket": "^2.4.0",

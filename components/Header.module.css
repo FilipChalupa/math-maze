@@ -1,5 +1,9 @@
 .main {
 	flex-grow: 1;
+	display: grid;
+	align-items: center;
+	grid-template-columns: 1fr auto;
+	gap: 16px;
 }
 
 .titleContent {
@@ -11,4 +15,19 @@
 	width: 1em;
 	height: 1em;
 	margin-right: 0.5em;
+}
+
+.action {
+	margin-top: 3px;
+}
+
+@media (max-width: 499px) {
+	.titleLong {
+		display: none;
+	}
+}
+@media (min-width: 500px) {
+	.titleShort {
+		display: none;
+	}
 }
