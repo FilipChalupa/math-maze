@@ -42,12 +42,15 @@ const InnerFinishField: React.FunctionComponent<{ isVisited?: boolean }> = ({
 	const ref = React.useRef<RewardElement>(null)
 
 	React.useEffect(() => {
-		if (
-			isVisited &&
-			ref.current &&
-			!window.matchMedia('(prefers-reduced-motion: reduce)').matches
-		) {
-			ref.current.rewardMe()
+		if (isVisited) {
+			window.setTimeout(() => {
+				if (
+					ref.current &&
+					!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+				) {
+					ref.current.rewardMe()
+				}
+			}, 300)
 		}
 	}, [isVisited])
 
