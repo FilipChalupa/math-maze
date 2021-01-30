@@ -1,5 +1,6 @@
 import React from 'react'
 import useResizeObserver from 'use-resize-observer'
+import { useMove } from '../utils/useMove'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
 import s from './Board.module.css'
 import { Field } from './Field'
@@ -107,15 +108,22 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		)
 	}, [forceShowAll, outerWidth, outerHeight, innerWidth, innerHeight, player])
 
+	const { offset: moveOffset, listeners, isMoving, resetOffset } = useMove()
+
+	React.useEffect(() => {
+		resetOffset()
+	}, [player && player.position])
+
 	return (
 		<div
+			{...listeners}
 			style={{
 				['--width' as any]: width,
 				['--height' as any]: height,
 				['--scale' as any]: scale,
-				['--offset-x' as any]: offset.x,
-				['--offset-y' as any]: offset.y,
-				['--allowTransitions' as any]: allowTransitions ? 1 : 0,
+				['--offset-x' as any]: offset.x + moveOffset.x,
+				['--offset-y' as any]: offset.y + moveOffset.y,
+				['--allowTransitions' as any]: allowTransitions && !isMoving ? 1 : 0,
 			}}
 			className={s.board}
 		>
