@@ -9,8 +9,10 @@
 	margin: 0 calc(-1 * var(--halfGap));
 }
 
-.controls:not(:empty) {
-	min-height: 108px;
+@media (max-width: 499px) {
+	.controls:not(:empty) {
+		min-height: 108px;
+	}
 }
 
 .action {
