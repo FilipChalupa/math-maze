@@ -3,6 +3,7 @@ import seedrandom from 'seedrandom'
 import { shuffle } from '../utils/shuffle'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
 import { Board, Fields, FieldTask } from './Board'
+import { LevelStatsProps } from './LevelStats'
 
 export interface LevelProps {
 	width: number
@@ -11,6 +12,7 @@ export interface LevelProps {
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
 	id: string
+	setStats: (stats: LevelStatsProps) => void
 }
 
 export type Position = {
@@ -51,7 +53,10 @@ const dummyWalls = [
 	{ x: 15, y: 7 },
 ]
 
-const dummyFinishes = [{ x: 16, y: 5 }]
+const dummyFinishes = [
+	{ x: 16, y: 5 },
+	{ x: 2, y: 3 },
+]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
@@ -60,6 +65,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
 	id,
+	setStats,
 }) => {
 	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
@@ -240,7 +246,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	React.useEffect(() => {
 		if ('isFinish' in fieldAtPosition(playerPosition)) {
 			window.setTimeout(() => {
-				alert('🎉 Jsi v cíli.')
+				setStats({})
 			}, 1000)
 		}
 	}, [playerPosition])
