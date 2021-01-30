@@ -41,7 +41,12 @@ export const Header: React.FunctionComponent = () => {
 						</div>
 						<div className={s.action}>
 							{install && (
-								<Button size="small" variant="outlined" onClick={install}>
+								<Button
+									size="small"
+									variant="outlined"
+									color="inherit"
+									onClick={install}
+								>
 									Nainstalovat
 								</Button>
 							)}
