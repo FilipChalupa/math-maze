@@ -33,7 +33,7 @@ export default function Home() {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
-							primary="Úkázkový level 1"
+							primary="Ukázkový level 1"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>
@@ -46,7 +46,7 @@ export default function Home() {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
-							primary="Úkázkový level 2"
+							primary="Ukázkový level 2"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>
@@ -59,7 +59,7 @@ export default function Home() {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
-							primary="Úkázkový level 3"
+							primary="Ukázkový level 3"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>
