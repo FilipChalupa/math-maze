@@ -3,7 +3,7 @@ import seedrandom from 'seedrandom'
 import { shuffle } from '../utils/shuffle'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
 import { Board, Fields, FieldTask } from './Board'
-import { LevelStatsProps } from './LevelStats'
+import { LevelStatsData } from './LevelStats'
 
 export interface LevelProps {
 	width: number
@@ -12,7 +12,7 @@ export interface LevelProps {
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
 	id: string
-	setStats: (stats: LevelStatsProps) => void
+	setStats: (stats: LevelStatsData) => void
 }
 
 export type Position = {
@@ -69,7 +69,17 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 }) => {
 	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
+	const [playerMovesCount, setPlayerMovesCount] = React.useState(0)
 	const otherPlayers = usePlayerPositions(id, playerPosition)
+
+	const movePlayer = React.useCallback(
+		(newPosition: Position) => {
+			setPlayerPosition(newPosition)
+			// @TODO: ověřit, že počítá správně, nevynechává
+			setPlayerMovesCount(playerMovesCount + 1)
+		},
+		[playerMovesCount],
+	)
 
 	const positionToIndex = React.useCallback(
 		(position: Position) => {
@@ -198,7 +208,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				y: playerPosition.y + offset.y,
 			}
 			if (isValidPlayerPosition(newPosition)) {
-				setPlayerPosition(newPosition)
+				movePlayer(newPosition)
 			}
 		}
 		document.addEventListener('keydown', move)
@@ -236,7 +246,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		for (const [x, y] of offset) {
 			const position = { x: playerPosition.x + x, y: playerPosition.y + y }
 			if ('isFinish' in fieldAtPosition(position)) {
-				setPlayerPosition(position)
+				movePlayer(position)
 
 				return
 			}
@@ -246,7 +256,11 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	React.useEffect(() => {
 		if ('isFinish' in fieldAtPosition(playerPosition)) {
 			window.setTimeout(() => {
-				setStats({})
+				setStats({
+					moves: playerMovesCount,
+					width,
+					height,
+				})
 			}, 2500)
 		}
 	}, [playerPosition])
@@ -268,7 +282,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			})
 			if ('isTask' in field && field.solution === solutionFromPlayer) {
 				clearSolutionFromPlayer()
-				setPlayerPosition({
+				movePlayer({
 					x: playerPosition.x + x,
 					y: playerPosition.y + y,
 				})
