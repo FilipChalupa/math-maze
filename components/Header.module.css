@@ -1,3 +1,14 @@
 .main {
 	flex-grow: 1;
 }
+
+.titleContent {
+	display: inline-flex;
+	align-items: center;
+}
+
+.logo {
+	width: 1em;
+	height: 1em;
+	margin-right: 0.5em;
+}
