@@ -25,14 +25,18 @@ export interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
 	fields: Fields
 }
 
-const calculateOffset = (
-	boardPixelSize: number,
+const calculatePlayerOffset = (
 	innerPixelSize: number,
 	fieldCount: number,
 	player: number,
+) => (innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5)
+
+const limitOffset = (
+	offset: number,
+	boardPixelSize: number,
+	innerPixelSize: number,
 ) => {
 	const limit = (innerPixelSize - Math.min(innerPixelSize, boardPixelSize)) / 2
-	const offset = (innerPixelSize / fieldCount) * (fieldCount / 2 - player + 0.5)
 	return Math.max(-limit, Math.min(limit, offset))
 }
 
@@ -91,18 +95,8 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		setOffset(
 			player && !forceShowAll
 				? {
-						x: calculateOffset(
-							outerWidth,
-							innerWidth,
-							width,
-							player.position.x,
-						),
-						y: calculateOffset(
-							outerHeight,
-							innerHeight,
-							height,
-							player.position.y,
-						),
+						x: calculatePlayerOffset(innerWidth, width, player.position.x),
+						y: calculatePlayerOffset(innerHeight, height, player.position.y),
 				  }
 				: { x: 0, y: 0 },
 		)
@@ -121,8 +115,16 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				['--width' as any]: width,
 				['--height' as any]: height,
 				['--scale' as any]: scale,
-				['--offset-x' as any]: offset.x + moveOffset.x,
-				['--offset-y' as any]: offset.y + moveOffset.y,
+				['--offset-x' as any]: limitOffset(
+					offset.x + moveOffset.x,
+					outerWidth,
+					innerWidth,
+				),
+				['--offset-y' as any]: limitOffset(
+					offset.y + moveOffset.y,
+					outerHeight,
+					innerHeight,
+				),
 				['--allowTransitions' as any]: allowTransitions && !isMoving ? 1 : 0,
 			}}
 			className={s.board}
