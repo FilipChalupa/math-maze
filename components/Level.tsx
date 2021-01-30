@@ -53,10 +53,7 @@ const dummyWalls = [
 	{ x: 15, y: 7 },
 ]
 
-const dummyFinishes = [
-	{ x: 16, y: 5 },
-	{ x: 2, y: 3 },
-]
+const dummyFinishes = [{ x: 16, y: 5 }]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
