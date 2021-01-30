@@ -59,26 +59,12 @@ export default function Home() {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
-							primary="Úkázkový level 2"
+							primary="Úkázkový level 3"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>
 				</Link>
 			</List>
-			{/*<div className={s.container}>
-			<ul>
-				<li>
-					<Link href="/map?s=asd">
-						<a>První</a>
-					</Link>
-				</li>
-				<li>
-					<Link href="/map?s=acc">
-						<a>Druhý</a>
-					</Link>
-				</li>
-			</ul>
-	</div>*/}
 		</Container>
 	)
 }
