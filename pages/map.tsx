@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router'
 import dynamic from 'next/dynamic'
+import Head from 'next/head'
 import React from 'react'
 import { GameProps } from '../components/Game'
 import styles from '../styles/Home.module.css'
@@ -39,6 +40,9 @@ export default function Map() {
 
 	return (
 		<div className={styles.container}>
+			<Head>
+				<title>Matematické bludiště</title>
+			</Head>
 			{/*Název*/}
 			<GameComponentWithNoSSR seed={mapSeed} />
 		</div>
