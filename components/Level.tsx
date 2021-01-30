@@ -198,6 +198,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	}, [playerPosition])
 
 	React.useEffect(() => {
+		if ('isFinish' in fieldAtPosition(playerPosition)) {
+			setTasksAroundPlayer([])
+			return
+		}
 		const tasks = [
 			[0, 1],
 			[1, 0],
