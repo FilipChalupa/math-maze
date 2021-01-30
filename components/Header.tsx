@@ -7,11 +7,11 @@ import {
 } from '@material-ui/core'
 import Link from 'next/link'
 import React from 'react'
-import { usePWAInstall } from '../utils/usePWAInstall'
+import { usePWAInstall } from 'react-use-pwa-install'
 import s from './Header.module.css'
 
 export const Header: React.FunctionComponent = () => {
-	const { canInstall, install } = usePWAInstall()
+	const install = usePWAInstall()
 
 	return (
 		<AppBar position="static" color="primary">
@@ -40,7 +40,7 @@ export const Header: React.FunctionComponent = () => {
 							</Link>
 						</div>
 						<div className={s.action}>
-							{canInstall && (
+							{install && (
 								<Button size="small" variant="outlined" onClick={install}>
 									Nainstalovat
 								</Button>
