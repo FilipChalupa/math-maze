@@ -1,13 +1,17 @@
-.field {
+.field,
+.content {
 	position: relative;
-	transition-property: opacity;
-	transition-duration: calc(5 * var(--transition-duration-base));
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.field.isVisited {
+.content {
+	transition-property: opacity;
+	transition-duration: calc(5 * var(--transition-duration-base));
+}
+
+.field.isVisited .content {
 	opacity: 0;
 	transition-duration: var(--transition-duration-base);
 }
@@ -23,7 +27,12 @@
 	background-color: currentColor;
 }
 
-.field.isFinish::before {
-	content: '🏁';
+.field.isFinish {
 	font-size: 3em;
+}
+
+.finishConfetti {
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }

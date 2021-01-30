@@ -21,6 +21,7 @@
 		"next-pwa": "^5.0.4",
 		"react": "17.0.1",
 		"react-dom": "17.0.1",
+		"react-rewards": "^1.1.2",
 		"react-use-pwa-install": "^0.1.0",
 		"react-use-websocket": "^2.4.0",
 		"seedrandom": "^3.0.5",

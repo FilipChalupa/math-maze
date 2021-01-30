@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import React from 'react'
+import Reward, { RewardElement } from 'react-rewards'
 import s from './Field.module.css'
 
 interface FieldProps {
@@ -26,7 +27,38 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 				isFinish && s.isFinish,
 			)}
 		>
-			{children}
+			{isFinish ? (
+				<InnerFinishField isVisited={isVisited}>{children}</InnerFinishField>
+			) : (
+				<div className={s.content}>{children}</div>
+			)}
 		</div>
+	)
+}
+
+const InnerFinishField: React.FunctionComponent<{ isVisited?: boolean }> = ({
+	isVisited = false,
+}) => {
+	const ref = React.useRef<RewardElement>(null)
+
+	React.useEffect(() => {
+		if (
+			isVisited &&
+			ref.current &&
+			!window.matchMedia('(prefers-reduced-motion: reduce)').matches
+		) {
+			ref.current.rewardMe()
+		}
+	}, [isVisited])
+
+	return (
+		<>
+			<div className={s.content}>🏁</div>
+			<div className={s.finishConfetti}>
+				<Reward ref={ref} type="confetti" config={{ springAnimation: false }}>
+					<span />
+				</Reward>
+			</div>
+		</>
 	)
 }

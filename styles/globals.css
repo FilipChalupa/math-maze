@@ -6,7 +6,7 @@
 	--transition-duration-base: 0.2s;
 }
 
-@media (prefers-reduced-motion) {
+@media (prefers-reduced-motion: reduce) {
 	:root {
 		--transition-duration-base: 1ms;
 	}

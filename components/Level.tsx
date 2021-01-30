@@ -247,7 +247,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		if ('isFinish' in fieldAtPosition(playerPosition)) {
 			window.setTimeout(() => {
 				setStats({})
-			}, 1000)
+			}, 2500)
 		}
 	}, [playerPosition])
 
