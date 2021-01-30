@@ -5,7 +5,7 @@ import s from './Header.module.css'
 
 export const Header: React.FunctionComponent = () => {
 	return (
-		<AppBar position="static" color="inherit">
+		<AppBar position="static">
 			<Container disableGutters>
 				<Toolbar>
 					<div className={s.main}>
