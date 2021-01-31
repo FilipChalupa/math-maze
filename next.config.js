@@ -13,5 +13,6 @@ module.exports = (phase, { defaultConfig }) =>
 				/^s$/, // ?s= Map seed used to generate map on client side
 			],
 			dontCacheBustURLsMatching: /^\/_next\/static\/.*/i,
+			register: false,
 		},
 	})

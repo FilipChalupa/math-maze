@@ -20,7 +20,7 @@ export const Header: React.FunctionComponent = () => {
 		wb.addEventListener('controlling', () => {
 			window.location.reload()
 		})
-		wb.messageSW({ type: 'SKIP_WAITING' })
+		wb.messageSkipWaiting()
 	}, [])
 
 	React.useEffect(() => {
@@ -35,6 +35,8 @@ export const Header: React.FunctionComponent = () => {
 
 			wb.addEventListener('waiting', promptNewVersionAvailable)
 			wb.addEventListener('externalwaiting', promptNewVersionAvailable)
+
+			wb.register()
 		}
 	}, [])
 
