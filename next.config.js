@@ -1,24 +1,22 @@
 const withPWA = require('next-pwa')
 
-const runtimeCaching = require('next-pwa/cache')
-runtimeCaching[0].handler = 'StaleWhileRevalidate'
-
-module.exports = (phase, { defaultConfig }) =>
-	withPWA({
+module.exports = (phase, { defaultConfig }) => {
+	const buildId = `${Date.now()}`
+	const generateBuildId = async () => {
+		return buildId
+	}
+	return withPWA({
+		generateBuildId, // Z nějakého důvodu defaultConfig.generateBuildId začal vracet null
 		pwa: {
 			dest: 'public',
 			additionalManifestEntries: ['/', '/map', '/offline'].map((url) => ({
 				url,
-				revision: defaultConfig.generateBuildId(),
+				revision: buildId,
 			})),
-			//navigateFallback: '/offline',
-			/*ignoreURLParametersMatching: [
-				/^s$/, // ?s= Map seed used to generate map on client side
-			],*/
 			dontCacheBustURLsMatching: /^\/_next\/static\/.*/i,
 			skipWaiting: false,
 			register: false,
-			//runtimeCaching,
 			swSrc: 'utils/serviceWorker.ts',
 		},
 	})
+}
