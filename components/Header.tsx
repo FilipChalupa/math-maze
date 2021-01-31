@@ -14,6 +14,30 @@ import s from './Header.module.css'
 export const Header: React.FunctionComponent = () => {
 	const install = usePWAInstall()
 
+	const [updateAvailable, setUpdateAvailable] = React.useState(false)
+	const updateToNewVersion = React.useCallback(() => {
+		const wb = (window as any).workbox
+		wb.addEventListener('controlling', () => {
+			window.location.reload()
+		})
+		wb.messageSW({ type: 'SKIP_WAITING' })
+	}, [])
+
+	React.useEffect(() => {
+		if (
+			typeof window !== 'undefined' &&
+			'serviceWorker' in navigator &&
+			(window as any).workbox !== undefined
+		) {
+			const wb = (window as any).workbox
+
+			const promptNewVersionAvailable = () => setUpdateAvailable(true)
+
+			wb.addEventListener('waiting', promptNewVersionAvailable)
+			wb.addEventListener('externalwaiting', promptNewVersionAvailable)
+		}
+	}, [])
+
 	return (
 		<AppBar position="static" color="primary">
 			<Container disableGutters>
@@ -41,15 +65,26 @@ export const Header: React.FunctionComponent = () => {
 							</NextLink>
 						</div>
 						<div className={s.action}>
-							{install && (
+							{updateAvailable ? (
 								<Button
 									size="small"
 									variant="outlined"
 									color="inherit"
-									onClick={install}
+									onClick={updateToNewVersion}
 								>
-									Nainstalovat
+									Aktualizovat
 								</Button>
+							) : (
+								install && (
+									<Button
+										size="small"
+										variant="outlined"
+										color="inherit"
+										onClick={install}
+									>
+										Nainstalovat
+									</Button>
+								)
 							)}
 						</div>
 					</div>
