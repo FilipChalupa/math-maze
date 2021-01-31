@@ -4,6 +4,7 @@ import { ServerStyleSheets } from '@material-ui/core/styles'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import React from 'react'
 import { themeColor } from '../components/ThemeProvider'
+import { GA_TRACKING_ID } from '../utils/googleAnalytics'
 
 export default class MyDocument extends Document {
 	render() {
@@ -47,6 +48,22 @@ export default class MyDocument extends Document {
 					<meta name="msapplication-config" content="/icon/browserconfig.xml" />
 					<link rel="icon" type="image/svg+xml" href="/icon.svg" />
 					<meta name="theme-color" content="#ffffff" />
+					<script
+						async
+						src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+					/>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_TRACKING_ID}', {
+	page_path: window.location.pathname,
+});
+`,
+						}}
+					/>
 				</Head>
 				<body>
 					<Main />
