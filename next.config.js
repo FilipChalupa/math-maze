@@ -11,13 +11,14 @@ module.exports = (phase, { defaultConfig }) =>
 				url,
 				revision: defaultConfig.generateBuildId(),
 			})),
-			navigateFallback: '/offline',
-			ignoreURLParametersMatching: [
+			//navigateFallback: '/offline',
+			/*ignoreURLParametersMatching: [
 				/^s$/, // ?s= Map seed used to generate map on client side
-			],
+			],*/
 			dontCacheBustURLsMatching: /^\/_next\/static\/.*/i,
 			skipWaiting: false,
 			register: false,
-			runtimeCaching,
+			//runtimeCaching,
+			swSrc: 'utils/serviceWorker.ts',
 		},
 	})
