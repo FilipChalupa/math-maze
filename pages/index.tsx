@@ -64,6 +64,19 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
+				<Link href="/map?s=d" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<SportsEsportsIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázkový level 4"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
 			</List>
 		</Container>
 	)
