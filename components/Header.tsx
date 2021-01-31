@@ -9,34 +9,31 @@ import {
 import NextLink from 'next/link'
 import React from 'react'
 import { usePWAInstall } from 'react-use-pwa-install'
-import { Workbox } from 'workbox-window'
 import s from './Header.module.css'
 
 export const Header: React.FunctionComponent = () => {
 	const install = usePWAInstall()
 
-	const wb = React.useMemo(
-		() =>
-			'navigator' in globalThis ? new Workbox('/service-worker.js') : null,
-		[],
-	)
+	const wb = (globalThis as any).workbox
 	const [updateAvailable, setUpdateAvailable] = React.useState(false)
 	const updateToNewVersion = React.useCallback(() => {
-		if (wb) {
-			wb.addEventListener('controlling', () => {
-				window.location.reload()
-			})
-			wb.messageSkipWaiting()
-		}
+		wb.addEventListener('controlling', () => {
+			window.location.reload()
+		})
+		wb.messageSkipWaiting()
 	}, [])
 
 	React.useEffect(() => {
-		if (wb) {
-			wb.register()
+		if (
+			typeof window !== 'undefined' &&
+			'serviceWorker' in navigator &&
+			wb !== undefined
+		) {
 			const promptNewVersionAvailable = () => setUpdateAvailable(true)
+
 			wb.addEventListener('waiting', promptNewVersionAvailable)
-			// @ts-ignore
 			wb.addEventListener('externalwaiting', promptNewVersionAvailable)
+
 			wb.register()
 		}
 	}, [])
