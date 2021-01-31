@@ -14,9 +14,9 @@ import s from './Header.module.css'
 export const Header: React.FunctionComponent = () => {
 	const install = usePWAInstall()
 
+	const wb = (globalThis as any).workbox
 	const [updateAvailable, setUpdateAvailable] = React.useState(false)
 	const updateToNewVersion = React.useCallback(() => {
-		const wb = (window as any).workbox
 		wb.addEventListener('controlling', () => {
 			window.location.reload()
 		})
@@ -27,10 +27,8 @@ export const Header: React.FunctionComponent = () => {
 		if (
 			typeof window !== 'undefined' &&
 			'serviceWorker' in navigator &&
-			(window as any).workbox !== undefined
+			wb !== undefined
 		) {
-			const wb = (window as any).workbox
-
 			const promptNewVersionAvailable = () => setUpdateAvailable(true)
 
 			wb.addEventListener('waiting', promptNewVersionAvailable)
