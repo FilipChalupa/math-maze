@@ -1,4 +1,6 @@
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 import { skipWaiting } from 'workbox-core'
+import { ExpirationPlugin } from 'workbox-expiration'
 import { matchPrecache, precacheAndRoute } from 'workbox-precaching'
 import { registerRoute, setCatchHandler } from 'workbox-routing'
 import {
@@ -23,8 +25,26 @@ precacheAndRoute(manifest, {
 })
 
 registerRoute(
-	/^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
-	new CacheFirst({ cacheName: 'google-fonts' }),
+	({ url }) => url.origin === 'https://fonts.googleapis.com',
+	new StaleWhileRevalidate({
+		cacheName: 'google-fonts-stylesheets',
+	}),
+)
+
+registerRoute(
+	({ url }) => url.origin === 'https://fonts.gstatic.com',
+	new CacheFirst({
+		cacheName: 'google-fonts-webfonts',
+		plugins: [
+			new CacheableResponsePlugin({
+				statuses: [0, 200],
+			}),
+			new ExpirationPlugin({
+				maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+				maxEntries: 30,
+			}),
+		],
+	}),
 )
 
 registerRoute(
