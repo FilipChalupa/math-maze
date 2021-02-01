@@ -26,11 +26,7 @@ export const Header: React.FunctionComponent = () => {
 	}, [])
 
 	React.useEffect(() => {
-		if (
-			typeof window !== 'undefined' &&
-			'serviceWorker' in navigator &&
-			wb !== undefined
-		) {
+		if (wb !== undefined) {
 			const promptNewVersionAvailable = () => setUpdateAvailable(true)
 
 			wb.addEventListener('waiting', promptNewVersionAvailable)
