@@ -6,6 +6,7 @@ import { Board, Fields, FieldTask } from './Board'
 import { LevelStatsData } from './LevelStats'
 
 export interface LevelProps {
+	code: string
 	width: number
 	height: number
 	setTasksAroundPlayer: (tasks: FieldTask[]) => void
@@ -21,7 +22,8 @@ export type Position = {
 }
 
 const dummyWalls = [
-	{ x: 1, y: 3 },
+	{ x: 2, y: 2 },
+	/*{ x: 1, y: 3 },
 	{ x: 3, y: 1 },
 	{ x: 3, y: 2 },
 	{ x: 3, y: 3 },
@@ -50,12 +52,16 @@ const dummyWalls = [
 	{ x: 15, y: 4 },
 	{ x: 15, y: 5 },
 	{ x: 15, y: 6 },
-	{ x: 15, y: 7 },
+	{ x: 15, y: 7 },*/
 ]
 
-const dummyFinishes = [{ x: 16, y: 5 }]
+const dummyFinishes = [
+	{ x: 3, y: 1 },
+	{ x: 3, y: 3 },
+]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
+	code,
 	width,
 	height,
 	setTasksAroundPlayer,
@@ -94,7 +100,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	)
 
 	const fields = React.useMemo(() => {
-		const random = seedrandom(id)
+		const random = seedrandom(code)
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
@@ -136,9 +142,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				isWall: true,
 			}
 		})
-		dummyFinishes.forEach((position) => {
+		dummyFinishes.forEach((position, index) => {
 			fields[positionToIndex(position)] = {
 				isFinish: true,
+				index,
 			}
 		})
 		return fields
@@ -251,12 +258,14 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	}, [playerPosition])
 
 	React.useEffect(() => {
-		if ('isFinish' in fieldAtPosition(playerPosition)) {
+		const field = fieldAtPosition(playerPosition)
+		if ('isFinish' in field) {
 			window.setTimeout(() => {
 				setStats({
 					moves: playerMovesCount,
 					width,
 					height,
+					finishIndex: field.index,
 				})
 			}, 2500)
 		}

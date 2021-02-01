@@ -26,7 +26,7 @@ export default function Home() {
 				Vyber level
 			</Typography>
 			<List>
-				<Link href="/map?i=a" passHref>
+				<Link href="/map?i=a;8;5" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -39,7 +39,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?i=b" passHref>
+				<Link href="/map?i=b;16;9" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -52,7 +52,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?i=c" passHref>
+				<Link href="/map?i=c;30;20" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -65,7 +65,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?i=d" passHref>
+				<Link href="/map?i=d;40;6" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -85,20 +85,17 @@ export default function Home() {
 				Vyber kolekci
 			</Typography>
 			<List>
-				<Link href="/set?i=a" passHref>
+				<Link href="/collection?i=tutorial" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
 								<AccountTreeIcon />
 							</Avatar>
 						</ListItemAvatar>
-						<ListItemText
-							primary="Ukázková kolekce 1"
-							secondary="sčítání, odčítání, násobení, dělení"
-						/>
+						<ListItemText primary="Tutoriál" secondary="první krůčky" />
 					</ListItem>
 				</Link>
-				<Link href="/set?i=b" passHref>
+				<Link href="/collection?i=example" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -106,33 +103,7 @@ export default function Home() {
 							</Avatar>
 						</ListItemAvatar>
 						<ListItemText
-							primary="Ukázková kolekce 2"
-							secondary="sčítání, odčítání, násobení, dělení"
-						/>
-					</ListItem>
-				</Link>
-				<Link href="/set?i=c" passHref>
-					<ListItem button component="a">
-						<ListItemAvatar>
-							<Avatar>
-								<AccountTreeIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Ukázková kolekce 3"
-							secondary="sčítání, odčítání, násobení, dělení"
-						/>
-					</ListItem>
-				</Link>
-				<Link href="/set?i=d" passHref>
-					<ListItem button component="a">
-						<ListItemAvatar>
-							<Avatar>
-								<AccountTreeIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Ukázková kolekce 4"
+							primary="Ukázková kolekce"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>

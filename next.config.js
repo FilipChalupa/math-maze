@@ -9,7 +9,7 @@ module.exports = (phase, { defaultConfig }) => {
 		generateBuildId, // Z nějakého důvodu defaultConfig.generateBuildId začal vracet null
 		pwa: {
 			dest: 'public',
-			additionalManifestEntries: ['/', '/map', '/set', '/offline'].map(
+			additionalManifestEntries: ['/', '/map', '/collection', '/offline'].map(
 				(url) => ({
 					url,
 					revision: buildId,

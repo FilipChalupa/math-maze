@@ -13,7 +13,7 @@ export type FieldWall = { isWall: true }
 
 export type FieldTask = { isTask: true; label: string; solution: string }
 
-export type FieldFinish = { isFinish: true }
+export type FieldFinish = { isFinish: true; index: number }
 
 export type Fields = Array<FieldWall | FieldTask | FieldFinish>
 

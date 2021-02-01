@@ -18,15 +18,18 @@ export interface LevelStatsData {
 	moves: number
 	width: number
 	height: number
+	finishIndex: number
 }
 export interface LevelStatsProps {
 	stats: LevelStatsData
 	restart?: () => void
+	onContinue?: (finishIndex: number) => void
 }
 
 export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
-	stats: { moves, width, height },
+	stats: { moves, width, height, finishIndex },
 	restart,
+	onContinue,
 }) => {
 	return (
 		<Container maxWidth="xs">
@@ -63,10 +66,24 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 						Domů
 					</Button>
 				</Link>{' '}
-				{restart && (
-					<Button variant="contained" color="default" onClick={restart}>
-						Zkusit znovu
+				{onContinue ? (
+					<Button
+						variant="contained"
+						color="default"
+						onClick={() => onContinue(finishIndex)}
+					>
+						Pokračovat
 					</Button>
+				) : (
+					restart && (
+						<Button
+							variant={onContinue ? 'outlined' : 'contained'}
+							color="default"
+							onClick={restart}
+						>
+							Zkusit znovu
+						</Button>
+					)
 				)}
 			</div>
 		</Container>
