@@ -57,7 +57,7 @@ const dummyWalls = [
 
 const dummyFinishes = [
 	{ x: 3, y: 1 },
-	{ x: 3, y: 3 },
+	{ x: 3, y: 2 },
 ]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
@@ -241,6 +241,9 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	}, [playerPosition])
 
 	React.useEffect(() => {
+		if ('isFinish' in fieldAtPosition(playerPosition)) {
+			return
+		}
 		const offset = [
 			[0, 1],
 			[1, 0],
