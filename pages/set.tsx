@@ -24,7 +24,7 @@ const GameComponentWithNoSSR = dynamic<GameProps>(
 	{ ssr: false },
 )
 
-export default function Map() {
+export default function Set() {
 	const router = useRouter()
 	const { i } = router.query
 	const mapSeed = React.useMemo(() => {

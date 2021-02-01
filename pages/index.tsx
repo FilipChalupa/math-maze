@@ -7,6 +7,7 @@ import {
 	ListItemText,
 	Typography,
 } from '@material-ui/core'
+import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -25,7 +26,7 @@ export default function Home() {
 				Vyber level
 			</Typography>
 			<List>
-				<Link href="/map?s=a" passHref>
+				<Link href="/map?i=a" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -38,7 +39,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?s=b" passHref>
+				<Link href="/map?i=b" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -51,7 +52,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?s=c" passHref>
+				<Link href="/map?i=c" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -64,7 +65,7 @@ export default function Home() {
 						/>
 					</ListItem>
 				</Link>
-				<Link href="/map?s=d" passHref>
+				<Link href="/map?i=d" passHref>
 					<ListItem button component="a">
 						<ListItemAvatar>
 							<Avatar>
@@ -73,6 +74,65 @@ export default function Home() {
 						</ListItemAvatar>
 						<ListItemText
 							primary="Ukázkový level 4"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
+			</List>
+			<br />
+			<br />
+			<Typography variant="h4" gutterBottom>
+				Vyber kolekci
+			</Typography>
+			<List>
+				<Link href="/set?i=a" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázková kolekce 1"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
+				<Link href="/set?i=b" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázková kolekce 2"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
+				<Link href="/set?i=c" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázková kolekce 3"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
+				<Link href="/set?i=d" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázková kolekce 4"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>

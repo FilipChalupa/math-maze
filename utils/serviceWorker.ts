@@ -20,7 +20,7 @@ const FALLBACK_HTML_URL = '/offline'
 
 precacheAndRoute(manifest, {
 	ignoreURLParametersMatching: [
-		/^s$/, // ?s= Map seed used to generate map on client side
+		/^i$/, // ?s= Map seed used to generate map on client side
 	],
 })
 
