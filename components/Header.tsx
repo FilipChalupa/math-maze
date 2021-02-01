@@ -16,7 +16,9 @@ export const Header: React.FunctionComponent = () => {
 
 	const wb = (globalThis as any).workbox
 	const [updateAvailable, setUpdateAvailable] = React.useState(false)
+	const [isUpdating, setIsUpdating] = React.useState(false)
 	const updateToNewVersion = React.useCallback(() => {
+		setIsUpdating(true)
 		wb.addEventListener('controlling', () => {
 			window.location.reload()
 		})
@@ -67,6 +69,7 @@ export const Header: React.FunctionComponent = () => {
 						<div className={s.action}>
 							{updateAvailable ? (
 								<Button
+									disabled={isUpdating}
 									size="small"
 									variant="outlined"
 									color="inherit"
