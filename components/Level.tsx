@@ -22,13 +22,11 @@ export type Position = {
 }
 
 const dummyWalls = [
-	{ x: 2, y: 2 },
-	/*{ x: 1, y: 3 },
-	{ x: 3, y: 1 },
+	{ x: 1, y: 3 },
 	{ x: 3, y: 2 },
 	{ x: 3, y: 3 },
+	{ x: 4, y: 3 },
 	{ x: 5, y: 3 },
-	{ x: 6, y: 3 },
 	{ x: 7, y: 3 },
 	{ x: 7, y: 4 },
 	{ x: 7, y: 5 },
@@ -52,12 +50,12 @@ const dummyWalls = [
 	{ x: 15, y: 4 },
 	{ x: 15, y: 5 },
 	{ x: 15, y: 6 },
-	{ x: 15, y: 7 },*/
+	{ x: 15, y: 7 },
 ]
 
 const dummyFinishes = [
-	{ x: 3, y: 1 },
-	{ x: 3, y: 2 },
+	{ x: 4, y: 2 },
+	{ x: 16, y: 4 },
 ]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
@@ -137,16 +135,24 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 					solution: `${a + b}`,
 				}
 			})
-		dummyWalls.forEach((position) => {
-			fields[positionToIndex(position)] = {
-				isWall: true,
+
+		const placeIfPossible = (position: Position, field: Fields[number]) => {
+			const index = positionToIndex(position)
+			if (index !== -1) {
+				fields[index] = field
 			}
+		}
+
+		dummyWalls.forEach((position) => {
+			placeIfPossible(position, {
+				isWall: true,
+			})
 		})
 		dummyFinishes.forEach((position, index) => {
-			fields[positionToIndex(position)] = {
+			placeIfPossible(position, {
 				isFinish: true,
 				index,
-			}
+			})
 		})
 		return fields
 	}, [width, height, dummyWalls, id])
