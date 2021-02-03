@@ -40,6 +40,16 @@ const limitOffset = (
 	return Math.max(-limit, Math.min(limit, offset))
 }
 
+const calculateOffsetLimit = (
+	direction: -1 | 1,
+	initialOffset: number,
+	boardPixelSize: number,
+	innerPixelSize: number,
+) => {
+	const limit = (innerPixelSize - Math.min(innerPixelSize, boardPixelSize)) / 2
+	return direction * limit - initialOffset
+}
+
 export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
 	height,
@@ -102,7 +112,16 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		)
 	}, [forceShowAll, outerWidth, outerHeight, innerWidth, innerHeight, player])
 
-	const { offset: moveOffset, listeners, isMoving, resetOffset } = useMove()
+	const limitedInitialOffset = {
+		x: limitOffset(offset.x, outerWidth, innerWidth),
+		y: limitOffset(offset.y, outerHeight, innerHeight),
+	}
+	const { offset: moveOffset, listeners, isMoving, resetOffset } = useMove(
+		calculateOffsetLimit(-1, limitedInitialOffset.x, outerWidth, innerWidth),
+		calculateOffsetLimit(1, limitedInitialOffset.x, outerWidth, innerWidth),
+		calculateOffsetLimit(-1, limitedInitialOffset.y, outerHeight, innerHeight),
+		calculateOffsetLimit(1, limitedInitialOffset.y, outerHeight, innerHeight),
+	)
 
 	React.useEffect(() => {
 		resetOffset()
@@ -115,16 +134,8 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				['--width' as any]: width,
 				['--height' as any]: height,
 				['--scale' as any]: scale,
-				['--offset-x' as any]: limitOffset(
-					offset.x + moveOffset.x,
-					outerWidth,
-					innerWidth,
-				),
-				['--offset-y' as any]: limitOffset(
-					offset.y + moveOffset.y,
-					outerHeight,
-					innerHeight,
-				),
+				['--offset-x' as any]: limitedInitialOffset.x + moveOffset.x,
+				['--offset-y' as any]: limitedInitialOffset.y + moveOffset.y,
 				['--allowTransitions' as any]: allowTransitions && !isMoving ? 1 : 0,
 			}}
 			className={s.board}

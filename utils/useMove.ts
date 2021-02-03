@@ -1,7 +1,13 @@
 import React from 'react'
 import { Position } from '../components/Level'
+import { clamp } from './clamp'
 
-export function useMove() {
+export function useMove(
+	xLowerLimit: number,
+	xUpperLimit: number,
+	yLowerLimit: number,
+	yUpperLimit: number,
+) {
 	const [offset, setOffset] = React.useState<Position>({ x: 0, y: 0 })
 	const [
 		pixelStartPosition,
@@ -36,8 +42,16 @@ export function useMove() {
 			pixelStartPosition
 				? (event: React.PointerEvent<HTMLElement>) => {
 						setOffset({
-							x: event.clientX - pixelStartPosition.x,
-							y: event.clientY - pixelStartPosition.y,
+							x: clamp(
+								xLowerLimit,
+								event.clientX - pixelStartPosition.x,
+								xUpperLimit,
+							),
+							y: clamp(
+								yLowerLimit,
+								event.clientY - pixelStartPosition.y,
+								yUpperLimit,
+							),
 						})
 				  }
 				: undefined,
