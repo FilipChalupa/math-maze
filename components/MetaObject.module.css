@@ -1,4 +1,10 @@
 .metaObject {
+	--x: 0;
+	--y: 0;
+	--pixelOffset-x: 0;
+	--pixelOffset-y: 0;
+	--isAnimating: 0;
+
 	position: relative;
 	grid-area: var(--y) / var(--x);
 	transform: translate(

@@ -11,58 +11,45 @@ export const MetaObject: React.FunctionComponent<MetaObjectProps> = ({
 }) => {
 	const ref = React.useRef<HTMLDivElement>(null)
 
-	const [targetPosition, setTargetPosition] = React.useState({ ...position })
-	const [previousPixelPosition, setPreviousPixelPosition] = React.useState({
-		x: 0,
-		y: 0,
-	})
-	const [pixelOffset, setPixelOffset] = React.useState({ x: 0, y: 0 })
-	const [isAnimating, setIsAnimating] = React.useState(false)
-
 	const getPixelPosition = React.useCallback(() => {
-		if (ref.current) {
-			return {
-				x: ref.current.offsetLeft,
-				y: ref.current.offsetTop,
-			}
+		const element = ref.current!
+		const rect = element.getBoundingClientRect()
+		return {
+			x: rect.left,
+			y: rect.top,
 		}
-		return { x: 0, y: 0 }
 	}, [ref])
 
 	React.useLayoutEffect(() => {
-		const previousPixelPosition = getPixelPosition()
-		setPreviousPixelPosition(previousPixelPosition)
-		setIsAnimating(false)
-		setTargetPosition({ ...position })
-	}, [position])
+		const element = ref.current!
+		element.style.setProperty('--x', `${position.x}`)
+		element.style.setProperty('--y', `${position.y}`)
+	}, [])
 
 	React.useLayoutEffect(() => {
-		const newPixelPosition = getPixelPosition()
-		setPixelOffset({
-			x: previousPixelPosition.x - newPixelPosition.x,
-			y: previousPixelPosition.y - newPixelPosition.y,
-		})
+		const element = ref.current!
+		const previousPixelPosition = getPixelPosition()
+		element.style.setProperty('--isAnimating', '0')
+		element.style.setProperty('--pixelOffset-x', '0')
+		element.style.setProperty('--pixelOffset-y', '0')
+		element.style.setProperty('--x', `${position.x}`)
+		element.style.setProperty('--y', `${position.y}`)
+		const targetPixelPosition = getPixelPosition()
+		const offset = {
+			x: previousPixelPosition.x - targetPixelPosition.x,
+			y: previousPixelPosition.y - targetPixelPosition.y,
+		}
+		element.style.setProperty('--pixelOffset-x', `${offset.x}`)
+		element.style.setProperty('--pixelOffset-y', `${offset.y}`)
 		requestAnimationFrame(() => {
-			setIsAnimating(true)
-			setPixelOffset({
-				x: 0,
-				y: 0,
-			})
+			element.style.setProperty('--isAnimating', '1')
+			element.style.setProperty('--pixelOffset-x', '0')
+			element.style.setProperty('--pixelOffset-y', '0')
 		})
-	}, [targetPosition])
+	}, [position.x, position.y, getPixelPosition])
 
 	return (
-		<div
-			ref={ref}
-			style={{
-				['--x' as any]: targetPosition.x,
-				['--y' as any]: targetPosition.y,
-				['--pixelOffset-x' as any]: pixelOffset.x,
-				['--pixelOffset-y' as any]: pixelOffset.y,
-				['--isAnimating' as any]: isAnimating ? 1 : 0,
-			}}
-			className={s.metaObject}
-		>
+		<div ref={ref} className={s.metaObject}>
 			{children}
 		</div>
 	)
