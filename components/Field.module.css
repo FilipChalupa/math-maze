@@ -23,7 +23,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	margin: 10%;
+	margin: var(--wall-halfGap);
 	background-color: currentColor;
 }
 

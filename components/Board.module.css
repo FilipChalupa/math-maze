@@ -1,5 +1,9 @@
 .board {
-	--border-size: 20px;
+	--border-size-visible: 16px;
+	--wall-halfGap: 4px;
+	--border-size: calc(
+		var(--border-size-visible) + var(--wall-halfGap) + var(--spacing)
+	);
 	overflow: hidden;
 	position: relative;
 	width: 100%;
@@ -22,13 +26,23 @@
 .inner {
 	display: inline-block;
 	position: relative;
-	border: var(--border-size) solid;
 	transform: scale(var(--scale))
 		translate(calc(1px * var(--offset-x)), calc(1px * var(--offset-y)));
 	transition-property: transform;
 	transition-duration: calc(
 		var(--allowTransitions) * 5 * var(--transition-duration-base)
 	);
+}
+
+.inner::before {
+	content: '';
+	border: var(--border-size-visible) solid;
+	position: absolute;
+	top: calc(-1 * var(--border-size-visible) - var(--wall-halfGap));
+	bottom: calc(-1 * var(--border-size-visible) - var(--wall-halfGap));
+	left: calc(-1 * var(--border-size-visible) - var(--wall-halfGap));
+	right: calc(-1 * var(--border-size-visible) - var(--wall-halfGap));
+	background-color: var(--background-color);
 }
 
 .fields,
