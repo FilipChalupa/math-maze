@@ -62,6 +62,10 @@ export function useMove(
 		setOffset({ x: 0, y: 0 })
 	}, [])
 
+	React.useEffect(() => {
+		resetOffset()
+	}, [xLowerLimit, xUpperLimit, yLowerLimit, yUpperLimit])
+
 	return {
 		offset,
 		resetOffset,
