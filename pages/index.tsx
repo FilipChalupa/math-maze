@@ -21,6 +21,35 @@ export default function Home() {
 			</Head>
 			<br />
 			<br />
+			<Typography variant="h4" gutterBottom>
+				Vyber kolekci
+			</Typography>
+			<List>
+				<Link href="/collection?i=tutorial" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText primary="Tutoriál" secondary="první krůčky" />
+					</ListItem>
+				</Link>
+				<Link href="/collection?i=example" passHref>
+					<ListItem button component="a">
+						<ListItemAvatar>
+							<Avatar>
+								<AccountTreeIcon />
+							</Avatar>
+						</ListItemAvatar>
+						<ListItemText
+							primary="Ukázková kolekce"
+							secondary="sčítání, odčítání, násobení, dělení"
+						/>
+					</ListItem>
+				</Link>
+			</List>
+			<br />
 			<br />
 			<Typography variant="h4" gutterBottom>
 				Vyber level
@@ -74,36 +103,6 @@ export default function Home() {
 						</ListItemAvatar>
 						<ListItemText
 							primary="Ukázkový level 4"
-							secondary="sčítání, odčítání, násobení, dělení"
-						/>
-					</ListItem>
-				</Link>
-			</List>
-			<br />
-			<br />
-			<Typography variant="h4" gutterBottom>
-				Vyber kolekci
-			</Typography>
-			<List>
-				<Link href="/collection?i=tutorial" passHref>
-					<ListItem button component="a">
-						<ListItemAvatar>
-							<Avatar>
-								<AccountTreeIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText primary="Tutoriál" secondary="první krůčky" />
-					</ListItem>
-				</Link>
-				<Link href="/collection?i=example" passHref>
-					<ListItem button component="a">
-						<ListItemAvatar>
-							<Avatar>
-								<AccountTreeIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Ukázková kolekce"
 							secondary="sčítání, odčítání, násobení, dělení"
 						/>
 					</ListItem>
