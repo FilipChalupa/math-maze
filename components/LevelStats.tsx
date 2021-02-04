@@ -6,7 +6,8 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText,
-	Typography,
+	ListSubheader,
+	Paper,
 } from '@material-ui/core'
 import AspectRatioIcon from '@material-ui/icons/AspectRatio'
 import GamesIcon from '@material-ui/icons/Games'
@@ -37,34 +38,34 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 			<br />
 			<br />
 			<div className={s.levelStats}>
-				<Typography variant="h4" gutterBottom>
-					Statistika
-				</Typography>
-				<List>
-					<ListItem>
-						<ListItemAvatar>
-							<Avatar variant="square">
-								<AspectRatioIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText
-							primary="Velikost levelu"
-							secondary={`${width} x ${height}`}
-						/>
-					</ListItem>
-					<ListItem>
-						<ListItemAvatar>
-							<Avatar variant="square">
-								<GamesIcon />
-							</Avatar>
-						</ListItemAvatar>
-						<ListItemText primary="Počet kroků" secondary={moves} />
-					</ListItem>
-				</List>
+				<Paper>
+					<List subheader={<ListSubheader>Statistika</ListSubheader>}>
+						<ListItem>
+							<ListItemAvatar>
+								<Avatar variant="square">
+									<AspectRatioIcon />
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText
+								primary="Velikost levelu"
+								secondary={`${width} x ${height}`}
+							/>
+						</ListItem>
+						<ListItem>
+							<ListItemAvatar>
+								<Avatar variant="square">
+									<GamesIcon />
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText primary="Počet kroků" secondary={moves} />
+						</ListItem>
+					</List>
+				</Paper>
+				<br />
 				<Link href="/" passHref>
 					<Button
 						variant={onContinue ? 'outlined' : 'contained'}
-						color="default"
+						color={onContinue ? 'default' : 'primary'}
 						component="a"
 					>
 						Domů
@@ -73,7 +74,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 				{onContinue ? (
 					<Button
 						variant="contained"
-						color="default"
+						color="primary"
 						onClick={() => onContinue(finishIndex)}
 					>
 						Pokračovat
