@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core'
 import AspectRatioIcon from '@material-ui/icons/AspectRatio'
 import GamesIcon from '@material-ui/icons/Games'
+import TimelapseIcon from '@material-ui/icons/Timelapse'
 import Link from 'next/link'
 import React from 'react'
 import s from './LevelStats.module.css'
@@ -20,6 +21,8 @@ export interface LevelStatsData {
 	width: number
 	height: number
 	finishIndex: number
+	startTime: Date
+	endTime: Date
 }
 export interface LevelStatsProps {
 	stats: LevelStatsData
@@ -28,10 +31,18 @@ export interface LevelStatsProps {
 }
 
 export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
-	stats: { moves, width, height, finishIndex },
+	stats: { moves, width, height, finishIndex, startTime, endTime },
 	restart,
 	onContinue,
 }) => {
+	const time = React.useMemo(() => {
+		const relativeTimeFormat = new Intl.RelativeTimeFormat('cs')
+		return relativeTimeFormat.format(
+			Math.round((endTime.getTime() - startTime.getTime()) / 1000),
+			'seconds',
+		)
+	}, [startTime, endTime])
+
 	return (
 		<Container maxWidth="xs">
 			<br />
@@ -58,6 +69,14 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 								</Avatar>
 							</ListItemAvatar>
 							<ListItemText primary="Počet kroků" secondary={moves} />
+						</ListItem>
+						<ListItem>
+							<ListItemAvatar>
+								<Avatar variant="square">
+									<TimelapseIcon />
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText primary="Čas" secondary={`V cíli ${time}`} />
 						</ListItem>
 					</List>
 				</Paper>

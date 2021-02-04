@@ -74,7 +74,13 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	const [playerPosition, setPlayerPosition] = React.useState(
 		playerStartPosition,
 	)
+	const [startTime, setStartTime] = React.useState(new Date())
 	const [playerMovesCount, setPlayerMovesCount] = React.useState(0)
+	React.useEffect(() => {
+		setStartTime(new Date())
+		setPlayerMovesCount(0)
+	}, [code])
+
 	const otherPlayers = usePlayerPositions(code, playerPosition)
 
 	const movePlayer = React.useCallback(
@@ -266,6 +272,8 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 					width,
 					height,
 					finishIndex: field.index,
+					startTime,
+					endTime: new Date(),
 				})
 			}, 2500)
 		}
