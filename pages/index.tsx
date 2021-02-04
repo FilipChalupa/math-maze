@@ -9,16 +9,12 @@ import {
 } from '@material-ui/core'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
-import Head from 'next/head'
 import Link from 'next/link'
 import React from 'react'
 
 export default function Home() {
 	return (
 		<Container maxWidth="xs">
-			<Head>
-				<title>Matematické bludiště</title>
-			</Head>
 			<br />
 			<br />
 			<Typography variant="h4" gutterBottom>

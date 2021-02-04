@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/dist/client/router'
+import Head from 'next/head'
 import React from 'react'
 import { Layout } from '../components/Layout'
 import { ThemeProvider } from '../components/ThemeProvider'
@@ -23,6 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<ThemeProvider>
 			<Layout>
+				<Head>
+					<title>Matematické bludiště</title>
+				</Head>
 				<Component {...pageProps} />
 			</Layout>
 		</ThemeProvider>
