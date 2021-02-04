@@ -9,7 +9,9 @@ export interface LevelProps {
 	code: string
 	width: number
 	height: number
+	hasPlayer?: boolean
 	playerStartPosition: Position
+	controlsHeight?: number
 	finishPositions: Position[]
 	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
 	clearSolutionFromPlayer: () => void
@@ -61,13 +63,14 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	width,
 	height,
 	playerStartPosition,
+	hasPlayer = false,
+	controlsHeight = 0,
 	finishPositions,
 	setSolutionsAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
 	setStats,
 }) => {
-	const hasPlayer = true // @TODO
 	const [playerPosition, setPlayerPosition] = React.useState(
 		playerStartPosition,
 	)
@@ -305,6 +308,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			player={hasPlayer ? { position: playerPosition } : undefined}
 			otherPlayers={otherPlayers}
 			fields={fields}
+			controlsHeight={controlsHeight}
 		/>
 	)
 }

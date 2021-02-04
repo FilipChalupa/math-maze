@@ -17,7 +17,8 @@ export type FieldFinish = { isFinish: true; index: number }
 
 export type Fields = Array<FieldWall | FieldTask | FieldFinish>
 
-export interface BoardProps extends Pick<LevelProps, 'width' | 'height'> {
+export interface BoardProps
+	extends Pick<LevelProps, 'width' | 'height' | 'controlsHeight'> {
 	player?: {
 		position: Position
 	}
@@ -54,14 +55,16 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
 	height,
 	player,
+	controlsHeight = 0,
 	otherPlayers = {},
 	fields,
 }) => {
 	const {
 		ref: outerRef,
 		width: outerWidth = 1,
-		height: outerHeight = 1,
+		height: rawOuterHeight = 1,
 	} = useResizeObserver<HTMLDivElement>()
+	const outerHeight = rawOuterHeight - controlsHeight
 	const {
 		ref: innerRef,
 		width: innerWidth = 1,
@@ -134,8 +137,12 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 				['--width' as any]: width,
 				['--height' as any]: height,
 				['--scale' as any]: scale,
-				['--offset-x' as any]: limitedInitialOffset.x + moveOffset.x,
-				['--offset-y' as any]: limitedInitialOffset.y + moveOffset.y,
+				['--offset-x' as any]: Math.round(
+					limitedInitialOffset.x + moveOffset.x,
+				),
+				['--offset-y' as any]: Math.round(
+					limitedInitialOffset.y + moveOffset.y - controlsHeight / 2,
+				),
 				['--allowTransitions' as any]: allowTransitions && !isMoving ? 1 : 0,
 			}}
 			className={s.board}

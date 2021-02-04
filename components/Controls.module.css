@@ -10,7 +10,7 @@
 }
 
 @media (max-width: 499px) {
-	.controls:not(:empty) {
+	.controls {
 		min-height: 108px;
 	}
 }

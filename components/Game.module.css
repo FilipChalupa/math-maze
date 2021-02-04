@@ -12,7 +12,9 @@
 }
 
 .controls {
-	position: sticky;
+	position: absolute;
+	left: 0;
+	right: 0;
 	bottom: 0;
 	z-index: 1;
 }
@@ -25,7 +27,8 @@
 	right: 0;
 	bottom: 0;
 	box-shadow: 0 0 16px var(--background-color);
-	opacity: 0.5;
+	background-color: var(--background-color);
+	opacity: 0.99;
 }
 
 .level::before {

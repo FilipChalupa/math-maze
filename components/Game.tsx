@@ -1,6 +1,7 @@
 import { Container } from '@material-ui/core'
 import React from 'react'
 import seedrandom from 'seedrandom'
+import useResizeObserver from 'use-resize-observer'
 import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
@@ -105,6 +106,8 @@ export const Game: React.FunctionComponent<GameProps> = ({
 	seed,
 	...props
 }) => {
+	const hasPlayer = true // @TODO
+
 	const boardParameters = React.useMemo(() => {
 		return {
 			code: seed.code,
@@ -136,6 +139,11 @@ export const Game: React.FunctionComponent<GameProps> = ({
 		}
 	}, [props.onContinue])
 
+	const {
+		ref: controlsRef,
+		height: controlsHeight = 0,
+	} = useResizeObserver<HTMLDivElement>()
+
 	return (
 		<div className={s.game}>
 			{stats ? (
@@ -147,12 +155,14 @@ export const Game: React.FunctionComponent<GameProps> = ({
 					<Level
 						{...boardParameters}
 						setSolutionsAroundPlayer={setSolutionsAroundPlayer}
+						hasPlayer={hasPlayer}
 						solutionFromPlayer={solutionFromPlayer}
 						clearSolutionFromPlayer={() => setSolutionFromPlayer(undefined)}
 						setStats={(stats) => setStats(stats)}
+						controlsHeight={controlsHeight}
 					/>
-					{solutionsAroundPlayer.length > 0 && (
-						<div className={s.controls}>
+					{hasPlayer && solutionsAroundPlayer.length > 0 && (
+						<div className={s.controls} ref={controlsRef}>
 							<Container>
 								<Controls
 									solutions={solutionsAroundPlayer}
