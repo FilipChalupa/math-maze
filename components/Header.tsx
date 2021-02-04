@@ -6,6 +6,7 @@ import {
 	Toolbar,
 	Typography,
 } from '@material-ui/core'
+import ReplayIcon from '@material-ui/icons/Replay'
 import NextLink from 'next/link'
 import React from 'react'
 import { usePWAInstall } from 'react-use-pwa-install'
@@ -70,6 +71,7 @@ export const Header: React.FunctionComponent = () => {
 									variant="outlined"
 									color="inherit"
 									onClick={updateToNewVersion}
+									endIcon={<ReplayIcon />}
 								>
 									Aktualizovat
 								</Button>
