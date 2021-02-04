@@ -27,8 +27,8 @@ const collections: {
 	tutorial: {
 		startLevel: {
 			levelSeed: {
-				code: 'tutorial-1',
-				width: 4,
+				code: 'tutorial-0',
+				width: 1,
 				height: 3,
 				playerStartPosition: {
 					x: 1,
@@ -36,7 +36,7 @@ const collections: {
 				},
 				finishPositions: [
 					{
-						x: 4,
+						x: 1,
 						y: 3,
 					},
 				],
@@ -44,9 +44,9 @@ const collections: {
 			nextLevels: [
 				{
 					levelSeed: {
-						code: 'tutorial-2',
+						code: 'tutorial-1',
 						width: 4,
-						height: 4,
+						height: 3,
 						playerStartPosition: {
 							x: 1,
 							y: 1,
@@ -54,24 +54,24 @@ const collections: {
 						finishPositions: [
 							{
 								x: 4,
-								y: 4,
+								y: 3,
 							},
 						],
 					},
 					nextLevels: [
 						{
 							levelSeed: {
-								code: 'tutorial-3',
-								width: 5,
-								height: 5,
+								code: 'tutorial-2',
+								width: 4,
+								height: 4,
 								playerStartPosition: {
 									x: 1,
 									y: 1,
 								},
 								finishPositions: [
 									{
-										x: 5,
-										y: 5,
+										x: 4,
+										y: 4,
 									},
 								],
 							},
