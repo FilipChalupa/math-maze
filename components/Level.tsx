@@ -9,10 +9,11 @@ export interface LevelProps {
 	code: string
 	width: number
 	height: number
+	playerStartPosition: Position
+	finishPositions: Position[]
 	setTasksAroundPlayer: (tasks: FieldTask[]) => void
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
-	id: string
 	setStats: (stats: LevelStatsData) => void
 }
 
@@ -53,25 +54,23 @@ const dummyWalls = [
 	{ x: 15, y: 7 },
 ]
 
-const dummyFinishes = [
-	{ x: 4, y: 2 },
-	{ x: 16, y: 4 },
-]
-
 export const Level: React.FunctionComponent<LevelProps> = ({
 	code,
 	width,
 	height,
+	playerStartPosition,
+	finishPositions,
 	setTasksAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
-	id,
 	setStats,
 }) => {
 	const hasPlayer = true // @TODO
-	const [playerPosition, setPlayerPosition] = React.useState({ x: 1, y: 1 })
+	const [playerPosition, setPlayerPosition] = React.useState(
+		playerStartPosition,
+	)
 	const [playerMovesCount, setPlayerMovesCount] = React.useState(0)
-	const otherPlayers = usePlayerPositions(id, playerPosition)
+	const otherPlayers = usePlayerPositions(code, playerPosition)
 
 	const movePlayer = React.useCallback(
 		(newPosition: Position) => {
@@ -98,7 +97,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	)
 
 	const fields = React.useMemo(() => {
-		const random = seedrandom(code)
+		const random = seedrandom(`fields-${code}`)
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
@@ -138,24 +137,25 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 
 		const placeIfPossible = (position: Position, field: Fields[number]) => {
 			const index = positionToIndex(position)
-			if (index !== -1) {
+			if (index !== -1 && !('isFinish' in fields[index])) {
 				fields[index] = field
 			}
 		}
+
+		finishPositions.forEach((position, index) => {
+			placeIfPossible(position, {
+				isFinish: true,
+				index,
+			})
+		})
 
 		dummyWalls.forEach((position) => {
 			placeIfPossible(position, {
 				isWall: true,
 			})
 		})
-		dummyFinishes.forEach((position, index) => {
-			placeIfPossible(position, {
-				isFinish: true,
-				index,
-			})
-		})
 		return fields
-	}, [width, height, dummyWalls, id])
+	}, [width, height, dummyWalls, code])
 
 	const fieldAtPosition = React.useCallback(
 		(position: Position) =>

@@ -30,6 +30,16 @@ const collections: {
 				code: 'tutorial-1',
 				width: 4,
 				height: 3,
+				playerStartPosition: {
+					x: 1,
+					y: 1,
+				},
+				finishPositions: [
+					{
+						x: 4,
+						y: 3,
+					},
+				],
 			},
 			nextLevels: [
 				{
@@ -37,6 +47,16 @@ const collections: {
 						code: 'tutorial-2',
 						width: 4,
 						height: 4,
+						playerStartPosition: {
+							x: 1,
+							y: 1,
+						},
+						finishPositions: [
+							{
+								x: 4,
+								y: 4,
+							},
+						],
 					},
 					nextLevels: [
 						{
@@ -44,6 +64,16 @@ const collections: {
 								code: 'tutorial-3',
 								width: 5,
 								height: 5,
+								playerStartPosition: {
+									x: 1,
+									y: 1,
+								},
+								finishPositions: [
+									{
+										x: 5,
+										y: 5,
+									},
+								],
 							},
 							congratulationMessage: 'To je z tutoriálu vše.',
 						},
@@ -58,6 +88,16 @@ const collections: {
 				code: 'a',
 				width: 4,
 				height: 4,
+				playerStartPosition: {
+					x: 1,
+					y: 1,
+				},
+				finishPositions: [
+					{
+						x: 4,
+						y: 4,
+					},
+				],
 			},
 			nextLevels: [
 				{
@@ -65,6 +105,16 @@ const collections: {
 						code: 'b',
 						width: 6,
 						height: 6,
+						playerStartPosition: {
+							x: 1,
+							y: 1,
+						},
+						finishPositions: [
+							{
+								x: 6,
+								y: 6,
+							},
+						],
 					},
 					nextLevels: [
 						{
@@ -72,6 +122,20 @@ const collections: {
 								code: 'c',
 								width: 7,
 								height: 7,
+								playerStartPosition: {
+									x: 4,
+									y: 1,
+								},
+								finishPositions: [
+									{
+										x: 1,
+										y: 7,
+									},
+									{
+										x: 7,
+										y: 7,
+									},
+								],
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 1.',
 						},
@@ -80,6 +144,16 @@ const collections: {
 								code: 'd',
 								width: 8,
 								height: 8,
+								playerStartPosition: {
+									x: 1,
+									y: 1,
+								},
+								finishPositions: [
+									{
+										x: 8,
+										y: 8,
+									},
+								],
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 2.',
 						},
