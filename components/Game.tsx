@@ -89,12 +89,6 @@ export const seedIdToSeed = (seedId: string) => {
 	}
 }
 
-export const seedToSeedId = (seed: Seed) => {
-	const u = (t: string | number) => t || ''
-
-	return `${u(seed.code)};${u(seed.width)};${u(seed.height)}`
-}
-
 export type Seed = ReturnType<typeof seedIdToSeed>
 
 export interface GameProps {
