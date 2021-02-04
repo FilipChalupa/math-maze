@@ -62,7 +62,11 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 					</ListItem>
 				</List>
 				<Link href="/" passHref>
-					<Button variant="outlined" color="default" component="a">
+					<Button
+						variant={onContinue ? 'outlined' : 'contained'}
+						color="default"
+						component="a"
+					>
 						Domů
 					</Button>
 				</Link>{' '}
@@ -76,11 +80,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 					</Button>
 				) : (
 					restart && (
-						<Button
-							variant={onContinue ? 'outlined' : 'contained'}
-							color="default"
-							onClick={restart}
-						>
+						<Button variant="outlined" color="default" onClick={restart}>
 							Zkusit znovu
 						</Button>
 					)

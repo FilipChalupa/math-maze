@@ -212,11 +212,11 @@ const CollectionInner: React.FunctionComponent<{ collection: Collection }> = ({
 					</Typography>
 				)}
 				<Link href="/" passHref>
-					<Button variant="outlined" color="default" component="a">
+					<Button variant="contained" color="default" component="a">
 						Domů
 					</Button>
 				</Link>{' '}
-				<Button variant="contained" onClick={restart}>
+				<Button variant="outlined" onClick={restart}>
 					Zkusit znovu
 				</Button>
 			</Container>
