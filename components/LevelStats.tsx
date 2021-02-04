@@ -21,8 +21,7 @@ export interface LevelStatsData {
 	width: number
 	height: number
 	finishIndex: number
-	startTime: Date
-	endTime: Date
+	timeInSeconds: number
 }
 export interface LevelStatsProps {
 	stats: LevelStatsData
@@ -31,17 +30,14 @@ export interface LevelStatsProps {
 }
 
 export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
-	stats: { moves, width, height, finishIndex, startTime, endTime },
+	stats: { moves, width, height, finishIndex, timeInSeconds },
 	restart,
 	onContinue,
 }) => {
 	const time = React.useMemo(() => {
 		const relativeTimeFormat = new Intl.RelativeTimeFormat('cs')
-		return relativeTimeFormat.format(
-			Math.round((endTime.getTime() - startTime.getTime()) / 1000),
-			'seconds',
-		)
-	}, [startTime, endTime])
+		return relativeTimeFormat.format(timeInSeconds, 'seconds')
+	}, [timeInSeconds])
 
 	return (
 		<Container maxWidth="xs">

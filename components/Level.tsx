@@ -272,8 +272,9 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 					width,
 					height,
 					finishIndex: field.index,
-					startTime,
-					endTime: new Date(),
+					timeInSeconds: Math.round(
+						(new Date().getTime() - startTime.getTime()) / 1000,
+					),
 				})
 			}, 2500)
 		}
