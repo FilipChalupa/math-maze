@@ -115,9 +115,9 @@ export const Game: React.FunctionComponent<GameProps> = ({
 		}
 	}, [seed])
 
-	const [tasksAroundPlayer, setTasksAroundPlayer] = React.useState<FieldTask[]>(
-		[],
-	)
+	const [solutionsAroundPlayer, setSolutionsAroundPlayer] = React.useState<
+		FieldTask['solution'][]
+	>([])
 
 	const [solutionFromPlayer, setSolutionFromPlayer] = React.useState<
 		LevelProps['solutionFromPlayer']
@@ -146,16 +146,16 @@ export const Game: React.FunctionComponent<GameProps> = ({
 				<div className={s.level}>
 					<Level
 						{...boardParameters}
-						setTasksAroundPlayer={setTasksAroundPlayer}
+						setSolutionsAroundPlayer={setSolutionsAroundPlayer}
 						solutionFromPlayer={solutionFromPlayer}
 						clearSolutionFromPlayer={() => setSolutionFromPlayer(undefined)}
 						setStats={(stats) => setStats(stats)}
 					/>
-					{tasksAroundPlayer.length > 0 && (
+					{solutionsAroundPlayer.length > 0 && (
 						<div className={s.controls}>
 							<Container>
 								<Controls
-									tasks={tasksAroundPlayer}
+									solutions={solutionsAroundPlayer}
 									onSolution={(solution) => setSolutionFromPlayer(solution)}
 								/>
 							</Container>

@@ -2,7 +2,7 @@ import React from 'react'
 import seedrandom from 'seedrandom'
 import { shuffle } from '../utils/shuffle'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
-import { Board, Fields, FieldTask } from './Board'
+import { Board, FieldFinish, Fields, FieldTask } from './Board'
 import { LevelStatsData } from './LevelStats'
 
 export interface LevelProps {
@@ -11,11 +11,13 @@ export interface LevelProps {
 	height: number
 	playerStartPosition: Position
 	finishPositions: Position[]
-	setTasksAroundPlayer: (tasks: FieldTask[]) => void
+	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
 	setStats: (stats: LevelStatsData) => void
 }
+
+export const FINISH_SOLUTION_SYMBOL = 'finish'
 
 export type Position = {
 	x: number
@@ -60,7 +62,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	height,
 	playerStartPosition,
 	finishPositions,
-	setTasksAroundPlayer,
+	setSolutionsAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
 	setStats,
@@ -227,10 +229,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 
 	React.useEffect(() => {
 		if ('isFinish' in fieldAtPosition(playerPosition)) {
-			setTasksAroundPlayer([])
+			setSolutionsAroundPlayer([])
 			return
 		}
-		const tasks = [
+		const solutions = [
 			[0, 1],
 			[1, 0],
 			[0, -1],
@@ -242,28 +244,14 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 					y: playerPosition.y + y,
 				}),
 			)
-			.filter((field): field is FieldTask => 'isTask' in field)
-		setTasksAroundPlayer(shuffle(tasks))
-	}, [playerPosition])
-
-	React.useEffect(() => {
-		if ('isFinish' in fieldAtPosition(playerPosition)) {
-			return
-		}
-		const offset = [
-			[0, 1],
-			[1, 0],
-			[0, -1],
-			[-1, 0],
-		]
-		for (const [x, y] of offset) {
-			const position = { x: playerPosition.x + x, y: playerPosition.y + y }
-			if ('isFinish' in fieldAtPosition(position)) {
-				movePlayer(position)
-
-				return
-			}
-		}
+			.filter(
+				(field): field is FieldTask | FieldFinish =>
+					'isTask' in field || 'isFinish' in field,
+			)
+			.map((field) =>
+				'isTask' in field ? field.solution : FINISH_SOLUTION_SYMBOL,
+			)
+		setSolutionsAroundPlayer(shuffle(solutions))
 	}, [playerPosition])
 
 	React.useEffect(() => {
@@ -295,7 +283,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				x: playerPosition.x + x,
 				y: playerPosition.y + y,
 			})
-			if ('isTask' in field && field.solution === solutionFromPlayer) {
+			if (
+				('isTask' in field && solutionFromPlayer === field.solution) ||
+				('isFinish' in field && solutionFromPlayer === FINISH_SOLUTION_SYMBOL)
+			) {
 				clearSolutionFromPlayer()
 				movePlayer({
 					x: playerPosition.x + x,

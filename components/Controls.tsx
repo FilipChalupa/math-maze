@@ -2,9 +2,10 @@ import { Button } from '@material-ui/core'
 import React from 'react'
 import { FieldTask } from './Board'
 import s from './Controls.module.css'
+import { FINISH_SOLUTION_SYMBOL } from './Level'
 
 interface ControlsProps {
-	tasks: FieldTask[]
+	solutions: FieldTask['solution'][]
 	onSolution: (solution: FieldTask['solution']) => void
 }
 
@@ -25,14 +26,14 @@ const Action: React.FunctionComponent<{
 )
 
 export const Controls: React.FunctionComponent<ControlsProps> = ({
-	tasks,
+	solutions,
 	onSolution,
 }) => {
 	return (
 		<div className={s.controls}>
-			{tasks.map((task, i) => (
-				<Action key={i} onClick={() => onSolution(task.solution)}>
-					{task.solution}
+			{solutions.map((solution, i) => (
+				<Action key={i} onClick={() => onSolution(solution)}>
+					{solution === FINISH_SOLUTION_SYMBOL ? '🏁' : solution}
 				</Action>
 			))}
 		</div>
