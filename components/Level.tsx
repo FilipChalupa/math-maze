@@ -1,5 +1,6 @@
 import React from 'react'
 import seedrandom from 'seedrandom'
+import { generateTask } from '../utils/generateTask'
 import { shuffle } from '../utils/shuffle'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
 import { Board, FieldFinish, Fields, FieldTask } from './Board'
@@ -112,37 +113,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
-				const a = Math.floor(random() * 15)
-				const b = Math.floor(random() * 15)
-
-				if (a >= b && random() > 0.5) {
-					return {
-						isTask: true,
-						label: `${a} - ${b}`,
-						solution: `${a - b}`,
-					}
-				}
-
-				if (a <= 10 && b <= 10 && a !== 0 && random() < 0.9) {
-					if (b == 0 || random() > 0.5) {
-						return {
-							isTask: true,
-							label: `${a} * ${b}`,
-							solution: `${a * b}`,
-						}
-					}
-
-					return {
-						isTask: true,
-						label: `${a * b} / ${b}`,
-						solution: `${a}`,
-					}
-				}
-
+				const task = generateTask(random)
 				return {
+					...task,
 					isTask: true,
-					label: `${a} + ${b}`,
-					solution: `${a + b}`,
 				}
 			})
 
