@@ -94,7 +94,7 @@ const Levels: FunctionComponent = () => (
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
 			<Level
-				id="c;30;2"
+				id="c;30;5"
 				title="Ukázkový level 3"
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
