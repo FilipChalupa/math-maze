@@ -80,7 +80,7 @@ const HomeInnerWithNoSSR = dynamic(() => Promise.resolve(HomeInner), {
 const Collections: FunctionComponent = () => (
 	<>
 		<Typography variant="body1" gutterBottom>
-			Vyber si kolekci a ověř síli na sérii několika levelů.
+			Vyber si kolekci a ověř síly na sérii několika levelů.
 		</Typography>
 		<List>
 			<Collection title="Tutoriál" subheader="první krůčky" id="tutorial" />
