@@ -108,17 +108,19 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		[width, height],
 	)
 
+	const indexToPosition = React.useCallback(
+		(index: number) => ({
+			x: 1 + (index % width),
+			y: 1 + Math.floor(index / width),
+		}),
+		[width],
+	)
+
 	const fields = React.useMemo(() => {
 		const random = seedrandom(`fields-${id}`)
 		const fields: Fields = Array(width * height)
 			.fill(null)
-			.map((_, i) => {
-				const task = generateTask(random)
-				return {
-					...task,
-					isTask: true,
-				}
-			})
+			.map(() => ({ isEmpty: true }))
 
 		const placeIfPossible = (position: Position, field: Fields[number]) => {
 			const index = positionToIndex(position)
@@ -139,6 +141,45 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				isWall: true,
 			})
 		})
+
+		for (let i = 0; i < fields.length; i++) {
+			if (!('isEmpty' in fields[i])) {
+				continue
+			}
+			const position = indexToPosition(i)
+			const surroundingSolutions: FieldTask['solution'][] = []
+			for (let x = -2; x <= 2; x++) {
+				for (let y = -2; y <= 2; y++) {
+					if (Math.abs(x) + Math.abs(y) !== 2) {
+						continue
+					}
+					const neighbourIndex = positionToIndex({
+						x: position.x + x,
+						y: position.y + y,
+					})
+					if (neighbourIndex === -1) {
+						continue
+					}
+					const neighbourField = fields[neighbourIndex]
+					if (!('isTask' in neighbourField)) {
+						continue
+					}
+					surroundingSolutions.push(neighbourField.solution)
+				}
+			}
+			const task = (() => {
+				const generate = () => generateTask(random)
+				let task = generate()
+				for (let tryTask = 1; tryTask <= 10; tryTask++) {
+					if (!surroundingSolutions.includes(task.solution)) {
+						break
+					}
+					task = generate()
+				}
+				return task
+			})()
+			fields[i] = { isTask: true, ...task }
+		}
 		return fields
 	}, [width, height, dummyWalls, id])
 

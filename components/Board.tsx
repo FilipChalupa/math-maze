@@ -9,13 +9,15 @@ import { MetaObject } from './MetaObject'
 import { OtherPlayer } from './OtherPlayer'
 import { Player } from './Player'
 
+export type FieldEmpty = { isEmpty: true }
+
 export type FieldWall = { isWall: true }
 
 export type FieldTask = { isTask: true; label: string; solution: string }
 
 export type FieldFinish = { isFinish: true; index: number }
 
-export type Fields = Array<FieldWall | FieldTask | FieldFinish>
+export type Fields = Array<FieldEmpty | FieldWall | FieldTask | FieldFinish>
 
 export interface BoardProps
 	extends Pick<LevelProps, 'width' | 'height' | 'controlsHeight'> {
