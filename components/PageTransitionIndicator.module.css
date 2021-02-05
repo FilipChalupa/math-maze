@@ -1,0 +1,21 @@
+.pageTransitionIndicator {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 11;
+	overflow: hidden;
+	transition-property: opacity, visibility, transform;
+	transition-duration: 0.2s;
+	transition-duration: var(--transition-duration-base);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-100%);
+	pointer-events: none;
+}
+
+.isLoading {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
