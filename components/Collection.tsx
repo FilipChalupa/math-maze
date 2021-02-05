@@ -41,6 +41,7 @@ const collections: {
 						y: 3,
 					},
 				],
+				preferWalls: 0,
 			},
 			nextLevels: [
 				{
@@ -58,6 +59,7 @@ const collections: {
 								y: 3,
 							},
 						],
+						preferWalls: 0.5,
 					},
 					nextLevels: [
 						{
@@ -75,6 +77,7 @@ const collections: {
 										y: 4,
 									},
 								],
+								preferWalls: 1,
 							},
 							congratulationMessage: 'To je z tutoriálu vše.',
 						},
@@ -99,6 +102,7 @@ const collections: {
 						y: 4,
 					},
 				],
+				preferWalls: 0.5,
 			},
 			nextLevels: [
 				{
@@ -116,6 +120,7 @@ const collections: {
 								y: 6,
 							},
 						],
+						preferWalls: 0.5,
 					},
 					nextLevels: [
 						{
@@ -137,6 +142,7 @@ const collections: {
 										y: 7,
 									},
 								],
+								preferWalls: 0.5,
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 1.',
 						},
@@ -155,6 +161,7 @@ const collections: {
 										y: 8,
 									},
 								],
+								preferWalls: 0.5,
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 2.',
 						},

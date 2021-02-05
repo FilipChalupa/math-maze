@@ -10,10 +10,12 @@ import { Level, LevelProps, Position } from './Level'
 import { LevelStats, LevelStatsData } from './LevelStats'
 
 export const seedIdToSeed = (seedId: string) => {
-	const [rawCodeBase, rawWidth, rawHeight] = seedId.split(';')
+	const [rawCodeBase, rawWidth, rawHeight, rawPreferWalls] = seedId.split(';')
 
 	const height = parseInt(rawHeight, 10) || 1
 	const width = Math.max(height <= 2 ? 3 : 1, parseInt(rawWidth, 10) || 1)
+	const preferWalls =
+		Math.max(0, Math.min(parseInt(rawPreferWalls, 10) || 0, 9)) / 9
 	const id = seedId
 
 	const random = seedrandom(`seedIdToSeed-${id}`)
@@ -85,6 +87,7 @@ export const seedIdToSeed = (seedId: string) => {
 		id,
 		width,
 		height,
+		preferWalls,
 		playerStartPosition,
 		finishPositions,
 	}
@@ -110,6 +113,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 			height: seed.height,
 			playerStartPosition: seed.playerStartPosition,
 			finishPositions: seed.finishPositions,
+			preferWalls: seed.preferWalls,
 		}
 	}, [seed])
 

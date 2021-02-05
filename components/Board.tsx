@@ -166,6 +166,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									isWall={'isWall' in field}
 									isTask={'isTask' in field}
 									isFinish={'isFinish' in field}
+									isEmpty={'isEmpty' in field}
 								>
 									{'isTask' in field && field['label']}
 								</Field>

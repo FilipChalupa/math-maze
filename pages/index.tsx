@@ -100,22 +100,22 @@ const Levels: FunctionComponent = () => (
 		</Typography>
 		<List>
 			<Level
-				id="a;8;5"
+				id="a;8;5;0"
 				title="Ukázkový level 1"
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
 			<Level
-				id="b;16;9"
+				id="b;16;9;5"
 				title="Ukázkový level 2"
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
 			<Level
-				id="c;30;5"
+				id="c;30;5;7"
 				title="Ukázkový level 3"
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
 			<Level
-				id="d;40;6"
+				id="d;40;6;9"
 				title="Ukázkový level 4"
 				subheader="sčítání, odčítání, násobení, dělení"
 			/>
@@ -134,10 +134,11 @@ const DailyChallenge: FunctionComponent = () => {
 			const extraSize = ((i * i) / 4) * 3
 			const width = Math.ceil(2 + random() * 4 + extraSize)
 			const height = Math.ceil(2 + random() * 4 + extraSize)
+			const preferWalls = Math.floor(random() * 10)
 			const code = random().toString(36).substring(7)
 
 			return {
-				id: `${code};${width};${height}`,
+				id: `${code};${width};${height};${preferWalls}`,
 				title: `Level ${i + 1}`,
 				subheader: `rozměry ${width} x ${height}`,
 			}

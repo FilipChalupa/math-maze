@@ -1,9 +1,8 @@
 import React from 'react'
-import seedrandom from 'seedrandom'
-import { generateTask } from '../utils/generateTask'
 import { shuffle } from '../utils/shuffle'
+import { useGenerateFields } from '../utils/useGenerateFields'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
-import { Board, FieldFinish, Fields, FieldTask } from './Board'
+import { Board, FieldFinish, FieldTask } from './Board'
 import { LevelStatsData } from './LevelStats'
 
 export interface LevelProps {
@@ -12,6 +11,7 @@ export interface LevelProps {
 	height: number
 	hasPlayer?: boolean
 	playerStartPosition: Position
+	preferWalls: number
 	controlsHeight?: number
 	finishPositions: Position[]
 	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
@@ -27,38 +27,6 @@ export type Position = {
 	y: number
 }
 
-const dummyWalls = [
-	{ x: 1, y: 3 },
-	{ x: 3, y: 2 },
-	{ x: 3, y: 3 },
-	{ x: 4, y: 3 },
-	{ x: 5, y: 3 },
-	{ x: 7, y: 3 },
-	{ x: 7, y: 4 },
-	{ x: 7, y: 5 },
-	{ x: 8, y: 5 },
-	{ x: 7, y: 6 },
-	{ x: 11, y: 1 },
-	{ x: 11, y: 2 },
-	{ x: 11, y: 3 },
-	{ x: 12, y: 3 },
-	{ x: 12, y: 4 },
-	{ x: 3, y: 9 },
-	{ x: 4, y: 9 },
-	{ x: 4, y: 8 },
-	{ x: 10, y: 8 },
-	{ x: 11, y: 8 },
-	{ x: 12, y: 8 },
-	{ x: 12, y: 7 },
-	{ x: 14, y: 2 },
-	{ x: 15, y: 2 },
-	{ x: 15, y: 3 },
-	{ x: 15, y: 4 },
-	{ x: 15, y: 5 },
-	{ x: 15, y: 6 },
-	{ x: 15, y: 7 },
-]
-
 export const Level: React.FunctionComponent<LevelProps> = ({
 	id,
 	width,
@@ -66,7 +34,8 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	playerStartPosition,
 	hasPlayer = false,
 	controlsHeight = 0,
-	finishPositions,
+	preferWalls,
+	finishPositions, // @TODO: turn into number only
 	setSolutionsAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
@@ -108,80 +77,14 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		[width, height],
 	)
 
-	const indexToPosition = React.useCallback(
-		(index: number) => ({
-			x: 1 + (index % width),
-			y: 1 + Math.floor(index / width),
-		}),
-		[width],
+	const fields = useGenerateFields(
+		id,
+		width,
+		height,
+		playerStartPosition,
+		finishPositions.length,
+		preferWalls,
 	)
-
-	const fields = React.useMemo(() => {
-		const random = seedrandom(`fields-${id}`)
-		const fields: Fields = Array(width * height)
-			.fill(null)
-			.map(() => ({ isEmpty: true }))
-
-		const placeIfPossible = (position: Position, field: Fields[number]) => {
-			const index = positionToIndex(position)
-			if (index !== -1 && !('isFinish' in fields[index])) {
-				fields[index] = field
-			}
-		}
-
-		finishPositions.forEach((position, index) => {
-			placeIfPossible(position, {
-				isFinish: true,
-				index,
-			})
-		})
-
-		dummyWalls.forEach((position) => {
-			placeIfPossible(position, {
-				isWall: true,
-			})
-		})
-
-		for (let i = 0; i < fields.length; i++) {
-			if (!('isEmpty' in fields[i])) {
-				continue
-			}
-			const position = indexToPosition(i)
-			const surroundingSolutions: FieldTask['solution'][] = []
-			for (let x = -2; x <= 2; x++) {
-				for (let y = -2; y <= 2; y++) {
-					if (Math.abs(x) + Math.abs(y) !== 2) {
-						continue
-					}
-					const neighbourIndex = positionToIndex({
-						x: position.x + x,
-						y: position.y + y,
-					})
-					if (neighbourIndex === -1) {
-						continue
-					}
-					const neighbourField = fields[neighbourIndex]
-					if (!('isTask' in neighbourField)) {
-						continue
-					}
-					surroundingSolutions.push(neighbourField.solution)
-				}
-			}
-			const task = (() => {
-				const generate = () => generateTask(random)
-				let task = generate()
-				for (let tryTask = 1; tryTask <= 10; tryTask++) {
-					if (!surroundingSolutions.includes(task.solution)) {
-						break
-					}
-					task = generate()
-				}
-				return task
-			})()
-			fields[i] = { isTask: true, ...task }
-		}
-		return fields
-	}, [width, height, dummyWalls, id])
 
 	const fieldAtPosition = React.useCallback(
 		(position: Position) =>
@@ -276,7 +179,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				'isTask' in field ? field.solution : FINISH_SOLUTION_SYMBOL,
 			)
 		setSolutionsAroundPlayer(shuffle(solutions))
-	}, [playerPosition])
+	}, [playerPosition, fields])
 
 	React.useEffect(() => {
 		const field = fieldAtPosition(playerPosition)
