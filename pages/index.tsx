@@ -12,10 +12,12 @@ import {
 } from '@material-ui/core'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import CheckIcon from '@material-ui/icons/Check'
+import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
+import seedrandom from 'seedrandom'
 import { themeColor } from '../components/ThemeProvider'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
@@ -39,8 +41,9 @@ export default function Home() {
 					value={tabIndex}
 					onChange={handleTabIndexChange}
 				>
-					<Tab label="Kolekce" icon={<AccountTreeIcon />} />
+					<Tab label="Série" icon={<AccountTreeIcon />} />
 					<Tab label="Levely" icon={<SportsEsportsIcon />} />
+					<Tab label="Denní výzva" icon={<FitnessCenterIcon />} />
 				</Tabs>
 			</Paper>
 			<br />
@@ -50,6 +53,8 @@ export default function Home() {
 					<CollectionsWithNoSSR />
 				) : tabIndex === 1 ? (
 					<LevelsWithNoSSR />
+				) : tabIndex === 2 ? (
+					<DailyChallengeWithNoSSR />
 				) : (
 					<></>
 				)}
@@ -60,13 +65,13 @@ export default function Home() {
 
 const Collections: FunctionComponent = () => (
 	<>
-		<Typography variant="h4" gutterBottom>
-			Vyber kolekci
+		<Typography variant="body1" gutterBottom>
+			Vyber si kolekci a ověř síli na sérii několika levelů.
 		</Typography>
 		<List>
 			<Collection title="Tutoriál" subheader="první krůčky" id="tutorial" />
 			<Collection
-				title="Ukázková kolekce"
+				title="Ukázková série"
 				subheader="sčítání, odčítání, násobení, dělení"
 				id="example"
 			/>
@@ -79,8 +84,8 @@ const CollectionsWithNoSSR = dynamic(() => Promise.resolve(Collections), {
 
 const Levels: FunctionComponent = () => (
 	<>
-		<Typography variant="h4" gutterBottom>
-			Vyber level
+		<Typography variant="body1" gutterBottom>
+			Máš radši rychlou akci? Vyber si samostatný level.
 		</Typography>
 		<List>
 			<Level
@@ -107,6 +112,44 @@ const Levels: FunctionComponent = () => (
 	</>
 )
 const LevelsWithNoSSR = dynamic(() => Promise.resolve(Levels), {
+	ssr: false,
+})
+
+const DailyChallenge: FunctionComponent = () => {
+	const levels = React.useMemo(() => {
+		const today = new Date()
+		const random = seedrandom(
+			`${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
+		)
+
+		return new Array(5).fill(null).map((_, i) => {
+			const extraSize = ((i * i) / 4) * 3
+			const width = Math.ceil(2 + random() * 4 + extraSize)
+			const height = Math.ceil(2 + random() * 4 + extraSize)
+			const code = random().toString(36).substring(7)
+
+			return {
+				id: `${code};${width};${height}`,
+				title: `Level ${i + 1}`,
+				subheader: `rozměry ${width} x ${height}`,
+			}
+		})
+	}, [])
+
+	return (
+		<>
+			<Typography variant="body1" gutterBottom>
+				Vyzkoušej každý den něco nového. Splň vybrané levely pro dnešní výzvu.
+			</Typography>
+			<List>
+				{levels.map((level, i) => (
+					<Level key={i} {...level} />
+				))}
+			</List>
+		</>
+	)
+}
+const DailyChallengeWithNoSSR = dynamic(() => Promise.resolve(DailyChallenge), {
 	ssr: false,
 })
 
