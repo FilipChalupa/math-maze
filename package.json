@@ -27,6 +27,7 @@
 		"seedrandom": "^3.0.5",
 		"typesaurus": "^7.1.0",
 		"use-resize-observer": "^7.0.0",
+		"use-storage-backed-state": "^0.1.0",
 		"workbox-cacheable-response": "^6.1.0",
 		"workbox-core": "^6.1.0",
 		"workbox-expiration": "^6.1.0",

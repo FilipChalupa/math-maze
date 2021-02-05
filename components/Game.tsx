@@ -2,6 +2,7 @@ import { Container } from '@material-ui/core'
 import React from 'react'
 import seedrandom from 'seedrandom'
 import useResizeObserver from 'use-resize-observer'
+import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
@@ -13,7 +14,7 @@ export const seedIdToSeed = (seedId: string) => {
 
 	const height = parseInt(rawHeight, 10) || 1
 	const width = Math.max(height <= 2 ? 3 : 1, parseInt(rawWidth, 10) || 1)
-	const code = `${rawCodeBase || ''}-${width}-${height}`
+	const code = seedId
 
 	const random = seedrandom(`seedIdToSeed-${code}`)
 
@@ -132,6 +133,13 @@ export const Game: React.FunctionComponent<GameProps> = ({
 			}
 		}
 	}, [props.onContinue])
+
+	const [isLevelFinished, setIsLevelFinished] = useIsLevelFinished(seed.code)
+	React.useEffect(() => {
+		if (stats) {
+			setIsLevelFinished(true)
+		}
+	}, [stats])
 
 	const {
 		ref: controlsRef,

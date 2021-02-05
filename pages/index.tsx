@@ -11,9 +11,14 @@ import {
 	Typography,
 } from '@material-ui/core'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import CheckIcon from '@material-ui/icons/Check'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import React from 'react'
+import React, { FunctionComponent } from 'react'
+import { themeColor } from '../components/ThemeProvider'
+import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
+import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 
 export default function Home() {
 	const [tabIndex, setTabIndex] = React.useState(0)
@@ -42,100 +47,122 @@ export default function Home() {
 			<br />
 			<Container maxWidth="xs">
 				{tabIndex === 0 ? (
-					<>
-						<Typography variant="h4" gutterBottom>
-							Vyber kolekci
-						</Typography>
-						<List>
-							<Link href="/collection?i=tutorial" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<AccountTreeIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText primary="Tutoriál" secondary="první krůčky" />
-								</ListItem>
-							</Link>
-							<Link href="/collection?i=example" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<AccountTreeIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText
-										primary="Ukázková kolekce"
-										secondary="sčítání, odčítání, násobení, dělení"
-									/>
-								</ListItem>
-							</Link>
-						</List>
-					</>
+					<CollectionsWithNoSSR />
 				) : tabIndex === 1 ? (
-					<>
-						<Typography variant="h4" gutterBottom>
-							Vyber level
-						</Typography>
-						<List>
-							<Link href="/map?i=a;8;5" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<SportsEsportsIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText
-										primary="Ukázkový level 1"
-										secondary="sčítání, odčítání, násobení, dělení"
-									/>
-								</ListItem>
-							</Link>
-							<Link href="/map?i=b;16;9" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<SportsEsportsIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText
-										primary="Ukázkový level 2"
-										secondary="sčítání, odčítání, násobení, dělení"
-									/>
-								</ListItem>
-							</Link>
-							<Link href="/map?i=c;30;20" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<SportsEsportsIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText
-										primary="Ukázkový level 3"
-										secondary="sčítání, odčítání, násobení, dělení"
-									/>
-								</ListItem>
-							</Link>
-							<Link href="/map?i=d;40;6" passHref>
-								<ListItem button component="a">
-									<ListItemAvatar>
-										<Avatar>
-											<SportsEsportsIcon />
-										</Avatar>
-									</ListItemAvatar>
-									<ListItemText
-										primary="Ukázkový level 4"
-										secondary="sčítání, odčítání, násobení, dělení"
-									/>
-								</ListItem>
-							</Link>
-						</List>
-					</>
+					<LevelsWithNoSSR />
 				) : (
 					<></>
 				)}
 			</Container>
 		</>
+	)
+}
+
+const Collections: FunctionComponent = () => (
+	<>
+		<Typography variant="h4" gutterBottom>
+			Vyber kolekci
+		</Typography>
+		<List>
+			<Collection title="Tutoriál" subheader="první krůčky" id="tutorial" />
+			<Collection
+				title="Ukázková kolekce"
+				subheader="sčítání, odčítání, násobení, dělení"
+				id="example"
+			/>
+		</List>
+	</>
+)
+const CollectionsWithNoSSR = dynamic(() => Promise.resolve(Collections), {
+	ssr: false,
+})
+
+const Levels: FunctionComponent = () => (
+	<>
+		<Typography variant="h4" gutterBottom>
+			Vyber level
+		</Typography>
+		<List>
+			<Level
+				id="a;8;5"
+				title="Ukázkový level 1"
+				subheader="sčítání, odčítání, násobení, dělení"
+			/>
+			<Level
+				id="b;16;9"
+				title="Ukázkový level 2"
+				subheader="sčítání, odčítání, násobení, dělení"
+			/>
+			<Level
+				id="c;30;2"
+				title="Ukázkový level 3"
+				subheader="sčítání, odčítání, násobení, dělení"
+			/>
+			<Level
+				id="d;40;6"
+				title="Ukázkový level 4"
+				subheader="sčítání, odčítání, násobení, dělení"
+			/>
+		</List>
+	</>
+)
+const LevelsWithNoSSR = dynamic(() => Promise.resolve(Levels), {
+	ssr: false,
+})
+
+const Item: React.FunctionComponent<{
+	title: string
+	subheader: string
+	href: string
+	icon: React.ReactNode
+	isFinished: boolean
+}> = ({ title, subheader, href, icon, isFinished }) => (
+	<Link href={href} passHref>
+		<ListItem button component="a">
+			<ListItemAvatar>
+				<Avatar
+					style={{ backgroundColor: isFinished ? themeColor : undefined }}
+				>
+					{isFinished ? <CheckIcon /> : icon}
+				</Avatar>
+			</ListItemAvatar>
+			<ListItemText primary={title} secondary={subheader} />
+		</ListItem>
+	</Link>
+)
+
+const Level: React.FunctionComponent<{
+	title: string
+	subheader: string
+	id: string
+}> = ({ title, subheader, id }) => {
+	const [isLevelFinished] = useIsLevelFinished(id)
+
+	return (
+		<Item
+			title={title}
+			subheader={subheader}
+			href={`/map?i=${id}`}
+			icon={<SportsEsportsIcon />}
+			isFinished={isLevelFinished}
+		/>
+	)
+}
+
+const Collection: React.FunctionComponent<{
+	title: string
+	subheader: string
+	id: string
+}> = ({ title, subheader, id }) => {
+	const [isCollectionFinished] = useIsCollectionFinished(id)
+
+	return (
+		<Item
+			title={title}
+			subheader={subheader}
+			href={`/collection?i=${id}`}
+			icon={<AccountTreeIcon />}
+			isFinished={isCollectionFinished}
+		/>
 	)
 }

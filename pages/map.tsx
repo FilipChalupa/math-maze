@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 import React from 'react'
 import { MapProps } from '../components/Map'
 
-const MapComponentWithNoSSR = dynamic<MapProps>(
+const MapWithNoSSR = dynamic<MapProps>(
 	() => import('../components/Map').then((mod) => mod.Map),
 	{ ssr: false },
 )
@@ -13,5 +13,5 @@ export default function Map() {
 	const { i } = router.query
 	const id = typeof i === 'string' ? i : ''
 
-	return <MapComponentWithNoSSR seedId={id} />
+	return <MapWithNoSSR seedId={id} />
 }

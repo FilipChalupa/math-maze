@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import React from 'react'
+import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { Game, Seed } from './Game'
 
 export interface CollectionProps {
@@ -168,16 +169,24 @@ export const Collection: React.FunctionComponent<CollectionProps> = ({
 	id,
 }) => {
 	if (id in collections) {
-		return <CollectionInner key={id} collection={collections[id]} />
+		return <CollectionInner key={id} id={id} collection={collections[id]} />
 	}
 	return <>Kolekce nenalezena</>
 }
 
-const CollectionInner: React.FunctionComponent<{ collection: Collection }> = ({
-	collection,
-}) => {
+const CollectionInner: React.FunctionComponent<{
+	id: string
+	collection: Collection
+}> = ({ id, collection }) => {
 	const [currentLevel, setCurrentLevel] = React.useState(collection.startLevel)
 	const [isFinished, setIsFinished] = React.useState(false)
+	const [isEverFinished, setIsEverFinished] = useIsCollectionFinished(id)
+
+	React.useEffect(() => {
+		if (isFinished) {
+			setIsEverFinished(true)
+		}
+	}, [isFinished])
 
 	const restart = React.useCallback(() => {
 		setCurrentLevel(collection.startLevel)
