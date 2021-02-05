@@ -14,9 +14,9 @@ export const seedIdToSeed = (seedId: string) => {
 
 	const height = parseInt(rawHeight, 10) || 1
 	const width = Math.max(height <= 2 ? 3 : 1, parseInt(rawWidth, 10) || 1)
-	const code = seedId
+	const id = seedId
 
-	const random = seedrandom(`seedIdToSeed-${code}`)
+	const random = seedrandom(`seedIdToSeed-${id}`)
 
 	const playerStartPosition = (() => {
 		const options = [
@@ -82,7 +82,7 @@ export const seedIdToSeed = (seedId: string) => {
 	const finishPositions = [finishPosition]
 
 	return {
-		code,
+		id,
 		width,
 		height,
 		playerStartPosition,
@@ -105,7 +105,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 
 	const boardParameters = React.useMemo(() => {
 		return {
-			code: seed.code,
+			id: seed.id,
 			width: seed.width,
 			height: seed.height,
 			playerStartPosition: seed.playerStartPosition,
@@ -134,7 +134,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 		}
 	}, [props.onContinue])
 
-	const [isLevelFinished, setIsLevelFinished] = useIsLevelFinished(seed.code)
+	const [isLevelFinished, setIsLevelFinished] = useIsLevelFinished(seed.id)
 	React.useEffect(() => {
 		if (stats) {
 			setIsLevelFinished(true)

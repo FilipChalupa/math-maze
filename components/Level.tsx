@@ -6,7 +6,7 @@ import { Board, FieldFinish, Fields, FieldTask } from './Board'
 import { LevelStatsData } from './LevelStats'
 
 export interface LevelProps {
-	code: string
+	id: string
 	width: number
 	height: number
 	hasPlayer?: boolean
@@ -59,7 +59,7 @@ const dummyWalls = [
 ]
 
 export const Level: React.FunctionComponent<LevelProps> = ({
-	code,
+	id,
 	width,
 	height,
 	playerStartPosition,
@@ -79,9 +79,9 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	React.useEffect(() => {
 		setStartTime(new Date())
 		setPlayerMovesCount(0)
-	}, [code])
+	}, [id])
 
-	const otherPlayers = usePlayerPositions(code, playerPosition)
+	const otherPlayers = usePlayerPositions(id, playerPosition)
 
 	const movePlayer = React.useCallback(
 		(newPosition: Position) => {
@@ -108,7 +108,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	)
 
 	const fields = React.useMemo(() => {
-		const random = seedrandom(`fields-${code}`)
+		const random = seedrandom(`fields-${id}`)
 		const fields: Fields = Array(width * height)
 			.fill(null)
 			.map((_, i) => {
@@ -166,7 +166,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			})
 		})
 		return fields
-	}, [width, height, dummyWalls, code])
+	}, [width, height, dummyWalls, id])
 
 	const fieldAtPosition = React.useCallback(
 		(position: Position) =>
