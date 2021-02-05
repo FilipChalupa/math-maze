@@ -16,15 +16,25 @@
 	transition-duration: var(--transition-duration-base);
 }
 
-.field.isWall::before {
+.field.isWall::before,
+.field.isTask::before {
 	content: '';
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+
+.field.isWall::before {
 	margin: var(--wall-halfGap);
 	background-color: currentColor;
+}
+
+.field.isTask::before {
+	border: 2px solid;
+	margin: -1px;
+	opacity: 0.01;
 }
 
 .field.isFinish {
