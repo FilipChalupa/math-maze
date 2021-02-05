@@ -18,15 +18,26 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
 import seedrandom from 'seedrandom'
+import { useStorageBackedState } from 'use-storage-backed-state'
 import { themeColor } from '../components/ThemeProvider'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 
 export default function Home() {
-	const [tabIndex, setTabIndex] = React.useState(0)
+	return <HomeInnerWithNoSSR />
+}
+
+const HomeInner: FunctionComponent = () => {
+	const [storedTabIndex, setStoredTabIndex] = useStorageBackedState(
+		0,
+		'home-last-tab',
+	)
+	const [tabIndex, setTabIndex] = React.useState(storedTabIndex)
+
 	const handleTabIndexChange = React.useCallback(
 		(event: React.ChangeEvent<{}>, newValue: number) => {
 			setTabIndex(newValue)
+			setStoredTabIndex(newValue)
 		},
 		[],
 	)
@@ -50,11 +61,11 @@ export default function Home() {
 			<br />
 			<Container maxWidth="xs">
 				{tabIndex === 0 ? (
-					<CollectionsWithNoSSR />
+					<Collections />
 				) : tabIndex === 1 ? (
-					<LevelsWithNoSSR />
+					<Levels />
 				) : tabIndex === 2 ? (
-					<DailyChallengeWithNoSSR />
+					<DailyChallenge />
 				) : (
 					<></>
 				)}
@@ -62,6 +73,9 @@ export default function Home() {
 		</>
 	)
 }
+const HomeInnerWithNoSSR = dynamic(() => Promise.resolve(HomeInner), {
+	ssr: false,
+})
 
 const Collections: FunctionComponent = () => (
 	<>
@@ -78,9 +92,6 @@ const Collections: FunctionComponent = () => (
 		</List>
 	</>
 )
-const CollectionsWithNoSSR = dynamic(() => Promise.resolve(Collections), {
-	ssr: false,
-})
 
 const Levels: FunctionComponent = () => (
 	<>
@@ -111,9 +122,6 @@ const Levels: FunctionComponent = () => (
 		</List>
 	</>
 )
-const LevelsWithNoSSR = dynamic(() => Promise.resolve(Levels), {
-	ssr: false,
-})
 
 const DailyChallenge: FunctionComponent = () => {
 	const levels = React.useMemo(() => {
@@ -149,9 +157,6 @@ const DailyChallenge: FunctionComponent = () => {
 		</>
 	)
 }
-const DailyChallengeWithNoSSR = dynamic(() => Promise.resolve(DailyChallenge), {
-	ssr: false,
-})
 
 const Item: React.FunctionComponent<{
 	title: string
