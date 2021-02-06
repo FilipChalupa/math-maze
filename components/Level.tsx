@@ -137,17 +137,16 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 							y: 0,
 						}
 				}
-				return {
-					x: 0,
-					y: 0,
-				}
 			})()
-			const newPosition = {
-				x: playerPosition.x + offset.x,
-				y: playerPosition.y + offset.y,
-			}
-			if (isValidPlayerPosition(newPosition)) {
-				movePlayer(newPosition)
+
+			if (offset) {
+				const newPosition = {
+					x: playerPosition.x + offset.x,
+					y: playerPosition.y + offset.y,
+				}
+				if (isValidPlayerPosition(newPosition)) {
+					movePlayer(newPosition)
+				}
 			}
 		}
 		document.addEventListener('keydown', move)

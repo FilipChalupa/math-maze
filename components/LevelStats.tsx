@@ -91,6 +91,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 						variant="contained"
 						color="primary"
 						onClick={() => onContinue(finishIndex)}
+						autoFocus
 					>
 						Pokračovat
 					</Button>
