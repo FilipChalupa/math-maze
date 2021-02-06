@@ -1,4 +1,5 @@
 import { Container } from '@material-ui/core'
+import md5 from 'md5'
 import React from 'react'
 import seedrandom from 'seedrandom'
 import useResizeObserver from 'use-resize-observer'
@@ -6,73 +7,107 @@ import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
-import { Level, LevelProps } from './Level'
+import { Level, LevelProps, Position } from './Level'
 import { LevelStats, LevelStatsData } from './LevelStats'
 
-export const seedIdToSeed = (seedId: string) => {
-	const [rawCodeBase, rawWidth, rawHeight, rawPreferWalls] = seedId.split(';')
+export interface LevelOptions {
+	seed?: string
+	width?: number
+	height?: number
+	preferWalls?: number
+	playerStartPosition?: Position
+	finishCount?: number
+	collectionId?: string
+}
 
-	const height = parseInt(rawHeight, 10) || 1
-	const width = Math.max(height <= 2 ? 3 : 1, parseInt(rawWidth, 10) || 1)
-	const preferWalls =
-		Math.max(0, Math.min(parseInt(rawPreferWalls, 10) || 0, 9)) / 9
-	const id = seedId
+export const createLevelSeed = (options: LevelOptions) => {
+	const random = seedrandom(JSON.stringify(options))
 
-	const random = seedrandom(`seedIdToSeed-${id}`)
+	const preferWalls = Math.max(
+		0,
+		Math.min(
+			options.preferWalls === undefined ? random() : options.preferWalls,
+			1,
+		),
+	)
+	const height = options.height || 1
+	const width = Math.max(height <= 2 ? 3 : 1, options.width || 1)
+	const finishCount = options.finishCount || 1
+	const collectionId = options.collectionId || null
 
-	const playerStartPosition = (() => {
-		const options = [
-			{
-				x: 1,
-				y: 1,
-			},
-			{
-				x: 1,
-				y: height,
-			},
-			{
-				x: width,
-				y: 1,
-			},
-			{
-				x: width,
-				y: height,
-			},
-		]
-		if (width % 2 === 1 && width <= height) {
-			options.push({
-				x: Math.ceil(width / 2),
-				y: 1,
-			})
-			options.push({
-				x: Math.ceil(width / 2),
-				y: height,
-			})
-		}
-		if (height % 2 === 1 && height <= width) {
-			options.push({
-				x: 1,
-				y: Math.ceil(height / 2),
-			})
-			options.push({
-				x: width,
-				y: Math.ceil(height / 2),
-			})
-		}
-		return options[Math.floor(random() * options.length)]
-	})()
+	const playerStartPosition: Position =
+		options.playerStartPosition ||
+		(() => {
+			const options = [
+				{
+					x: 1,
+					y: 1,
+				},
+				{
+					x: 1,
+					y: height,
+				},
+				{
+					x: width,
+					y: 1,
+				},
+				{
+					x: width,
+					y: height,
+				},
+			]
+			if (width % 2 === 1 && width <= height) {
+				options.push({
+					x: Math.ceil(width / 2),
+					y: 1,
+				})
+				options.push({
+					x: Math.ceil(width / 2),
+					y: height,
+				})
+			}
+			if (height % 2 === 1 && height <= width) {
+				options.push({
+					x: 1,
+					y: Math.ceil(height / 2),
+				})
+				options.push({
+					x: width,
+					y: Math.ceil(height / 2),
+				})
+			}
+			return options[Math.floor(random() * options.length)]
+		})()
 
-	return {
-		id,
+	const idDependencies = {
 		width,
 		height,
 		preferWalls,
 		playerStartPosition,
-		finishCount: 1,
+		finishCount,
+		collectionId,
+	}
+
+	const id = md5(JSON.stringify(idDependencies))
+
+	return {
+		id,
+		...idDependencies,
 	}
 }
 
-export type Seed = ReturnType<typeof seedIdToSeed>
+export const seedIdToSeed = (seedId: string) => {
+	const [rawCodeBase, rawWidth, rawHeight, rawPreferWalls] = seedId.split(';')
+
+	return createLevelSeed({
+		seed: rawCodeBase,
+		width: parseInt(rawWidth, 10) || 1,
+		height: parseInt(rawHeight, 10) || 1,
+		preferWalls: (parseInt(rawPreferWalls, 10) || 5) / 9,
+	})
+}
+
+export type Seed = ReturnType<typeof createLevelSeed>
 
 export interface GameProps {
 	seed: Seed

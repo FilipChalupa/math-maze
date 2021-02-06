@@ -2,19 +2,22 @@ import { Button, Container, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import React from 'react'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
-import { Game, Seed } from './Game'
+import { createLevelSeed, Game, LevelOptions } from './Game'
 
 export interface CollectionProps {
 	id: string
 }
 
+interface CollectionLevelOptions
+	extends Omit<LevelOptions, 'finishCount' | 'collectionId'> {}
+
 type CollectionLevel =
 	| {
-			levelSeed: Seed
+			levelOptions: CollectionLevelOptions
 			nextLevels: CollectionLevel[]
 	  }
 	| {
-			levelSeed: Seed
+			levelOptions: CollectionLevelOptions
 			congratulationMessage: string
 	  }
 
@@ -27,8 +30,8 @@ const collections: {
 } = {
 	tutorial: {
 		startLevel: {
-			levelSeed: {
-				id: 'tutorial-0',
+			levelOptions: {
+				seed: 'tutorial-0',
 				width: 1,
 				height: 3,
 				playerStartPosition: {
@@ -36,12 +39,11 @@ const collections: {
 					y: 1,
 				},
 				preferWalls: 0,
-				finishCount: 1,
 			},
 			nextLevels: [
 				{
-					levelSeed: {
-						id: 'tutorial-1',
+					levelOptions: {
+						seed: 'tutorial-1',
 						width: 4,
 						height: 3,
 						playerStartPosition: {
@@ -49,12 +51,11 @@ const collections: {
 							y: 1,
 						},
 						preferWalls: 0.5,
-						finishCount: 1,
 					},
 					nextLevels: [
 						{
-							levelSeed: {
-								id: 'tutorial-2',
+							levelOptions: {
+								seed: 'tutorial-2',
 								width: 4,
 								height: 4,
 								playerStartPosition: {
@@ -62,7 +63,6 @@ const collections: {
 									y: 1,
 								},
 								preferWalls: 1,
-								finishCount: 1,
 							},
 							congratulationMessage: 'To je z tutoriálu vše.',
 						},
@@ -73,58 +73,38 @@ const collections: {
 	},
 	example: {
 		startLevel: {
-			levelSeed: {
-				id: 'a',
+			levelOptions: {
+				seed: 'a',
 				width: 4,
 				height: 4,
-				playerStartPosition: {
-					x: 1,
-					y: 1,
-				},
 				preferWalls: 0.5,
-				finishCount: 1,
 			},
 			nextLevels: [
 				{
-					levelSeed: {
-						id: 'b',
+					levelOptions: {
+						seed: 'b',
 						width: 6,
 						height: 6,
-						playerStartPosition: {
-							x: 1,
-							y: 1,
-						},
 						preferWalls: 1,
-						finishCount: 2,
 					},
 					nextLevels: [
 						{
-							levelSeed: {
-								id: 'c',
+							levelOptions: {
+								seed: 'c',
 								width: 7,
 								height: 7,
-								playerStartPosition: {
-									x: 4,
-									y: 1,
-								},
-								preferWalls: 0.5,
-								finishCount: 1,
 							},
-							congratulationMessage: 'Dosáhli jste alternativního konce 1.',
+							congratulationMessage:
+								'Dosáhli jste těžšího alternativního konce.',
 						},
 						{
-							levelSeed: {
-								id: 'd',
+							levelOptions: {
+								seed: 'd',
 								width: 8,
 								height: 8,
-								playerStartPosition: {
-									x: 1,
-									y: 1,
-								},
-								preferWalls: 0.5,
-								finishCount: 1,
 							},
-							congratulationMessage: 'Dosáhli jste alternativního konce 2.',
+							congratulationMessage:
+								'Dosáhli jste lehčího alternativního konce.',
 						},
 					],
 				},
@@ -174,6 +154,15 @@ const CollectionInner: React.FunctionComponent<{
 		[currentLevel],
 	)
 
+	const levelSeed = React.useMemo(() => {
+		return createLevelSeed({
+			...currentLevel.levelOptions,
+			finishCount:
+				'nextLevels' in currentLevel ? currentLevel.nextLevels.length : 1,
+			collectionId: id,
+		})
+	}, [currentLevel])
+
 	if (isFinished) {
 		return (
 			<Container maxWidth="xs">
@@ -200,5 +189,5 @@ const CollectionInner: React.FunctionComponent<{
 		)
 	}
 
-	return <Game seed={currentLevel.levelSeed} onContinue={continueToNextLevel} />
+	return <Game seed={levelSeed} onContinue={continueToNextLevel} />
 }
