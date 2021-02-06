@@ -6,7 +6,7 @@ import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
-import { Level, LevelProps, Position } from './Level'
+import { Level, LevelProps } from './Level'
 import { LevelStats, LevelStatsData } from './LevelStats'
 
 export const seedIdToSeed = (seedId: string) => {
@@ -62,34 +62,13 @@ export const seedIdToSeed = (seedId: string) => {
 		return options[Math.floor(random() * options.length)]
 	})()
 
-	const finishPosition = (() => {
-		const options: Position[] = []
-		const minimumDistance =
-			Math.max(width, height) - 1 + (Math.min(width, height) - 1) / 3
-		for (let x = 1; x <= width; x++) {
-			for (let y = 1; y <= height; y++) {
-				if (
-					Math.abs(playerStartPosition.x - x) +
-						Math.abs(playerStartPosition.y - y) >=
-					minimumDistance
-				) {
-					options.push({ x, y })
-				}
-			}
-		}
-		return options.length > 0
-			? options[Math.floor(random() * options.length)]
-			: { x: 1, y: 1 }
-	})()
-	const finishPositions = [finishPosition]
-
 	return {
 		id,
 		width,
 		height,
 		preferWalls,
 		playerStartPosition,
-		finishPositions,
+		finishCount: 1,
 	}
 }
 
@@ -112,7 +91,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 			width: seed.width,
 			height: seed.height,
 			playerStartPosition: seed.playerStartPosition,
-			finishPositions: seed.finishPositions,
+			finishCount: seed.finishCount,
 			preferWalls: seed.preferWalls,
 		}
 	}, [seed])

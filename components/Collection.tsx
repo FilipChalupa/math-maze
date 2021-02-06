@@ -35,13 +35,8 @@ const collections: {
 					x: 1,
 					y: 1,
 				},
-				finishPositions: [
-					{
-						x: 1,
-						y: 3,
-					},
-				],
 				preferWalls: 0,
+				finishCount: 1,
 			},
 			nextLevels: [
 				{
@@ -53,13 +48,8 @@ const collections: {
 							x: 1,
 							y: 1,
 						},
-						finishPositions: [
-							{
-								x: 4,
-								y: 3,
-							},
-						],
 						preferWalls: 0.5,
+						finishCount: 1,
 					},
 					nextLevels: [
 						{
@@ -71,13 +61,8 @@ const collections: {
 									x: 1,
 									y: 1,
 								},
-								finishPositions: [
-									{
-										x: 4,
-										y: 4,
-									},
-								],
 								preferWalls: 1,
+								finishCount: 1,
 							},
 							congratulationMessage: 'To je z tutoriálu vše.',
 						},
@@ -96,13 +81,8 @@ const collections: {
 					x: 1,
 					y: 1,
 				},
-				finishPositions: [
-					{
-						x: 4,
-						y: 4,
-					},
-				],
 				preferWalls: 0.5,
+				finishCount: 1,
 			},
 			nextLevels: [
 				{
@@ -114,13 +94,8 @@ const collections: {
 							x: 1,
 							y: 1,
 						},
-						finishPositions: [
-							{
-								x: 6,
-								y: 6,
-							},
-						],
-						preferWalls: 0.5,
+						preferWalls: 1,
+						finishCount: 2,
 					},
 					nextLevels: [
 						{
@@ -132,17 +107,8 @@ const collections: {
 									x: 4,
 									y: 1,
 								},
-								finishPositions: [
-									{
-										x: 1,
-										y: 7,
-									},
-									{
-										x: 7,
-										y: 7,
-									},
-								],
 								preferWalls: 0.5,
+								finishCount: 1,
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 1.',
 						},
@@ -155,13 +121,8 @@ const collections: {
 									x: 1,
 									y: 1,
 								},
-								finishPositions: [
-									{
-										x: 8,
-										y: 8,
-									},
-								],
 								preferWalls: 0.5,
+								finishCount: 1,
 							},
 							congratulationMessage: 'Dosáhli jste alternativního konce 2.',
 						},
