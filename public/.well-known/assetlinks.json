@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "app.mathmaze.twa",
+                   "sha256_cert_fingerprints": ["06:42:6E:3B:D4:00:8C:79:6F:D5:CC:74:D7:85:FC:11:75:EE:C5:78:F6:D9:39:53:8A:A8:F5:F0:F0:06:71:FC"] }
+    }]
