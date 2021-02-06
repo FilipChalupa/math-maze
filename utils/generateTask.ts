@@ -73,16 +73,19 @@ export function generateTask(
 			return createTask(a + b, b, type)
 		}
 		case '*': {
-			if (difficulty <= 1) {
-				// 10 * 10
-				const a = Math.round(random() * 10)
-				const b = Math.round(random() * 10)
+			const [a, b] = (() => {
+				if (difficulty <= 1) {
+					// 10 * 10
+					return [Math.round(random() * 10), Math.round(random() * 10)]
+				}
+				// 10 * 20
+				return [Math.round(random() * 10), Math.round(random() * 20)]
+			})()
+			// Shuffle
+			if (random() < 0.5) {
 				return createTask(a, b, type)
 			}
-			// 10 * 20
-			const a = Math.round(random() * 10)
-			const b = Math.round(random() * 20)
-			return createTask(a, b, type)
+			return createTask(b, a, type)
 		}
 		case '/': {
 			if (difficulty <= 1) {
