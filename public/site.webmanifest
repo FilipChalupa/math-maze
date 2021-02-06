@@ -149,6 +149,6 @@
 	],
 	"theme_color": "#673ab7",
 	"background_color": "#ffffff",
-	"start_url": "/",
+	"start_url": "/?utm_source=webmanifest",
 	"display": "standalone"
 }
