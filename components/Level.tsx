@@ -1,4 +1,5 @@
 import React from 'react'
+import { TaskGroup } from '../utils/generateTask'
 import { shuffle } from '../utils/shuffle'
 import { useGenerateFields } from '../utils/useGenerateFields'
 import { usePlayerPositions } from '../utils/usePlayerPositions'
@@ -14,6 +15,7 @@ export interface LevelProps {
 	preferWalls: number
 	controlsHeight?: number
 	finishCount: number
+	taskGroups: TaskGroup[]
 	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
@@ -40,6 +42,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
 	setStats,
+	taskGroups,
 }) => {
 	const [playerPosition, setPlayerPosition] = React.useState(
 		playerStartPosition,
@@ -84,6 +87,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		playerStartPosition,
 		finishCount,
 		preferWalls,
+		taskGroups,
 	)
 
 	const fieldAtPosition = React.useCallback(

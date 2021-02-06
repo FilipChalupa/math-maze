@@ -14,6 +14,7 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import CheckIcon from '@material-ui/icons/Check'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
+import md5 from 'md5'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
@@ -54,7 +55,7 @@ const HomeInner: FunctionComponent = () => {
 				>
 					<Tab label="Série" icon={<AccountTreeIcon />} />
 					<Tab label="Denní výzva" icon={<FitnessCenterIcon />} />
-					<Tab label="Levely" icon={<SportsEsportsIcon />} />
+					<Tab label="Mapy" icon={<SportsEsportsIcon />} />
 				</Tabs>
 			</Paper>
 			<br />
@@ -80,15 +81,27 @@ const HomeInnerWithNoSSR = dynamic(() => Promise.resolve(HomeInner), {
 const Collections: FunctionComponent = () => (
 	<>
 		<Typography variant="body1" gutterBottom>
-			Vyber si kolekci a ověř síly na sérii několika levelů.
+			Vyber si sérii a ověř síly několika mapách.
 		</Typography>
 		<List>
 			<Collection title="Tutoriál" subheader="první krůčky" id="tutorial" />
 			<Collection
-				title="Ukázková série"
-				subheader="sčítání, odčítání, násobení, dělení"
-				id="example"
+				title="Na zahřátí"
+				subheader="základní sčítání, odčítání, násobení, dělení"
+				id="warmup"
 			/>
+			<Collection title="Sčítání" subheader="sčítej jako blesk" id="addition" />
+			<Collection
+				title="Odčítání"
+				subheader="ber, dokud je"
+				id="substraction"
+			/>
+			<Collection
+				title="Násobení"
+				subheader="množ, co to jde"
+				id="multiplication"
+			/>
+			<Collection title="Dělení" subheader="každému něco" id="division" />
 		</List>
 	</>
 )
@@ -100,25 +113,21 @@ const Levels: FunctionComponent = () => (
 		</Typography>
 		<List>
 			<Level
-				id="a;8;5;0"
-				title="Ukázkový level 1"
-				subheader="sčítání, odčítání, násobení, dělení"
+				id="a;8;5;0;1;1;;"
+				title="Na co prsty stačí"
+				subheader="sčítání a odčítání do desíti"
 			/>
 			<Level
-				id="b;16;9;5"
-				title="Ukázkový level 2"
-				subheader="sčítání, odčítání, násobení, dělení"
+				id="b;16;9;5;;;1;"
+				title="Malá násobilka"
+				subheader="10 * 10 brnkačka"
 			/>
 			<Level
-				id="c;30;5;7"
-				title="Ukázkový level 3"
-				subheader="sčítání, odčítání, násobení, dělení"
+				id="c;30;5;7;;;2;"
+				title="Velká násobilka"
+				subheader="10 * 20 se neleknu"
 			/>
-			<Level
-				id="d;40;6;9"
-				title="Ukázkový level 4"
-				subheader="sčítání, odčítání, násobení, dělení"
-			/>
+			<Level id="d;40;6;9;2;2;2;2" title="Mix" subheader="ukaž, co umíš" />
 		</List>
 	</>
 )
@@ -130,16 +139,31 @@ const DailyChallenge: FunctionComponent = () => {
 			`${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
 		)
 
-		return new Array(5).fill(null).map((_, i) => {
-			const extraSize = ((i * i) / 4) * 3
+		return new Array(10).fill(null).map((_, i) => {
+			const extraSize = Math.floor(Math.sqrt((i * i) / 2) * 2)
 			const width = Math.ceil(2 + random() * 4 + extraSize)
 			const height = Math.ceil(2 + random() * 4 + extraSize)
 			const preferWalls = Math.floor(random() * 10)
-			const code = random().toString(36).substring(7)
+			const code = md5(`${random()}`).substr(0, 8)
+			const difficulty = (() => {
+				return [
+					0, // addition offset
+					2, // substraction offset
+					5, // multiplication offset
+					8, // division offset
+				]
+					.map((offset) =>
+						i - offset >= 0
+							? Math.ceil(1 + random() * ((i - offset) / 10) * 4)
+							: 0,
+					)
+					.map((d) => d.toString())
+					.join(';')
+			})()
 
 			return {
-				id: `${code};${width};${height};${preferWalls}`,
-				title: `Level ${i + 1}`,
+				id: `${code};${width};${height};${preferWalls};${difficulty}`,
+				title: `${i + 1}. mapa`,
 				subheader: `rozměry ${width} x ${height}`,
 			}
 		})

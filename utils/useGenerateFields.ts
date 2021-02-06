@@ -2,7 +2,7 @@ import React from 'react'
 import seedrandom from 'seedrandom'
 import { Fields, FieldTask } from './../components/Board'
 import { Position } from './../components/Level'
-import { generateTask } from './generateTask'
+import { generateTask, TaskGroup } from './generateTask'
 
 const directions = [
 	{ x: 0, y: 1 },
@@ -18,6 +18,7 @@ export function useGenerateFields(
 	startPosition: Position,
 	finishCount: number,
 	preferWalls: number, // 0 - no walls, 1 - many
+	taskGroups: TaskGroup[],
 ) {
 	return React.useMemo(() => {
 		const random = seedrandom(`ganerateMap-${id}`)
@@ -69,7 +70,7 @@ export function useGenerateFields(
 				}
 			}
 			const task = (() => {
-				const generate = () => generateTask(random)
+				const generate = () => generateTask(random, taskGroups)
 				let task = generate()
 				for (let tryTask = 1; tryTask <= 10; tryTask++) {
 					if (!surroundingSolutions.includes(task.solution)) {

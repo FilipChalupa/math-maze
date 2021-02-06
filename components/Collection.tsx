@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from '@material-ui/core'
 import Link from 'next/link'
 import React from 'react'
+import { TaskGroup, TaskType } from '../utils/generateTask'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { createLevelSeed, Game, LevelOptions } from './Game'
 
@@ -25,6 +26,50 @@ export interface Collection {
 	startLevel: CollectionLevel
 }
 
+const group = (
+	type: TaskType,
+	difficulty: number,
+	weight?: number,
+): TaskGroup => ({ type, difficulty, weight })
+
+const createSingleTypeCollection = (type: TaskType): Collection => ({
+	startLevel: {
+		levelOptions: {
+			width: 4,
+			height: 4,
+			taskGroups: [group(type, 1)],
+		},
+		nextLevels: [
+			{
+				levelOptions: {
+					width: 4,
+					height: 6,
+					taskGroups: [group(type, 2)],
+				},
+				nextLevels: [
+					{
+						levelOptions: {
+							width: 6,
+							height: 6,
+							taskGroups: [group(type, 3)],
+						},
+						nextLevels: [
+							{
+								levelOptions: {
+									width: 8,
+									height: 8,
+									taskGroups: [group(type, 4)],
+								},
+								congratulationMessage: 'Splněno',
+							},
+						],
+					},
+				],
+			},
+		],
+	},
+})
+
 const collections: {
 	[id: string]: Collection
 } = {
@@ -39,6 +84,7 @@ const collections: {
 					y: 1,
 				},
 				preferWalls: 0,
+				taskGroups: [group('+', 1)],
 			},
 			nextLevels: [
 				{
@@ -51,6 +97,7 @@ const collections: {
 							y: 1,
 						},
 						preferWalls: 0.5,
+						taskGroups: [group('+', 1), group('-', 1)],
 					},
 					nextLevels: [
 						{
@@ -63,21 +110,24 @@ const collections: {
 									y: 1,
 								},
 								preferWalls: 1,
+								taskGroups: [group('+', 1), group('-', 1)],
 							},
-							congratulationMessage: 'To je z tutoriálu vše.',
+							congratulationMessage:
+								'To je z tutoriálu vše. Můžeš se vrhnout na další série.',
 						},
 					],
 				},
 			],
 		},
 	},
-	example: {
+	warmup: {
 		startLevel: {
 			levelOptions: {
 				seed: 'a',
 				width: 4,
 				height: 4,
 				preferWalls: 0.5,
+				taskGroups: [group('+', 1), group('-', 1)],
 			},
 			nextLevels: [
 				{
@@ -86,6 +136,7 @@ const collections: {
 						width: 6,
 						height: 6,
 						preferWalls: 1,
+						taskGroups: [group('+', 1), group('-', 1), group('*', 1)],
 					},
 					nextLevels: [
 						{
@@ -93,24 +144,38 @@ const collections: {
 								seed: 'c',
 								width: 7,
 								height: 7,
+								taskGroups: [
+									group('+', 1),
+									group('-', 1),
+									group('*', 1),
+									group('/', 1),
+								],
 							},
-							congratulationMessage:
-								'Dosáhli jste těžšího alternativního konce.',
+							congratulationMessage: 'První alternativní konec.',
 						},
 						{
 							levelOptions: {
 								seed: 'd',
-								width: 8,
-								height: 8,
+								width: 7,
+								height: 7,
+								taskGroups: [
+									group('+', 1),
+									group('-', 1),
+									group('*', 1),
+									group('/', 1),
+								],
 							},
-							congratulationMessage:
-								'Dosáhli jste lehčího alternativního konce.',
+							congratulationMessage: 'Druhý alternativní konec.',
 						},
 					],
 				},
 			],
 		},
 	},
+	addition: createSingleTypeCollection('+'),
+	substraction: createSingleTypeCollection('-'),
+	multiplication: createSingleTypeCollection('*'),
+	division: createSingleTypeCollection('/'),
 }
 
 export const Collection: React.FunctionComponent<CollectionProps> = ({

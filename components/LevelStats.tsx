@@ -54,7 +54,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 								</Avatar>
 							</ListItemAvatar>
 							<ListItemText
-								primary="Velikost levelu"
+								primary="Velikost mapy"
 								secondary={`${width} x ${height}`}
 							/>
 						</ListItem>
