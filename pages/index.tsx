@@ -53,8 +53,8 @@ const HomeInner: FunctionComponent = () => {
 					onChange={handleTabIndexChange}
 				>
 					<Tab label="Série" icon={<AccountTreeIcon />} />
-					<Tab label="Levely" icon={<SportsEsportsIcon />} />
 					<Tab label="Denní výzva" icon={<FitnessCenterIcon />} />
+					<Tab label="Levely" icon={<SportsEsportsIcon />} />
 				</Tabs>
 			</Paper>
 			<br />
@@ -63,9 +63,9 @@ const HomeInner: FunctionComponent = () => {
 				{tabIndex === 0 ? (
 					<Collections />
 				) : tabIndex === 1 ? (
-					<Levels />
-				) : tabIndex === 2 ? (
 					<DailyChallenge />
+				) : tabIndex === 2 ? (
+					<Levels />
 				) : (
 					<></>
 				)}
