@@ -4,7 +4,7 @@ import { shuffle } from '../utils/shuffle'
 import { useGenerateFields } from '../utils/useGenerateFields'
 import { useOtherPlayers } from '../utils/useOtherPlayers'
 import { Board, FieldFinish, FieldTask } from './Board'
-import { LevelStatsData } from './LevelStats'
+import { LevelStatisticsData } from './LevelStatistics'
 
 export interface LevelProps {
 	id: string
@@ -20,7 +20,7 @@ export interface LevelProps {
 	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
 	clearSolutionFromPlayer: () => void
 	solutionFromPlayer?: FieldTask['solution']
-	setStats: (stats: LevelStatsData) => void
+	setStatistics: (statistics: LevelStatisticsData) => void
 }
 
 export const FINISH_SOLUTION_SYMBOL = 'finish'
@@ -43,7 +43,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	setSolutionsAroundPlayer,
 	clearSolutionFromPlayer,
 	solutionFromPlayer,
-	setStats,
+	setStatistics,
 	taskGroups,
 }) => {
 	const [playerPosition, setPlayerPosition] = React.useState(
@@ -198,7 +198,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 				time: Math.round(new Date().getTime() - startTime.getTime()),
 			}
 			const timer = window.setTimeout(() => {
-				setStats(data)
+				setStatistics(data)
 			}, 2500)
 			return () => window.clearTimeout(timer)
 		}

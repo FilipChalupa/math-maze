@@ -9,7 +9,7 @@ import { FieldTask } from './Board'
 import { Controls } from './Controls'
 import s from './Game.module.css'
 import { Level, LevelProps, Position } from './Level'
-import { LevelStats, LevelStatsData } from './LevelStats'
+import { LevelStatistics, LevelStatisticsData } from './LevelStatistics'
 
 export interface LevelOptions {
 	seed?: string
@@ -214,8 +214,11 @@ export const Game: React.FunctionComponent<GameProps> = ({
 		LevelProps['solutionFromPlayer']
 	>(undefined)
 
-	const [stats, setStats] = React.useState<null | LevelStatsData>(null)
-	const restart = React.useCallback(() => [setStats(null)], [])
+	const [
+		statistics,
+		setStatistics,
+	] = React.useState<null | LevelStatisticsData>(null)
+	const restart = React.useCallback(() => [setStatistics(null)], [])
 
 	const onContinue = React.useMemo(() => {
 		const next = props.onContinue || undefined // Typescript woodoo
@@ -229,10 +232,10 @@ export const Game: React.FunctionComponent<GameProps> = ({
 
 	const [isLevelFinished, setIsLevelFinished] = useIsLevelFinished(seed.id)
 	React.useEffect(() => {
-		if (stats) {
+		if (statistics) {
 			setIsLevelFinished(true)
 		}
-	}, [stats])
+	}, [statistics])
 
 	const {
 		ref: controlsRef,
@@ -241,9 +244,13 @@ export const Game: React.FunctionComponent<GameProps> = ({
 
 	return (
 		<div className={s.game}>
-			{stats ? (
-				<div className={s.stats}>
-					<LevelStats stats={stats} restart={restart} onContinue={onContinue} />
+			{statistics ? (
+				<div className={s.statistics}>
+					<LevelStatistics
+						statistics={statistics}
+						restart={restart}
+						onContinue={onContinue}
+					/>
 				</div>
 			) : (
 				<div className={s.level}>
@@ -253,7 +260,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 						hasPlayer={hasPlayer}
 						solutionFromPlayer={solutionFromPlayer}
 						clearSolutionFromPlayer={() => setSolutionFromPlayer(undefined)}
-						setStats={(stats) => setStats(stats)}
+						setStatistics={(statistics) => setStatistics(statistics)}
 						controlsHeight={controlsHeight}
 					/>
 					{hasPlayer && solutionsAroundPlayer.length > 0 && (

@@ -15,7 +15,7 @@ import TimelapseIcon from '@material-ui/icons/Timelapse'
 import TimerIcon from '@material-ui/icons/Timer'
 import Link from 'next/link'
 import React from 'react'
-import s from './LevelStats.module.css'
+import s from './LevelStatistics.module.css'
 
 function noMorethanOneDecimalPlace(input: number) {
 	return Math.round(input * 10) / 10
@@ -29,21 +29,21 @@ function toMaybeRoundedSeconds(input: number) {
 	return noMorethanOneDecimalPlace(exactSeconds)
 }
 
-export interface LevelStatsData {
+export interface LevelStatisticsData {
 	moves: number
 	width: number
 	height: number
 	finishIndex: number
 	time: number
 }
-export interface LevelStatsProps {
-	stats: LevelStatsData
+export interface LevelStatisticsProps {
+	statistics: LevelStatisticsData
 	restart?: () => void
 	onContinue?: (finishIndex: number) => void
 }
 
-export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
-	stats: { moves, width, height, finishIndex, time },
+export const LevelStatistics: React.FunctionComponent<LevelStatisticsProps> = ({
+	statistics: { moves, width, height, finishIndex, time },
 	restart,
 	onContinue,
 }) => {
@@ -55,7 +55,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 	const timePerMoveText = React.useMemo(() => {
 		const relativeTimeFormat = new Intl.RelativeTimeFormat('cs')
 		return relativeTimeFormat.format(
-			toMaybeRoundedSeconds(time / moves),
+			toMaybeRoundedSeconds(time / (moves - 1)),
 			'seconds',
 		)
 	}, [time])
@@ -65,7 +65,7 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 			<br />
 			<br />
 			<br />
-			<div className={s.levelStats}>
+			<div className={s.levelStatistics}>
 				<Paper>
 					<List subheader={<ListSubheader>Statistika</ListSubheader>}>
 						<ListItem>
@@ -77,6 +77,21 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 							<ListItemText
 								primary="Velikost mapy"
 								secondary={`${width} x ${height}`}
+							/>
+						</ListItem>
+						<ListItem>
+							<ListItemAvatar>
+								<Avatar variant="square">
+									<TimelapseIcon />
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText
+								primary="Čas celkem"
+								secondary={
+									<>
+										od prvního kroku v cíli <b>{timeText}</b>
+									</>
+								}
 							/>
 						</ListItem>
 						<ListItem>
@@ -94,25 +109,10 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 								</Avatar>
 							</ListItemAvatar>
 							<ListItemText
-								primary="Čas na příklad"
+								primary="Čas na krok"
 								secondary={
 									<>
-										průměrně jeden příklad <b>{timePerMoveText}</b>
-									</>
-								}
-							/>
-						</ListItem>
-						<ListItem>
-							<ListItemAvatar>
-								<Avatar variant="square">
-									<TimelapseIcon />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Čas celkem"
-								secondary={
-									<>
-										v cíli <b>{timeText}</b>
+										průměrně jeden pohyb <b>{timePerMoveText}</b>
 									</>
 								}
 							/>
