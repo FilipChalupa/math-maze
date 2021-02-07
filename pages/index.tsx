@@ -5,6 +5,7 @@ import {
 	ListItem,
 	ListItemAvatar,
 	ListItemText,
+	NoSsr,
 	Paper,
 	Tab,
 	Tabs,
@@ -15,7 +16,6 @@ import CheckIcon from '@material-ui/icons/Check'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
 import md5 from 'md5'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
 import seedrandom from 'seedrandom'
@@ -27,10 +27,6 @@ import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 
 export default function Home() {
-	return <HomeInnerWithNoSSR />
-}
-
-const HomeInner: FunctionComponent = () => {
 	const [storedTabIndex, setStoredTabIndex] = useStorageBackedState(
 		0,
 		'home-last-tab',
@@ -46,7 +42,7 @@ const HomeInner: FunctionComponent = () => {
 	)
 
 	return (
-		<>
+		<NoSsr>
 			<Paper square>
 				<Tabs
 					indicatorColor="primary"
@@ -74,12 +70,9 @@ const HomeInner: FunctionComponent = () => {
 					<></>
 				)}
 			</Container>
-		</>
+		</NoSsr>
 	)
 }
-const HomeInnerWithNoSSR = dynamic(() => Promise.resolve(HomeInner), {
-	ssr: false,
-})
 
 const Collections: FunctionComponent = () => (
 	<>

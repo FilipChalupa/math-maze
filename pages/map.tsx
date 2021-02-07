@@ -1,17 +1,16 @@
+import { NoSsr } from '@material-ui/core'
 import { useRouter } from 'next/dist/client/router'
-import dynamic from 'next/dynamic'
 import React from 'react'
-import { MapProps } from '../components/Map'
-
-const MapWithNoSSR = dynamic<MapProps>(
-	() => import('../components/Map').then((mod) => mod.Map),
-	{ ssr: false },
-)
+import { Map as MapInner } from '../components/Map'
 
 export default function Map() {
 	const router = useRouter()
 	const { i } = router.query
 	const id = typeof i === 'string' ? i : ''
 
-	return <MapWithNoSSR seedId={id} />
+	return (
+		<NoSsr>
+			<MapInner seedId={id} />
+		</NoSsr>
+	)
 }
