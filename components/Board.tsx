@@ -188,6 +188,13 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		>
 			<div className={s.outer} ref={outerRef}>
 				<div className={s.inner} ref={innerRef}>
+					<div className={s.meta}>
+						{Object.entries(otherPlayers).map(([id, position]) => (
+							<MetaObject key={id} position={position}>
+								<OtherPlayer />
+							</MetaObject>
+						))}
+					</div>
 					<div className={s.fields}>
 						{fields.map((field, i) => {
 							const position = indexToPosition(i)
@@ -213,11 +220,6 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 						})}
 					</div>
 					<div className={s.meta}>
-						{Object.entries(otherPlayers).map(([id, position]) => (
-							<MetaObject key={id} position={position}>
-								<OtherPlayer />
-							</MetaObject>
-						))}
 						{player && (
 							<MetaObject position={player.position}>
 								<Player />

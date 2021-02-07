@@ -47,6 +47,7 @@
 
 .fields,
 .meta {
+	position: relative;
 	display: grid;
 	grid-template:
 		repeat(var(--height), var(--field-size))

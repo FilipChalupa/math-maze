@@ -46,6 +46,10 @@
 	background-color: currentColor;
 }
 
+.field.isTask {
+	text-shadow: 0 0 10px 10px var(--background-color);
+}
+
 .field.isTask::before {
 	border: 2px solid;
 	margin: -1px;
