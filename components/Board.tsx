@@ -1,7 +1,7 @@
 import React from 'react'
 import useResizeObserver from 'use-resize-observer'
 import { useMove } from '../utils/useMove'
-import { usePlayerPositions } from '../utils/usePlayerPositions'
+import { useOtherPlayers } from '../utils/useOtherPlayers'
 import s from './Board.module.css'
 import { Field } from './Field'
 import { LevelProps, Position } from './Level'
@@ -25,7 +25,7 @@ export interface BoardProps
 	player?: {
 		position: Position
 	}
-	otherPlayers?: ReturnType<typeof usePlayerPositions>
+	otherPlayers?: ReturnType<typeof useOtherPlayers>
 	fields: Fields
 	lightsOut?: boolean
 }
@@ -189,9 +189,9 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 			<div className={s.outer} ref={outerRef}>
 				<div className={s.inner} ref={innerRef}>
 					<div className={s.meta}>
-						{Object.entries(otherPlayers).map(([id, position]) => (
-							<MetaObject key={id} position={position}>
-								<OtherPlayer />
+						{Object.entries(otherPlayers).map(([id, otherPlayer]) => (
+							<MetaObject key={id} position={otherPlayer.position}>
+								<OtherPlayer characterIndex={otherPlayer.characterIndex} />
 							</MetaObject>
 						))}
 					</div>

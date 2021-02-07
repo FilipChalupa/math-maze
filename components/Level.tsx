@@ -2,7 +2,7 @@ import React from 'react'
 import { TaskGroup } from '../utils/generateTask'
 import { shuffle } from '../utils/shuffle'
 import { useGenerateFields } from '../utils/useGenerateFields'
-import { usePlayerPositions } from '../utils/usePlayerPositions'
+import { useOtherPlayers } from '../utils/useOtherPlayers'
 import { Board, FieldFinish, FieldTask } from './Board'
 import { LevelStatsData } from './LevelStats'
 
@@ -56,7 +56,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		setPlayerMovesCount(0)
 	}, [id])
 
-	const otherPlayers = usePlayerPositions(id, playerPosition)
+	const otherPlayers = useOtherPlayers(id, playerPosition)
 
 	const movePlayer = React.useCallback(
 		(newPosition: Position) => {

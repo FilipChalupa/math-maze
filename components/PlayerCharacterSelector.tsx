@@ -27,7 +27,7 @@ export const playerCharacters = [
 	'💩',
 ]
 
-const useStoredPlayerCharacterIndex = () =>
+export const useStoredPlayerCharacterIndex = () =>
 	useStorageBackedState(0, 'player-character')
 
 export const usePlayerCharacter = () => {

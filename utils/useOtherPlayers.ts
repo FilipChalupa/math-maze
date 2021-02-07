@@ -1,24 +1,27 @@
 import React from 'react'
 import useWebSocket from 'react-use-websocket'
 import { Position } from '../components/Level'
+import { useStoredPlayerCharacterIndex } from '../components/PlayerCharacterSelector'
 
-export function usePlayerPositions(
+const positionsServer = process.env.NEXT_PUBLIC_POSITIONS_SERVER!
+
+export function useOtherPlayers(
 	levelId: string,
 	localPlayerPosition: Position,
 ) {
+	const [localPlayerCharacterIndex] = useStoredPlayerCharacterIndex()
 	const { sendJsonMessage, lastJsonMessage } = useWebSocket(
-		`wss://math-maze-positions.herokuapp.com/level/${encodeURIComponent(
-			levelId,
-		)}.ws`,
+		`${positionsServer}/level/${encodeURIComponent(levelId)}.ws`,
 	)
 
 	const [otherPlayers, setOtherPlayers] = React.useState<{
-		[id: string]: Position
+		[id: string]: { position: Position; characterIndex: number }
 	}>({})
 
 	React.useEffect(() => {
 		sendJsonMessage({
 			position: localPlayerPosition,
+			characterIndex: localPlayerCharacterIndex,
 		})
 	}, [localPlayerPosition])
 
@@ -29,19 +32,28 @@ export function usePlayerPositions(
 		const {
 			id,
 			position,
+			characterIndex,
 			left,
 		}: {
-			id: string
+			id: unknown
 			position?: Position
-			left?: true
+			characterIndex?: unknown
+			left?: unknown
 		} = lastJsonMessage
+
+		if (typeof id !== 'string') {
+			return
+		}
 
 		const newOtherPlayers = { ...otherPlayers }
 
-		if (position) {
-			newOtherPlayers[id] = position
+		if (position && typeof characterIndex === 'number') {
+			newOtherPlayers[id] = {
+				position,
+				characterIndex,
+			}
 		}
-		if (left) {
+		if (typeof left === 'boolean' && left) {
 			delete newOtherPlayers[id]
 		}
 
