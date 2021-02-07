@@ -6,5 +6,7 @@ export interface MapProps {
 }
 
 export const Map: React.FunctionComponent<MapProps> = ({ seedId }) => {
-	return <Game seed={seedIdToSeed(seedId)} />
+	const seed = React.useMemo(() => seedIdToSeed(seedId), [seedId])
+
+	return <Game seed={seed} />
 }

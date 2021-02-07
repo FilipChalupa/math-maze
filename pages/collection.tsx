@@ -1,16 +1,9 @@
-import { NoSsr } from '@material-ui/core'
-import { useRouter } from 'next/dist/client/router'
 import React from 'react'
 import { Collection as CollectionInner } from '../components/Collection'
+import { useQueryParameter } from '../utils/useQueryParameter'
 
 export default function Collection() {
-	const router = useRouter()
-	const { i } = router.query
-	const id = typeof i === 'string' ? i : ''
+	const id = useQueryParameter('i')
 
-	return (
-		<NoSsr>
-			<CollectionInner id={id} />
-		</NoSsr>
-	)
+	return id.isLoading ? null : <CollectionInner id={id.value} />
 }

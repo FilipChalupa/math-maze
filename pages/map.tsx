@@ -1,16 +1,9 @@
-import { NoSsr } from '@material-ui/core'
-import { useRouter } from 'next/dist/client/router'
 import React from 'react'
 import { Map as MapInner } from '../components/Map'
+import { useQueryParameter } from '../utils/useQueryParameter'
 
 export default function Map() {
-	const router = useRouter()
-	const { i } = router.query
-	const id = typeof i === 'string' ? i : ''
+	const id = useQueryParameter('i')
 
-	return (
-		<NoSsr>
-			<MapInner seedId={id} />
-		</NoSsr>
-	)
+	return id.isLoading ? null : <MapInner seedId={id.value} />
 }
