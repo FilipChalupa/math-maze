@@ -56,7 +56,8 @@ export function useGenerateFields(
 			const surroundingSolutions: FieldTask['solution'][] = []
 			for (let x = -2; x <= 2; x++) {
 				for (let y = -2; y <= 2; y++) {
-					if (Math.abs(x) + Math.abs(y) !== 2) {
+					const distance = Math.abs(x) + Math.abs(y)
+					if (distance !== 1 && distance !== 2) {
 						continue
 					}
 					const neighbourField = getField({
