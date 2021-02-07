@@ -10,6 +10,7 @@ interface FieldProps {
 	isFinish?: boolean
 	isEmpty?: boolean
 	distanceToStart: number
+	visibility?: number
 }
 
 export const Field: React.FunctionComponent<FieldProps> = ({
@@ -19,6 +20,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 	isFinish,
 	isEmpty,
 	distanceToStart,
+	visibility = 1,
 	children,
 }) => {
 	return (
@@ -33,6 +35,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 			)}
 			style={{
 				['--distance-to-start' as any]: distanceToStart,
+				['--visibility' as any]: visibility,
 			}}
 		>
 			{isFinish ? (

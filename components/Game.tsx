@@ -18,6 +18,7 @@ export interface LevelOptions {
 	preferWalls?: number
 	playerStartPosition?: Position
 	finishCount?: number
+	lightsOut?: boolean
 	collectionId?: string
 	taskGroups?: TaskGroup[]
 }
@@ -36,6 +37,8 @@ export const createLevelSeed = (options: LevelOptions) => {
 	const width = Math.max(height <= 2 ? 3 : 1, options.width || 1)
 	const finishCount = options.finishCount || 1
 	const collectionId = options.collectionId || null
+	const lightsOut =
+		options.lightsOut === undefined ? random() < 0.1 : options.lightsOut
 
 	const taskGroups: TaskGroup[] =
 		(options.taskGroups?.length || 0) > 0
@@ -114,6 +117,7 @@ export const createLevelSeed = (options: LevelOptions) => {
 		playerStartPosition,
 		finishCount,
 		collectionId,
+		lightsOut,
 		taskGroups,
 	}
 
@@ -135,6 +139,7 @@ export const seedIdToSeed = (seedId: string) => {
 		rawSubstractionDifficulty,
 		rawMultiplicationDifficulty,
 		rawDivisionDifficulty,
+		rawLightsOut,
 	] = seedId.split(';')
 
 	const additionDifficulty = parseInt(rawAdditionDifficulty, 10) || 0
@@ -160,6 +165,8 @@ export const seedIdToSeed = (seedId: string) => {
 			difficulty: divisionDifficulty,
 		},
 	].filter((group): group is TaskGroup => group.difficulty > 0)
+	const lightsOut =
+		rawLightsOut === '1' ? true : rawLightsOut === '0' ? false : undefined
 
 	return createLevelSeed({
 		seed: rawCodeBase,
@@ -167,6 +174,7 @@ export const seedIdToSeed = (seedId: string) => {
 		height: parseInt(rawHeight, 10) || 1,
 		preferWalls: (parseInt(rawPreferWalls, 10) || 5) / 9,
 		taskGroups,
+		lightsOut,
 	})
 }
 
@@ -192,6 +200,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 			finishCount: seed.finishCount,
 			preferWalls: seed.preferWalls,
 			taskGroups: seed.taskGroups,
+			lightsOut: seed.lightsOut,
 		}
 	}, [seed])
 

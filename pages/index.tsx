@@ -114,21 +114,30 @@ const Levels: FunctionComponent = () => (
 		</Typography>
 		<List>
 			<Level
-				seedId="a;8;5;0;1;1;;"
+				seedId="a;8;5;0;1;1;;0"
 				title="Na co prsty stačí"
 				subheader="sčítání a odčítání do desíti"
 			/>
 			<Level
-				seedId="b;16;9;5;;;1;"
+				seedId="b;16;9;5;;;1;0"
 				title="Malá násobilka"
 				subheader="10 * 10 brnkačka"
 			/>
 			<Level
-				seedId="c;30;5;7;;;2;"
+				seedId="c;30;5;7;;;2;0"
 				title="Velká násobilka"
 				subheader="10 * 20 se neleknu"
 			/>
-			<Level seedId="d;40;6;9;2;2;2;2" title="Mix" subheader="ukaž, co umíš" />
+			<Level
+				seedId="d;40;6;9;2;2;2;2;0"
+				title="Mix"
+				subheader="ukaž, co umíš"
+			/>
+			<Level
+				seedId="d;10;10;9;1;1;1;1;1"
+				title="Krátký zrak"
+				subheader="přihořívá, přihořívá, hoří"
+			/>
 		</List>
 	</>
 )
@@ -140,7 +149,10 @@ const DailyChallenge: FunctionComponent = () => {
 			`${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
 		)
 
-		return new Array(10).fill(null).map((_, i) => {
+		const levelsCount = 10
+		const lightsOutLevelIndex = Math.floor(random() * levelsCount)
+
+		return new Array(levelsCount).fill(null).map((_, i) => {
 			const extraSize = Math.floor(Math.sqrt((i * i) / 2) * 2)
 			const width = Math.ceil(2 + random() * 4 + extraSize)
 			const height = Math.ceil(2 + random() * 4 + extraSize)
@@ -161,9 +173,12 @@ const DailyChallenge: FunctionComponent = () => {
 					.map((d) => d.toString())
 					.join(';')
 			})()
+			const lightsOut = i === lightsOutLevelIndex
 
 			return {
-				seedId: `${code};${width};${height};${preferWalls};${difficulty}`,
+				seedId: `${code};${width};${height};${preferWalls};${difficulty};${
+					lightsOut ? 1 : 0
+				}`,
 				title: `${i + 1}. mapa`,
 				subheader: `rozměry ${width} x ${height}`,
 			}

@@ -27,6 +27,7 @@ export interface BoardProps
 	}
 	otherPlayers?: ReturnType<typeof usePlayerPositions>
 	fields: Fields
+	lightsOut?: boolean
 }
 
 const calculatePlayerOffset = (
@@ -61,6 +62,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 	player,
 	controlsHeight = 0,
 	otherPlayers = {},
+	lightsOut = false,
 	fields,
 }) => {
 	const {
@@ -146,6 +148,27 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		[fields, startPosition, indexToPosition],
 	)
 
+	const fieldsVisibility = React.useMemo(
+		() =>
+			fields.map((_, i) => {
+				if (!lightsOut || !player?.position) {
+					return 1
+				}
+				const position = indexToPosition(i)
+				const distance =
+					Math.abs(player.position.x - position.x) +
+					Math.abs(player.position.y - position.y)
+				if (distance > 3) {
+					return 0
+				} else if (distance === 3) {
+					return 0.1
+				} else if (distance === 2) {
+					return 0.5
+				}
+			}),
+		[fields, player?.position, lightsOut],
+	)
+
 	return (
 		<div
 			{...listeners}
@@ -182,6 +205,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									isFinish={'isFinish' in field}
 									isEmpty={'isEmpty' in field}
 									distanceToStart={fieldsDistanceToStart[i]}
+									visibility={fieldsVisibility[i]}
 								>
 									{'isTask' in field && field['label']}
 								</Field>

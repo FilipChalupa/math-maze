@@ -14,6 +14,7 @@ export interface LevelProps {
 	playerStartPosition: Position
 	preferWalls: number
 	controlsHeight?: number
+	lightsOut?: boolean
 	finishCount: number
 	taskGroups: TaskGroup[]
 	setSolutionsAroundPlayer: (solution: FieldTask['solution'][]) => void
@@ -36,6 +37,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	playerStartPosition,
 	hasPlayer = false,
 	controlsHeight = 0,
+	lightsOut = false,
 	preferWalls,
 	finishCount,
 	setSolutionsAroundPlayer,
@@ -236,6 +238,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			width={width}
 			height={height}
 			startPosition={playerStartPosition}
+			lightsOut={lightsOut}
 			player={hasPlayer ? { position: playerPosition } : undefined}
 			otherPlayers={otherPlayers}
 			fields={fields}
