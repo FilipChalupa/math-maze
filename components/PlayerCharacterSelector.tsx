@@ -4,7 +4,7 @@ import { useStorageBackedState } from 'use-storage-backed-state'
 
 interface PlayerCharacterSelectorProps {}
 
-export const playerCharacters = [
+const playerCharacters = [
 	'😀',
 	'🐞',
 	'🐸',
@@ -26,6 +26,10 @@ export const playerCharacters = [
 	'🦄',
 	'💩',
 ]
+
+export function characterIndexToCharacter(index: number) {
+	return playerCharacters[index % playerCharacters.length]
+}
 
 export const useStoredPlayerCharacterIndex = () =>
 	useStorageBackedState(0, 'player-character')

@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './OtherPlayer.module.css'
-import { playerCharacters } from './PlayerCharacterSelector'
+import { characterIndexToCharacter } from './PlayerCharacterSelector'
 
 interface OtherPlayerProps {
 	characterIndex: number
@@ -9,5 +9,10 @@ interface OtherPlayerProps {
 export const OtherPlayer: React.FunctionComponent<OtherPlayerProps> = ({
 	characterIndex,
 }) => {
-	return <div className={s.otherPlayer}>{playerCharacters[characterIndex]}</div>
+	const character = React.useMemo(
+		() => characterIndexToCharacter(characterIndex),
+		[characterIndex],
+	)
+
+	return <div className={s.otherPlayer}>{character}</div>
 }
