@@ -52,7 +52,6 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	const [startTime, setStartTime] = React.useState(new Date())
 	const [playerMovesCount, setPlayerMovesCount] = React.useState(0)
 	React.useEffect(() => {
-		setStartTime(new Date())
 		setPlayerMovesCount(0)
 	}, [id])
 
@@ -60,8 +59,10 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 
 	const movePlayer = React.useCallback(
 		(newPosition: Position) => {
+			if (playerMovesCount === 0) {
+				setStartTime(new Date())
+			}
 			setPlayerPosition(newPosition)
-			// @TODO: ověřit, že počítá správně, nevynechává
 			setPlayerMovesCount(playerMovesCount + 1)
 		},
 		[playerMovesCount],
@@ -157,7 +158,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		}
 		document.addEventListener('keydown', move)
 		return () => document.removeEventListener('keydown', move)
-	}, [playerPosition])
+	}, [playerPosition, movePlayer])
 
 	React.useEffect(() => {
 		if ('isFinish' in fieldAtPosition(playerPosition)) {
@@ -189,19 +190,19 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 	React.useEffect(() => {
 		const field = fieldAtPosition(playerPosition)
 		if ('isFinish' in field) {
-			window.setTimeout(() => {
-				setStats({
-					moves: playerMovesCount,
-					width,
-					height,
-					finishIndex: field.index,
-					timeInSeconds: Math.round(
-						(new Date().getTime() - startTime.getTime()) / 1000,
-					),
-				})
+			const data = {
+				moves: playerMovesCount,
+				width,
+				height,
+				finishIndex: field.index,
+				time: Math.round(new Date().getTime() - startTime.getTime()),
+			}
+			const timer = window.setTimeout(() => {
+				setStats(data)
 			}, 2500)
+			return () => window.clearTimeout(timer)
 		}
-	}, [playerPosition])
+	}, [playerPosition, playerMovesCount])
 
 	React.useEffect(() => {
 		if (solutionFromPlayer === undefined) {
@@ -231,7 +232,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			}
 		}
 		// @TODO: handle no match
-	}, [solutionFromPlayer, playerPosition])
+	}, [solutionFromPlayer, playerPosition, movePlayer])
 
 	return (
 		<Board

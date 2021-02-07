@@ -12,16 +12,29 @@ import {
 import AspectRatioIcon from '@material-ui/icons/AspectRatio'
 import GamesIcon from '@material-ui/icons/Games'
 import TimelapseIcon from '@material-ui/icons/Timelapse'
+import TimerIcon from '@material-ui/icons/Timer'
 import Link from 'next/link'
 import React from 'react'
 import s from './LevelStats.module.css'
+
+function noMorethanOneDecimalPlace(input: number) {
+	return Math.round(input * 10) / 10
+}
+
+function toMaybeRoundedSeconds(input: number) {
+	const exactSeconds = input / 1000
+	if (exactSeconds > 3) {
+		return Math.round(exactSeconds)
+	}
+	return noMorethanOneDecimalPlace(exactSeconds)
+}
 
 export interface LevelStatsData {
 	moves: number
 	width: number
 	height: number
 	finishIndex: number
-	timeInSeconds: number
+	time: number
 }
 export interface LevelStatsProps {
 	stats: LevelStatsData
@@ -30,14 +43,22 @@ export interface LevelStatsProps {
 }
 
 export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
-	stats: { moves, width, height, finishIndex, timeInSeconds },
+	stats: { moves, width, height, finishIndex, time },
 	restart,
 	onContinue,
 }) => {
-	const time = React.useMemo(() => {
+	const timeText = React.useMemo(() => {
 		const relativeTimeFormat = new Intl.RelativeTimeFormat('cs')
-		return relativeTimeFormat.format(timeInSeconds, 'seconds')
-	}, [timeInSeconds])
+		return relativeTimeFormat.format(toMaybeRoundedSeconds(time), 'seconds')
+	}, [time])
+
+	const timePerMoveText = React.useMemo(() => {
+		const relativeTimeFormat = new Intl.RelativeTimeFormat('cs')
+		return relativeTimeFormat.format(
+			toMaybeRoundedSeconds(time / moves),
+			'seconds',
+		)
+	}, [time])
 
 	return (
 		<Container maxWidth="xs">
@@ -69,10 +90,32 @@ export const LevelStats: React.FunctionComponent<LevelStatsProps> = ({
 						<ListItem>
 							<ListItemAvatar>
 								<Avatar variant="square">
+									<TimerIcon />
+								</Avatar>
+							</ListItemAvatar>
+							<ListItemText
+								primary="Čas na příklad"
+								secondary={
+									<>
+										průměrně jeden příklad <b>{timePerMoveText}</b>
+									</>
+								}
+							/>
+						</ListItem>
+						<ListItem>
+							<ListItemAvatar>
+								<Avatar variant="square">
 									<TimelapseIcon />
 								</Avatar>
 							</ListItemAvatar>
-							<ListItemText primary="Čas" secondary={`V cíli ${time}`} />
+							<ListItemText
+								primary="Čas celkem"
+								secondary={
+									<>
+										v cíli <b>{timeText}</b>
+									</>
+								}
+							/>
 						</ListItem>
 					</List>
 				</Paper>
