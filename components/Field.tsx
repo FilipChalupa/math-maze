@@ -9,6 +9,7 @@ interface FieldProps {
 	isTask?: boolean
 	isFinish?: boolean
 	isEmpty?: boolean
+	distanceToStart: number
 }
 
 export const Field: React.FunctionComponent<FieldProps> = ({
@@ -17,6 +18,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 	isTask,
 	isFinish,
 	isEmpty,
+	distanceToStart,
 	children,
 }) => {
 	return (
@@ -29,6 +31,9 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 				isFinish && s.isFinish,
 				isEmpty && s.isEmpty,
 			)}
+			style={{
+				['--distance-to-start' as any]: distanceToStart,
+			}}
 		>
 			{isFinish ? (
 				<InnerFinishField isVisited={isVisited}>{children}</InnerFinishField>

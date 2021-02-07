@@ -235,6 +235,7 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		<Board
 			width={width}
 			height={height}
+			startPosition={playerStartPosition}
 			player={hasPlayer ? { position: playerPosition } : undefined}
 			otherPlayers={otherPlayers}
 			fields={fields}

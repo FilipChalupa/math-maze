@@ -21,6 +21,7 @@ export type Fields = Array<FieldEmpty | FieldWall | FieldTask | FieldFinish>
 
 export interface BoardProps
 	extends Pick<LevelProps, 'width' | 'height' | 'controlsHeight'> {
+	startPosition: Position
 	player?: {
 		position: Position
 	}
@@ -56,6 +57,7 @@ const calculateOffsetLimit = (
 export const Board: React.FunctionComponent<BoardProps> = ({
 	width,
 	height,
+	startPosition,
 	player,
 	controlsHeight = 0,
 	otherPlayers = {},
@@ -132,6 +134,18 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		resetOffset()
 	}, [player && player.position])
 
+	const fieldsDistanceToStart = React.useMemo(
+		() =>
+			fields.map((_, i) => {
+				const position = indexToPosition(i)
+				return (
+					Math.abs(startPosition.x - position.x) +
+					Math.abs(startPosition.y - position.y)
+				)
+			}),
+		[fields, startPosition, indexToPosition],
+	)
+
 	return (
 		<div
 			{...listeners}
@@ -167,6 +181,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									isTask={'isTask' in field}
 									isFinish={'isFinish' in field}
 									isEmpty={'isEmpty' in field}
+									distanceToStart={fieldsDistanceToStart[i]}
 								>
 									{'isTask' in field && field['label']}
 								</Field>

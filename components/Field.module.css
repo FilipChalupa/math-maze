@@ -1,9 +1,21 @@
+@keyframes field-reveal {
+	from {
+		opacity: 0;
+	}
+}
+
 .field,
 .content {
 	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.field {
+	animation: field-reveal calc(4 * var(--transition-duration-base))
+		calc(var(--transition-duration-base) * (3 + var(--distance-to-start)) / 6)
+		backwards;
 }
 
 .content {
