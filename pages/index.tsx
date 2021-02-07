@@ -20,6 +20,7 @@ import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
 import seedrandom from 'seedrandom'
 import { useStorageBackedState } from 'use-storage-backed-state'
+import { seedIdToSeed } from '../components/Game'
 import { themeColor } from '../components/ThemeProvider'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
@@ -113,21 +114,21 @@ const Levels: FunctionComponent = () => (
 		</Typography>
 		<List>
 			<Level
-				id="a;8;5;0;1;1;;"
+				seedId="a;8;5;0;1;1;;"
 				title="Na co prsty stačí"
 				subheader="sčítání a odčítání do desíti"
 			/>
 			<Level
-				id="b;16;9;5;;;1;"
+				seedId="b;16;9;5;;;1;"
 				title="Malá násobilka"
 				subheader="10 * 10 brnkačka"
 			/>
 			<Level
-				id="c;30;5;7;;;2;"
+				seedId="c;30;5;7;;;2;"
 				title="Velká násobilka"
 				subheader="10 * 20 se neleknu"
 			/>
-			<Level id="d;40;6;9;2;2;2;2" title="Mix" subheader="ukaž, co umíš" />
+			<Level seedId="d;40;6;9;2;2;2;2" title="Mix" subheader="ukaž, co umíš" />
 		</List>
 	</>
 )
@@ -162,7 +163,7 @@ const DailyChallenge: FunctionComponent = () => {
 			})()
 
 			return {
-				id: `${code};${width};${height};${preferWalls};${difficulty}`,
+				seedId: `${code};${width};${height};${preferWalls};${difficulty}`,
 				title: `${i + 1}. mapa`,
 				subheader: `rozměry ${width} x ${height}`,
 			}
@@ -207,15 +208,16 @@ const Item: React.FunctionComponent<{
 const Level: React.FunctionComponent<{
 	title: string
 	subheader: string
-	id: string
-}> = ({ title, subheader, id }) => {
+	seedId: string
+}> = ({ title, subheader, seedId }) => {
+	const id = React.useMemo(() => seedIdToSeed(seedId).id, [seedId])
 	const [isLevelFinished] = useIsLevelFinished(id)
 
 	return (
 		<Item
 			title={title}
 			subheader={subheader}
-			href={`/map?i=${id}`}
+			href={`/map?i=${seedId}`}
 			icon={<SportsEsportsIcon />}
 			isFinished={isLevelFinished}
 		/>
