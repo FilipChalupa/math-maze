@@ -12,7 +12,8 @@ interface ControlsProps {
 const Action: React.FunctionComponent<{
 	onClick?: () => void
 	shortcutKey?: string
-}> = ({ children, onClick, shortcutKey }) => {
+	disabled?: boolean
+}> = ({ children, onClick, shortcutKey, disabled }) => {
 	React.useEffect(() => {
 		if (shortcutKey && onClick) {
 			const handleKey = (event: KeyboardEvent) => {
@@ -33,6 +34,7 @@ const Action: React.FunctionComponent<{
 				onClick={onClick}
 				size="large"
 				fullWidth
+				disabled={disabled}
 			>
 				{children}
 			</Button>
@@ -46,15 +48,28 @@ export const Controls: React.FunctionComponent<ControlsProps> = ({
 	solutions,
 	onSolution,
 }) => {
+	const actions = React.useMemo(
+		() =>
+			Array(4)
+				.fill(null)
+				.map((_, i) => solutions[i] || null),
+		[solutions],
+	)
+
 	return (
 		<div className={s.controls}>
-			{solutions.map((solution, i) => (
+			{actions.map((solution, i) => (
 				<Action
 					key={i}
-					onClick={() => onSolution(solution)}
+					onClick={solution === null ? undefined : () => onSolution(solution)}
 					shortcutKey={orderedShortcutKeys[i]}
+					disabled={solution === null}
 				>
-					{solution === FINISH_SOLUTION_SYMBOL ? '🏁' : solution}
+					{solution === FINISH_SOLUTION_SYMBOL
+						? '🏁'
+						: solution === null
+						? ' '
+						: solution}
 				</Action>
 			))}
 		</div>
