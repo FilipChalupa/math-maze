@@ -48,58 +48,72 @@ export function generateTask(
 		return groups[0]
 	})()
 
-	// @TODO: respect difficulty - add more difficulty levels
-	switch (type) {
-		case '+': {
-			if (difficulty <= 1) {
-				// All single digit
-				const a = Math.round(random() * 9)
-				const b = Math.floor(random() * (10 - a))
-				return createTask(a, b, type)
-			}
-			const a = Math.round(random() * 99)
-			const b = Math.floor(random() * (100 - a))
-			return createTask(a, b, type)
-		}
-		case '-': {
-			if (difficulty <= 1) {
-				// All single digit
-				const a = Math.round(1 + random() * 8)
-				const b = Math.round(random() * (9 - a))
-				return createTask(a + b, b, type)
-			}
-			const a = Math.round(1 + random() * 98)
-			const b = Math.round(random() * (99 - a))
-			return createTask(a + b, b, type)
-		}
-		case '*': {
-			const [a, b] = (() => {
+	const [x, y] = ((): [number, number] => {
+		switch (type) {
+			case '+': {
 				if (difficulty <= 1) {
-					// 10 * 10
-					return [Math.round(random() * 10), Math.round(random() * 10)]
+					const a = Math.round(random() * 9)
+					const b = Math.floor(random() * (10 - a))
+					return [a, b]
+				} else if (difficulty <= 2) {
+					const a = Math.round(random() * 19)
+					const b = Math.floor(random() * (20 - a))
+					return [a, b]
+				} else if (difficulty <= 3) {
+					const a = Math.round(random() * 99)
+					const b = Math.floor(random() * (10 - (a % 10)))
+					return [a, b]
 				}
-				// 10 * 20
-				return [Math.round(random() * 10), Math.round(random() * 20)]
-			})()
-			// Shuffle
-			if (random() < 0.5) {
-				return createTask(a, b, type)
+				const a = Math.round(random() * 99)
+				const b = Math.floor(random() * (100 - a))
+				return [a, b]
 			}
-			return createTask(b, a, type)
-		}
-		case '/': {
-			if (difficulty <= 1) {
-				// 100 / 10
+			case '-': {
+				if (difficulty <= 1) {
+					const a = Math.round(1 + random() * 8)
+					const b = Math.round(random() * (9 - a))
+					return [a + b, b]
+				} else if (difficulty <= 2) {
+					const a = Math.round(1 + random() * 18)
+					const b = Math.round(random() * (19 - a))
+					return [a + b, b]
+				} else if (difficulty <= 3) {
+					const a = Math.round(1 + random() * 98)
+					const b = Math.round(random() * (99 - a))
+					return [a + b, b]
+				}
+				const a = Math.round(1 + random() * 98)
+				const b = Math.round(random() * (99 - a))
+				return [a + b, b]
+			}
+			case '*': {
+				const [a, b] = (() => {
+					if (difficulty <= 1) {
+						return [Math.round(random() * 10), Math.round(random() * 10)]
+					} else if (difficulty <= 2) {
+						return [Math.round(random() * 10), Math.round(random() * 20)]
+					}
+					return [Math.round(random() * 20), Math.round(random() * 20)]
+				})()
+				// Shuffle
+				if (random() < 0.5) {
+					return [a, b]
+				}
+				return [b, a]
+			}
+			case '/': {
+				if (difficulty <= 1) {
+					const a = Math.round(random() * 10)
+					const b = Math.round(1 + random() * 9)
+					return [a * b, b]
+				}
 				const a = Math.round(random() * 10)
-				const b = Math.round(1 + random() * 9)
-				return createTask(a * b, b, type)
+				const b = Math.round(1 + random() * 19)
+				return [a * b, b]
 			}
-			// 200 / 10
-			const a = Math.round(random() * 10)
-			const b = Math.round(1 + random() * 19)
-			return createTask(a * b, b, type)
+			default:
+				return assertNever(type)
 		}
-		default:
-			return assertNever(type)
-	}
+	})()
+	return createTask(x, y, type)
 }
