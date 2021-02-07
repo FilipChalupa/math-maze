@@ -21,6 +21,7 @@ import React, { FunctionComponent } from 'react'
 import seedrandom from 'seedrandom'
 import { useStorageBackedState } from 'use-storage-backed-state'
 import { seedIdToSeed } from '../components/Game'
+import { PlayerCharacterSelector } from '../components/PlayerCharacterSelector'
 import { themeColor } from '../components/ThemeProvider'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
@@ -59,6 +60,7 @@ const HomeInner: FunctionComponent = () => {
 					<Tab label="Mapy" icon={<SportsEsportsIcon />} />
 				</Tabs>
 			</Paper>
+			<PlayerCharacterSelector />
 			<br />
 			<br />
 			<Container maxWidth="xs">
