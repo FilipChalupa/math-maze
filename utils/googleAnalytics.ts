@@ -3,7 +3,7 @@
 export const GA_TRACKING_ID = 'G-SWQFH87Z1F'
 
 export const trackPageview = (url: URL) => {
-	;(window as any).gtag('config', GA_TRACKING_ID, {
+	window.gtag('config', GA_TRACKING_ID, {
 		page_path: url,
 	})
 }
@@ -16,7 +16,7 @@ type GTagEvent = {
 }
 
 export const trackEvent = ({ action, category, label, value }: GTagEvent) => {
-	;(window as any).gtag('event', action, {
+	window.gtag('event', action, {
 		event_category: category,
 		event_label: label,
 		value: value,
