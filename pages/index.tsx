@@ -114,17 +114,17 @@ const Levels: FunctionComponent = () => (
 		</Typography>
 		<List>
 			<Level
-				seedId="a;8;5;0;1;1;;0"
+				seedId="a;8;5;0;1;1;;;0"
 				title="Na co prsty stačí"
 				subheader="sčítání a odčítání do desíti"
 			/>
 			<Level
-				seedId="b;16;9;5;;;1;0"
+				seedId="b;16;9;5;;;1;;0"
 				title="Malá násobilka"
 				subheader="10 * 10 brnkačka"
 			/>
 			<Level
-				seedId="c;30;5;7;;;2;0"
+				seedId="c;30;5;7;;;2;;0"
 				title="Velká násobilka"
 				subheader="10 * 20 se neleknu"
 			/>

@@ -172,7 +172,9 @@ export const seedIdToSeed = (seedId: string) => {
 		seed: rawCodeBase,
 		width: parseInt(rawWidth, 10) || 1,
 		height: parseInt(rawHeight, 10) || 1,
-		preferWalls: (parseInt(rawPreferWalls, 10) || 5) / 9,
+		preferWalls: rawPreferWalls?.length
+			? parseInt(rawPreferWalls, 10) / 9
+			: undefined,
 		taskGroups,
 		lightsOut,
 	})
