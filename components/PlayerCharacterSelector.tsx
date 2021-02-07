@@ -10,7 +10,6 @@ export const playerCharacters = [
 	'🐸',
 	'🐷',
 	'🐌',
-	'🦢',
 	'🦋',
 	'🐇',
 	'🐛',
