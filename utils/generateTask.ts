@@ -28,6 +28,10 @@ function createTask(a: number, b: number, type: TaskType) {
 	}
 }
 
+function shuffle(random: () => number, a: number, b: number): [number, number] {
+	return random() < 0.5 ? [a, b] : [b, a]
+}
+
 function generateTaskComponents(
 	random: () => number,
 	type: TaskType,
@@ -36,45 +40,58 @@ function generateTaskComponents(
 	switch (type) {
 		case '+': {
 			if (difficulty <= 1) {
-				const a = Math.round(random() * 9)
-				const b = Math.floor(random() * (10 - a))
-				return [a, b]
+				const a = Math.floor(0.8 + random() * 9.2)
+				const b = Math.floor(1 + random() * (9 - a))
+				return shuffle(random, a, b)
 			} else if (difficulty <= 2) {
-				const a = Math.round(random() * 19)
-				const b = Math.floor(random() * (20 - a))
-				return [a, b]
+				const a = Math.floor(0.7 + random() * 19.3)
+				const b = Math.floor(1 + random() * (19 - a))
+				return shuffle(random, a, b)
 			} else if (difficulty <= 3) {
-				const a = Math.round(random() * 99)
-				const b = Math.floor(random() * (10 - (a % 10)))
-				return [a, b]
+				const a = Math.floor(random() * 10)
+				const b = Math.floor(0.8 + random() * 9.2)
+				const c = Math.floor(1 + random() * (9 - b))
+				return shuffle(random, a * 10 + b, c)
 			}
-			const a = Math.round(random() * 99)
-			const b = Math.floor(random() * (100 - a))
-			return [a, b]
+			const a = Math.floor(0.8 + random() * 9.2)
+			const b = Math.floor(0.8 + random() * 9.2)
+			const c =
+				Math.floor(1 + random() * (9 - a)) +
+				10 * Math.floor(1 + random() * (9 - b))
+			return shuffle(random, a + 10 * b, c)
 		}
 		case '-': {
 			const [a, b] = generateTaskComponents(random, '+', difficulty)
-			return [a + b, b]
+			const [x, y] = b > 10 && a < 10 ? [b, a] : [a, b]
+			return [x + y, y]
 		}
 		case '*': {
 			const [a, b] = (() => {
 				if (difficulty <= 1) {
+					const a = Math.floor(2 + random() * 3)
+					const b = Math.floor(0.8 + random() * Math.floor(10 / a))
+					return [a, b]
+				} else if (difficulty <= 8) {
+					// @TODO
 					return [Math.round(random() * 10), Math.round(random() * 10)]
-				} else if (difficulty <= 2) {
+				} else if (difficulty <= 9) {
+					// @TODO
 					return [Math.round(random() * 10), Math.round(random() * 20)]
+				} else if (difficulty <= 10) {
+					// @TODO
+					const a = Math.floor(2 + random() * 3)
+					const b = Math.floor(0.8 + random() * Math.floor(10 / a))
+					const c = Math.floor(0.8 + random() * Math.floor(9 / a))
+					return [a, b * 10 + c]
 				}
 				return [Math.round(random() * 20), Math.round(random() * 20)]
 			})()
-			// Shuffle
-			if (random() < 0.5) {
-				return [a, b]
-			}
-			return [b, a]
+			return shuffle(random, a, b)
 		}
 		case '/': {
 			const [a, b] = generateTaskComponents(random, '*', difficulty)
 			const [x, y] = b > 10 && a < 10 ? [b, a] : [a, b]
-			return [x * y, y]
+			return [x * y, y || 1]
 		}
 		default:
 			return assertNever(type)
