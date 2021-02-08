@@ -53,21 +53,7 @@ function generateTaskComponents(
 			return [a, b]
 		}
 		case '-': {
-			if (difficulty <= 1) {
-				const a = Math.round(1 + random() * 8)
-				const b = Math.round(random() * (9 - a))
-				return [a + b, b]
-			} else if (difficulty <= 2) {
-				const a = Math.round(1 + random() * 18)
-				const b = Math.round(random() * (19 - a))
-				return [a + b, b]
-			} else if (difficulty <= 3) {
-				const a = Math.round(1 + random() * 98)
-				const b = Math.round(random() * (99 - a))
-				return [a + b, b]
-			}
-			const a = Math.round(1 + random() * 98)
-			const b = Math.round(random() * (99 - a))
+			const [a, b] = generateTaskComponents(random, '+', difficulty)
 			return [a + b, b]
 		}
 		case '*': {
@@ -86,14 +72,9 @@ function generateTaskComponents(
 			return [b, a]
 		}
 		case '/': {
-			if (difficulty <= 1) {
-				const a = Math.round(random() * 10)
-				const b = Math.round(1 + random() * 9)
-				return [a * b, b]
-			}
-			const a = Math.round(random() * 10)
-			const b = Math.round(1 + random() * 19)
-			return [a * b, b]
+			const [a, b] = generateTaskComponents(random, '*', difficulty)
+			const [x, y] = b > 10 && a < 10 ? [b, a] : [a, b]
+			return [x * y, y]
 		}
 		default:
 			return assertNever(type)
