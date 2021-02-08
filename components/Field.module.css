@@ -4,15 +4,8 @@
 	}
 }
 
-.field,
-.content {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 .field {
+	position: relative;
 	animation: field-reveal calc(4 * var(--transition-duration-base))
 		calc(var(--transition-duration-base) * (3 + var(--distance-to-start)) / 6)
 		backwards;
@@ -22,8 +15,17 @@
 }
 
 .content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	transition-property: opacity;
 	transition-duration: calc(5 * var(--transition-duration-base));
+	overflow: hidden;
 }
 
 .field.isVisited .content {
@@ -68,4 +70,28 @@
 
 .field.isEmpty {
 	background-color: gray;
+}
+
+@keyframes slide {
+	0% {
+		transform: translateX(-1500%) rotate(20deg);
+	}
+	100% {
+		transform: translateX(2000%) rotate(20deg);
+	}
+}
+
+.field.isCloseToPlayer.isTask .content::after,
+.field.isCloseToPlayer.isFinish .content::after {
+	content: '';
+	position: absolute;
+	top: -50%;
+	bottom: -50%;
+	width: 20%;
+	left: 0;
+	background-color: currentColor;
+	opacity: 0.1;
+	filter: blur(2px);
+	transform: rotate(25deg);
+	animation: slide calc(40 * var(--transition-duration-base)) infinite;
 }

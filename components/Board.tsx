@@ -169,6 +169,19 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 		[fields, player?.position, lightsOut],
 	)
 
+	const distanceToPlayer = React.useCallback(
+		(position: Position) => {
+			if (player?.position) {
+				return (
+					Math.abs(player.position.x - position.x) +
+					Math.abs(player.position.y - position.y)
+				)
+			}
+			return Number.MAX_SAFE_INTEGER
+		},
+		[player?.position],
+	)
+
 	return (
 		<div
 			{...listeners}
@@ -213,6 +226,7 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 									isEmpty={'isEmpty' in field}
 									distanceToStart={fieldsDistanceToStart[i]}
 									visibility={fieldsVisibility[i]}
+									isCloseToPlayer={distanceToPlayer(position) === 1}
 								>
 									{'isTask' in field && field['label']}
 								</Field>

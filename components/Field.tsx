@@ -9,6 +9,7 @@ interface FieldProps {
 	isTask?: boolean
 	isFinish?: boolean
 	isEmpty?: boolean
+	isCloseToPlayer?: boolean
 	distanceToStart: number
 	visibility?: number
 }
@@ -21,6 +22,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 	isEmpty,
 	distanceToStart,
 	visibility = 1,
+	isCloseToPlayer = false,
 	children,
 }) => {
 	return (
@@ -32,6 +34,7 @@ export const Field: React.FunctionComponent<FieldProps> = ({
 				isTask && s.isTask,
 				isFinish && s.isFinish,
 				isEmpty && s.isEmpty,
+				isCloseToPlayer && s.isCloseToPlayer,
 			)}
 			style={{
 				['--distance-to-start' as any]: distanceToStart,
