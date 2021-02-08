@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core'
+import clsx from 'clsx'
 import React from 'react'
 import { FieldTask } from './Board'
 import s from './Controls.module.css'
@@ -13,7 +14,8 @@ const Action: React.FunctionComponent<{
 	onClick?: () => void
 	shortcutKey?: string
 	disabled?: boolean
-}> = ({ children, onClick, shortcutKey, disabled }) => {
+	isHighlighted?: boolean
+}> = ({ children, onClick, shortcutKey, disabled, isHighlighted = false }) => {
 	React.useEffect(() => {
 		if (shortcutKey && onClick) {
 			const handleKey = (event: KeyboardEvent) => {
@@ -27,7 +29,7 @@ const Action: React.FunctionComponent<{
 	}, [shortcutKey, onClick])
 
 	return (
-		<div className={s.action}>
+		<div className={clsx(s.action, isHighlighted && s.isHighlighted)}>
 			<Button
 				variant="contained"
 				color="primary"
@@ -64,6 +66,10 @@ export const Controls: React.FunctionComponent<ControlsProps> = ({
 					onClick={solution === null ? undefined : () => onSolution(solution)}
 					shortcutKey={orderedShortcutKeys[i]}
 					disabled={solution === null}
+					isHighlighted={
+						(i === 0 && solutions.length === 1) ||
+						solution === FINISH_SOLUTION_SYMBOL
+					}
 				>
 					{solution === FINISH_SOLUTION_SYMBOL
 						? '🏁'

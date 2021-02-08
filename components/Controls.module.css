@@ -21,6 +21,39 @@
 	width: 50%;
 }
 
+@keyframes shake {
+	5%,
+	45% {
+		transform: translate3d(0, -1px, 0);
+	}
+
+	10%,
+	40% {
+		transform: translate3d(0, 2px, 0);
+	}
+
+	15%,
+	25%,
+	35% {
+		transform: translate3d(0, -4px, 0);
+	}
+
+	20%,
+	30% {
+		transform: translate3d(0, 4px, 0);
+	}
+
+	0%,
+	45% {
+		transform: none;
+	}
+}
+
+.action.isHighlighted:not(:hover) {
+	animation: shake calc(10 * var(--transition-duration-base))
+		cubic-bezier(0.36, 0.07, 0.19, 0.97) 2s both infinite;
+}
+
 @media (min-width: 500px) {
 	.action {
 		width: auto;
