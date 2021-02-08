@@ -102,21 +102,23 @@ export const LevelStatistics: React.FunctionComponent<LevelStatisticsProps> = ({
 							</ListItemAvatar>
 							<ListItemText primary="Počet kroků" secondary={moves} />
 						</ListItem>
-						<ListItem>
-							<ListItemAvatar>
-								<Avatar variant="square">
-									<TimerIcon />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Čas na krok"
-								secondary={
-									<>
-										průměrně jeden pohyb <b>{timePerMoveText}</b>
-									</>
-								}
-							/>
-						</ListItem>
+						{moves > 2 && (
+							<ListItem>
+								<ListItemAvatar>
+									<Avatar variant="square">
+										<TimerIcon />
+									</Avatar>
+								</ListItemAvatar>
+								<ListItemText
+									primary="Čas na krok"
+									secondary={
+										<>
+											průměrně jeden pohyb <b>{timePerMoveText}</b>
+										</>
+									}
+								/>
+							</ListItem>
+						)}
 					</List>
 				</Paper>
 				<br />
