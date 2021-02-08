@@ -150,8 +150,8 @@ export const Board: React.FunctionComponent<BoardProps> = ({
 
 	const fieldsVisibility = React.useMemo(
 		() =>
-			fields.map((_, i) => {
-				if (!lightsOut || !player?.position) {
+			fields.map((field, i) => {
+				if (!lightsOut || !player?.position || 'isFinish' in field) {
 					return 1
 				}
 				const position = indexToPosition(i)

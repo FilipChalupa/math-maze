@@ -6,12 +6,15 @@
 
 .field {
 	position: relative;
-	animation: field-reveal calc(4 * var(--transition-duration-base))
-		calc(var(--transition-duration-base) * (3 + var(--distance-to-start)) / 6)
-		backwards;
 	transition-property: opacity;
 	transition-duration: var(--transition-duration-base);
 	opacity: var(--visibility);
+}
+
+.field:not(.isFinish) {
+	animation: field-reveal calc(4 * var(--transition-duration-base))
+		calc(var(--transition-duration-base) * (3 + var(--distance-to-start)) / 6)
+		backwards;
 }
 
 .content {
