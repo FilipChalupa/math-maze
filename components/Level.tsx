@@ -117,28 +117,24 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 			const offset = (() => {
 				switch (event.key) {
 					case 'w':
-					case 'ArrowUp':
 						return {
 							x: 0,
 							y: -1,
 						}
 
 					case 's':
-					case 'ArrowDown':
 						return {
 							x: 0,
 							y: 1,
 						}
 
 					case 'a':
-					case 'ArrowLeft':
 						return {
 							x: -1,
 							y: 0,
 						}
 
 					case 'd':
-					case 'ArrowRight':
 						return {
 							x: 1,
 							y: 0,
