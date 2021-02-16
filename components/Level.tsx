@@ -112,33 +112,33 @@ export const Level: React.FunctionComponent<LevelProps> = ({
 		[width, height, fields],
 	)
 
+	// @TODO: testing only - remove from production release
 	React.useEffect(() => {
 		const move = (event: KeyboardEvent) => {
 			const offset = (() => {
-				switch (event.key) {
-					case 'w':
-						return {
-							x: 0,
-							y: -1,
-						}
-
-					case 's':
-						return {
-							x: 0,
-							y: 1,
-						}
-
-					case 'a':
-						return {
-							x: -1,
-							y: 0,
-						}
-
-					case 'd':
-						return {
-							x: 1,
-							y: 0,
-						}
+				if (event.shiftKey) {
+					switch (event.code) {
+						case 'KeyW':
+							return {
+								x: 0,
+								y: -1,
+							}
+						case 'KeyS':
+							return {
+								x: 0,
+								y: 1,
+							}
+						case 'KeyA':
+							return {
+								x: -1,
+								y: 0,
+							}
+						case 'KeyD':
+							return {
+								x: 1,
+								y: 0,
+							}
+					}
 				}
 			})()
 
