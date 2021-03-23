@@ -26,6 +26,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 			<Layout>
 				<Head>
 					<title>Matematické bludiště</title>
+					<meta
+						name="description"
+						content="Procvič si sčítání, odčítání, násobení a dělení v bludišti. Vyřeš příklad a posuň se na další políčko."
+					/>
 				</Head>
 				<Component {...pageProps} />
 			</Layout>
