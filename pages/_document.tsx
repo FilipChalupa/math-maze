@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
 			<Html lang="cs">
 				<Head>
 					<meta name="theme-color" content={themeColor} />
+					<meta name="color-scheme" content="light dark" />
 					<link
 						rel="stylesheet"
 						href="https://fonts.googleapis.com/icon?family=Material+Icons"
