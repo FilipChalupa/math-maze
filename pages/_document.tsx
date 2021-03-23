@@ -48,6 +48,7 @@ export default class MyDocument extends Document {
 					<meta name="msapplication-TileColor" content="#da532c" />
 					<meta name="msapplication-config" content="/icon/browserconfig.xml" />
 					<link rel="icon" type="image/svg+xml" href="/icon.svg" />
+					<meta property="og:image" content="/og-image.jpg" />
 					<script
 						async
 						src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
