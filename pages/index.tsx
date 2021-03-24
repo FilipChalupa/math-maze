@@ -75,7 +75,7 @@ export default function Home() {
 
 const Collections: FunctionComponent = () => (
 	<>
-		<Typography variant="body1" gutterBottom>
+		<Typography variant="body1" align="center" gutterBottom>
 			Vyber si sérii a ověř síly několika mapách.
 		</Typography>
 		<List>
@@ -103,7 +103,7 @@ const Collections: FunctionComponent = () => (
 
 const Levels: FunctionComponent = () => (
 	<>
-		<Typography variant="body1" gutterBottom>
+		<Typography variant="body1" align="center" gutterBottom>
 			Máš radši rychlou akci? Vyber si samostatný level.
 		</Typography>
 		<List>
@@ -141,14 +141,20 @@ const DailyChallenge: FunctionComponent = () => {
 
 	return (
 		<>
-			<Typography variant="body1" gutterBottom>
+			<Typography variant="body1" align="center" gutterBottom>
 				Vyzkoušej každý den něco nového. Splň vybrané levely pro dnešní výzvu.
 			</Typography>
-			<List>
-				{levels.map((level, i) => (
-					<Level key={i} {...level} />
-				))}
-			</List>
+			<br />
+			{levels.map((group, i) => (
+				<React.Fragment key={i}>
+					<Typography variant="h6">{group.label}</Typography>
+					<List>
+						{group.levels.map((level, i) => (
+							<Level key={i} {...level} />
+						))}
+					</List>
+				</React.Fragment>
+			))}
 		</>
 	)
 }

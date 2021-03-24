@@ -12,7 +12,7 @@ export const useDailyChallengeLevels = () => {
 		const levelsCount = 10
 		const lightsOutLevelIndex = Math.floor(random() * levelsCount)
 
-		return new Array(levelsCount).fill(null).map((_, i) => {
+		const allLevels = new Array(levelsCount).fill(null).map((_, i) => {
 			const extraSize = Math.floor(Math.sqrt((i * i) / 2) * 2)
 			const width = Math.ceil(2 + random() * 4 + extraSize)
 			const height = Math.ceil(2 + random() * 4 + extraSize)
@@ -43,5 +43,30 @@ export const useDailyChallengeLevels = () => {
 				subheader: `rozměry ${width} x ${height}`,
 			}
 		})
+
+		let movingOffset = 0
+		const groups = [
+			{
+				label: 'Základní',
+				levels: 4,
+			},
+			{
+				label: 'Pokročilé',
+				levels: 3,
+			},
+			{
+				label: 'Těžké',
+				levels: Number.MAX_SAFE_INTEGER,
+			},
+		].map((group) => {
+			const result = {
+				...group,
+				levels: allLevels.slice(movingOffset, movingOffset + group.levels),
+			}
+			movingOffset += group.levels
+			return result
+		})
+
+		return groups
 	}, [])
 }
