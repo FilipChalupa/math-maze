@@ -265,7 +265,7 @@ export const Game: React.FunctionComponent<GameProps> = ({
 					/>
 					{hasPlayer && solutionsAroundPlayer.length > 0 && (
 						<div className={s.controls} ref={controlsRef}>
-							<Container>
+							<Container maxWidth="sm">
 								<Controls
 									solutions={solutionsAroundPlayer}
 									onSolution={(solution) => setSolutionFromPlayer(solution)}
