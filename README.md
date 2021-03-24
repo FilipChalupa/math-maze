@@ -1,5 +1,7 @@
 # Math Maze
 
+> Žákyně v 4. třidě: „Paní učitelko, to je zábava, i když je to matematika!“
+
 Hra na trénování matematiky.
 
 - Pro prohlížeč: [matematicke-bludiste.vercel.app](https://matematicke-bludiste.vercel.app/)
