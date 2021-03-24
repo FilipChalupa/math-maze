@@ -15,14 +15,13 @@ import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import CheckIcon from '@material-ui/icons/Check'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports'
-import md5 from 'md5'
 import Link from 'next/link'
 import React, { FunctionComponent } from 'react'
-import seedrandom from 'seedrandom'
 import { useStorageBackedState } from 'use-storage-backed-state'
 import { seedIdToSeed } from '../components/Game'
 import { PlayerCharacterSelector } from '../components/PlayerCharacterSelector'
 import { themeColor } from '../components/ThemeProvider'
+import { useDailyChallengeLevels } from '../utils/useDailyChallengeLevels'
 import { useIsCollectionFinished } from '../utils/useIsCollectionFinished'
 import { useIsLevelFinished } from '../utils/useIsLevelFinished'
 
@@ -138,47 +137,7 @@ const Levels: FunctionComponent = () => (
 )
 
 const DailyChallenge: FunctionComponent = () => {
-	const levels = React.useMemo(() => {
-		const today = new Date()
-		const random = seedrandom(
-			`${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`,
-		)
-
-		const levelsCount = 10
-		const lightsOutLevelIndex = Math.floor(random() * levelsCount)
-
-		return new Array(levelsCount).fill(null).map((_, i) => {
-			const extraSize = Math.floor(Math.sqrt((i * i) / 2) * 2)
-			const width = Math.ceil(2 + random() * 4 + extraSize)
-			const height = Math.ceil(2 + random() * 4 + extraSize)
-			const preferWalls = Math.floor(random() * 10)
-			const code = md5(`${random()}`).substr(0, 8)
-			const difficulty = (() => {
-				return [
-					0, // addition offset
-					2, // substraction offset
-					5, // multiplication offset
-					8, // division offset
-				]
-					.map((offset) =>
-						i - offset >= 0
-							? Math.ceil(1 + random() * ((i - offset) / 10) * 4)
-							: 0,
-					)
-					.map((d) => d.toString())
-					.join(';')
-			})()
-			const lightsOut = i === lightsOutLevelIndex
-
-			return {
-				seedId: `${code};${width};${height};${preferWalls};${difficulty};${
-					lightsOut ? 1 : 0
-				}`,
-				title: `${i + 1}. mapa`,
-				subheader: `rozměry ${width} x ${height}`,
-			}
-		})
-	}, [])
+	const levels = useDailyChallengeLevels()
 
 	return (
 		<>
