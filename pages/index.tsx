@@ -86,11 +86,7 @@ const Collections: FunctionComponent = () => (
 				id="warmup"
 			/>
 			<Collection title="Sčítání" subheader="sčítej jako blesk" id="addition" />
-			<Collection
-				title="Odčítání"
-				subheader="ber, dokud je"
-				id="substraction"
-			/>
+			<Collection title="Odčítání" subheader="ber, dokud je" id="subtraction" />
 			<Collection
 				title="Násobení"
 				subheader="množ, co to jde"

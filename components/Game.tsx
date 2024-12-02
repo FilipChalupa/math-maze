@@ -136,14 +136,14 @@ export const seedIdToSeed = (seedId: string) => {
 		rawHeight,
 		rawPreferWalls,
 		rawAdditionDifficulty,
-		rawSubstractionDifficulty,
+		rawSubtractionDifficulty,
 		rawMultiplicationDifficulty,
 		rawDivisionDifficulty,
 		rawLightsOut,
 	] = seedId.split(';')
 
 	const additionDifficulty = parseInt(rawAdditionDifficulty, 10) || 0
-	const substractionDifficulty = parseInt(rawSubstractionDifficulty, 10) || 0
+	const subtractionDifficulty = parseInt(rawSubtractionDifficulty, 10) || 0
 	const multiplicationDifficulty =
 		parseInt(rawMultiplicationDifficulty, 10) || 0
 	const divisionDifficulty = parseInt(rawDivisionDifficulty, 10) || 0
@@ -154,7 +154,7 @@ export const seedIdToSeed = (seedId: string) => {
 		},
 		{
 			type: '-',
-			difficulty: substractionDifficulty,
+			difficulty: subtractionDifficulty,
 		},
 		{
 			type: '*',

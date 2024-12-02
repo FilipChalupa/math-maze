@@ -21,7 +21,7 @@ export const useDailyChallengeLevels = () => {
 			const difficulty = (() => {
 				return [
 					0, // addition offset
-					2, // substraction offset
+					2, // subtraction offset
 					5, // multiplication offset
 					8, // division offset
 				]

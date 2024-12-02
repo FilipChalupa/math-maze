@@ -173,7 +173,7 @@ const collections: {
 		},
 	},
 	addition: createSingleTypeCollection('+'),
-	substraction: createSingleTypeCollection('-'),
+	subtraction: createSingleTypeCollection('-'),
 	multiplication: createSingleTypeCollection('*'),
 	division: createSingleTypeCollection('/'),
 }
