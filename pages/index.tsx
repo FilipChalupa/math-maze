@@ -76,7 +76,7 @@ export default function Home() {
 const Collections: FunctionComponent = () => (
 	<>
 		<Typography variant="body1" align="center" gutterBottom>
-			Vyber si sérii a ověř síly několika mapách.
+			Vyber si sérii a ověř síly na několika mapách.
 		</Typography>
 		<List>
 			<Collection title="Tutoriál" subheader="první krůčky" id="tutorial" />
