@@ -4,6 +4,7 @@
 	--spacing: 16px;
 	--field-size: 80px;
 	--transition-duration-base: 0.2s;
+	overflow-y: scroll;
 }
 
 @media (prefers-reduced-motion: reduce) {
