@@ -1,2 +1,4 @@
-export const randomItem = (items: Array<number>, random: () => number) =>
-	items[Math.floor(random() * items.length)]
+export const randomItem = (
+	items: ReadonlyArray<number>,
+	random: () => number,
+) => items[Math.floor(random() * items.length)]
