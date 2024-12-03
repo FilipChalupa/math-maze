@@ -116,7 +116,6 @@ const Levels: FunctionComponent = () => {
 	}, [])
 	const randomSeedId = useMemo(() => {
 		const random = seedrandom(seed)
-		console.log(seed, randomIntegerInRange(1, 3, random))
 		const booleanParameter = (probability: number) =>
 			random() < probability ? '1' : '0'
 		const width = randomItem([5, 10, 15] as const, random)
